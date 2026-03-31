@@ -24,7 +24,7 @@ Este documento lista todas as funcionalidades que o sistema deve possuir para at
 | RF04 | Edição de Voluntários        | Permitir edição dos dados de voluntários                                  | Rel  | Alta        | [ ]    |
 | RF05 | Exclusão de Voluntários      | Permitir exclusão de voluntários                                          | Rel  | Média       | [ ]    |
 | RF06 | Visualização de Detalhes     | Permitir visualizar todas as informações de um voluntário                 | Rel  | Alta        | [ ]    |
-| RF07 | Controle de Acesso           | Restringir ações com base no cargo (Coordenadora, Coordenadora Estudantil, Representante de Setor) | Rel  | Alta        | [ ]    |
+| RF07 | Controle de Acesso           | Restringir ações com base no cargo (Coordenadora, Coordenadora Estudantil, Representante de Setor e Voluntário) | Rel  | Alta        | [ ]    |
 | RF08 | Relatórios e Dashboard       | Gerar relatórios com métricas de voluntários (ativos, inativos, tempo de permanência, etc.) | Rel  | Média       | [ ]    |
 ## 2-módulo-público-visitante
 
