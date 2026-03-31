@@ -16,6 +16,6 @@ Este documento lista todas as funcionalidades que o sistema deve possuir para at
 ---
 <!-- | **RF** | ** ** | des | rel | pri | [ ] | -->
 ## 1. Módulo Voluntario
-
+| **RF001** | **Gestão de Voluntarios** | CRUD dos voluntarios, sómente voluntarios que posuam cargos de Cordenadora, Cordenadora estudantil, Representante do setor | rel | pri | [ ] |
 
 ## 2-módulo-público-visitante
