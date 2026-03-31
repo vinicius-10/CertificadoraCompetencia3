@@ -16,9 +16,15 @@ Este documento lista todas as funcionalidades que o sistema deve possuir para at
 ---
 <!-- | **RF** | ** ** | des | rel | pri | [ ] | -->
 ## 1. Módulo Voluntario
-| ID     | Funcionalidade           | Descrição                                                                 | Tipo | Prioridade | Status |
-|:------:|--------------------------|---------------------------------------------------------------------------|:----:|:-----------:|:------:|
-| RF001  | Gestão de Voluntários    | CRUD dos voluntários; somente voluntários com cargos de Coordenadora, Coordenadora Estudantil ou Representante de Setor | Rel  | Pri         | [ ]    |
-
+| ID   | Funcionalidade               | Descrição                                                                 | Tipo | Prioridade | Status |
+|:----:|------------------------------|---------------------------------------------------------------------------|:----:|:-----------:|:------:|
+| RF01 | Autenticação de Voluntários  | Permitir que voluntários realizem login no sistema utilizando suas credenciais | Rel  | Alta        | [ ]    |
+| RF02 | Listagem de Voluntários      | Exibir lista de voluntários autenticados em formato de tabela com nome e RA | Rel  | Alta        | [ ]    |
+| RF03 | Cadastro de Voluntários      | Permitir cadastro de voluntários com dados básicos e cargo                | Rel  | Alta        | [ ]    |
+| RF04 | Edição de Voluntários        | Permitir edição dos dados de voluntários                                  | Rel  | Alta        | [ ]    |
+| RF05 | Exclusão de Voluntários      | Permitir exclusão de voluntários                                          | Rel  | Média       | [ ]    |
+| RF06 | Visualização de Detalhes     | Permitir visualizar todas as informações de um voluntário                 | Rel  | Alta        | [ ]    |
+| RF07 | Controle de Acesso           | Restringir ações com base no cargo (Coordenadora, Coordenadora Estudantil, Representante de Setor) | Rel  | Alta        | [ ]    |
+| RF08 | Relatórios e Dashboard       | Gerar relatórios com métricas de voluntários (ativos, inativos, tempo de permanência, etc.) | Rel  | Média       | [ ]    |
 ## 2-módulo-público-visitante
 
