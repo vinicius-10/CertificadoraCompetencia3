@@ -10,7 +10,8 @@ A documentação está dividida nos seguintes módulos:
 
 | Documento | Descrição |
 |:----------|:----------|
-| [Requisitos Funcionais](./RF/README.md) | O que o sistema deve fazer (Regras de Negócio). |
+| [Regras de negócio](./RN/READMEN.md) | Comportamento do sistema |
+| [Requisitos Funcionais](./RF/README.md) | O que o sistema deve fazer. |
 | [Requisitos Não Funcionais](./RNF/README.md) | Restrições técnicas (Performance, Segurança, Stack). |
 | [Banco de Dados](./db/README.md) | Diagramas ER e Dicionário de Dados. |
 | [Design & UI (EM DESENVOLVIEMNTO)](https://www.figma.com/) | Protótipos e Guia de Estilo. |
