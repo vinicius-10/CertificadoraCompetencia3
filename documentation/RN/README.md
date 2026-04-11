@@ -1,4 +1,4 @@
-# 📋 Requisitos Funcionais - Gerenciamento de voluntários Meninas Digitais
+# ![Business Rules](https://img.shields.io/badge/Regras%20de%20Negócio-Lógica-blue?style=flat-square&logo=diagrams.net)
 
 Este documento lista todas as funcionalidades que o sistema deve possuir para atender aos objetivos do projeto. A lista está dividida por módulos de acordo com o perfil de usuário que interage com a funcionalidade.
 
