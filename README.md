@@ -16,7 +16,7 @@
 - [Público-Alvo](#-público-alvo)
 - [Tecnologias Utilizadas](#-tecnologias-utilizadas)
 - [Código](./application)
-- [Documetação](./documentacao/README.md)
+- [Documetação](./documentation/README.md)
 
 ---
 
