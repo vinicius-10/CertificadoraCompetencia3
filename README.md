@@ -1,6 +1,6 @@
 # MeninasHub
 
-> MeninasHub é um sistema desenvolvido 
+> MeninasHub é um sistema desenvolvido durante a disciplina de certificadora de competencia 3 para gerenciamento de voluntarios do projeto Meninas Digitais
 
 <div align="left">
   <img src="https://img.shields.io/badge/Status-Em_Desenvolvimento-yellow" alt="Status">
