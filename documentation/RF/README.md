@@ -3,7 +3,6 @@
 Este documento lista todas as funcionalidades que o sistema deve possuir para atender aos objetivos do projeto. A lista está dividida por módulos de acordo com o perfil de usuário que interage com a funcionalidade.
 
 **Índice:**
-# **tem que atualizar vini**
 - [1. Landing Page](#1-Landing-Page)
 - [2. Módulo Público](#2-Módulo-Autenticação)
 - [3. Módulo Gerenciamento de Voluntárias](#3-Módulo-Gerenciamento-de-Voluntárias)
