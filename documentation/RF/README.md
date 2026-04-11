@@ -22,6 +22,8 @@ Este documento lista todas as funcionalidades que o sistema deve possuir para at
 | RF002 | Acesso ao Login | Exibir link ou botão na landing page que redireciona para a tela de login | Rel  | Alta        | [ ]    |
 | RF003 | Conteúdo Estático | O conteúdo da landing page deve ser estático, gerenciado diretamente no código-fonte                | Rel  | Média        | [ ]    |
 ## 2. Módulo Autenticação
+| ID   | Funcionalidade               | Descrição                                                                 | Tipo | Prioridade | Status |
+|:----:|------------------------------|---------------------------------------------------------------------------|:----:|:-----------:|:------:|
 | RF004 | Login | Permitir que usuárias realizem login com RA (usuário) e senha | RF | Alta | [ ] |
 | RF005 | Redirecionamento por Perfil | Redirecionar a usuária após login para a tela correspondente ao seu perfil | RF | Alta | [ ] |
 | RF006 | Senha Padrão | Gerar automaticamente a senha padrão no cadastro: primeiro nome + último nome, minúsculos, sem espaços e sem acentos | RF | Alta | [ ] |
