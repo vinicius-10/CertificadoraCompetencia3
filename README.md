@@ -1,6 +1,6 @@
 # MeninasHub
 
-> Projeto ....
+> MeninasHub é um sistema desenvolvido 
 
 <div align="left">
   <img src="https://img.shields.io/badge/Status-Em_Desenvolvimento-yellow" alt="Status">
