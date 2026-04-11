@@ -1,4 +1,4 @@
-# ![Business Rules](https://img.shields.io/badge/Regras%20de%20Negócio-Lógica-blue?style=flat-square&logo=diagrams.net)
+# ⚖️ Regras de negócio
 
 Este documento lista todas as funcionalidades que o sistema deve possuir para atender aos objetivos do projeto.
 
