@@ -1,4 +1,4 @@
-# 📚 Documentação do Projeto Sedatines
+# 📚 Documentação do Projeto MeninasHub
 
 Bem-vindo à central de documentação do projeto MeninasHub. Aqui estão detalhadas as regras de negócio, requisitos e decisões técnicas que guiam o desenvolvimento deste projeto.
 
