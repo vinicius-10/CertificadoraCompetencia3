@@ -14,6 +14,9 @@ Alta: Essencial para o MVP (Mínimo Produto Viável).
 Média: Importante, mas pode ficar para a versão 1.1.
 Baixa: Desejável, funcionalidade extra.
 
+## 1. Regras de negócio
+| ID   | Funcionalidade               | Descrição                                                                 | Tipo | Prioridade | Status |
+|:----:|------------------------------|---------------------------------------------------------------------------|:----:|:-----------:|:------:|
 | RN001 | Usuário de Acesso | O identificador de acesso (login) de toda voluntária é o seu RA | RN | Alta | [ ] |
 | RN002 | Composição da Senha Padrão | A senha padrão gerada no cadastro segue o padrão: primeiro nome + último nome, em letras minúsculas, sem espaços e sem acentos. Exemplo: "Ana Paula Ferreira" → senha: anaferreira | RN | Alta | [ ] |
 | RN003 | Retenção de Dados ao Excluir | Voluntárias com status Excluída têm o acesso bloqueado imediatamente, mas seus dados permanecem no banco para fins de histórico e rastreabilidade | RN | Alta | [ ] |
