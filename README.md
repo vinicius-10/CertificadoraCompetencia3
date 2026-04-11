@@ -44,7 +44,7 @@ O sistema tem como finalidade centralizar informações, facilitar a gestão de 
   
 ## 🛠 Tecnologias Utilizadas
 
-Backend: Flask 3.1
-Frontend: HTML 5, CSS, JavaScript
-Banco de Dados: postgresql 18.3
-Versionamento: Git + GitHub
+- Backend: Flask 3.1
+- Frontend: HTML 5, CSS, JavaScript
+- Banco de Dados: postgresql 18.3
+- Versionamento: Git + GitHub
