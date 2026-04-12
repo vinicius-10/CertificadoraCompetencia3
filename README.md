@@ -16,7 +16,7 @@
 - [Público-Alvo](#-público-alvo)
 - [Tecnologias Utilizadas](#-tecnologias-utilizadas)
 - [Código](./application)
-- [Documetação](./documentation/README.md)
+- [Documetação](https://github.com/vinicius-10/CertificadoraCompetencia3/wiki)
 
 ---
 
