@@ -1,18 +1,152 @@
-header nav span {
+/* RESET BÁSICO */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* FONTES */
+html {
+  font-size: 24px;
   font-family: "Poppins", sans-serif;
+}
+
+.poppins-semibold-48px {
   font-weight: 600;
-  font-size: 48px;
-  font-style: normal;
+  font-size: 2rem;
+}
+
+.poppins-semibold-24px {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* HEADER */
+header nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #2C2C2C;
+  height: 100px;
+  padding: 0 20px;
+}
+
+header nav div {
+  display: flex;
+  align-items: center;
 }
 
 header nav img {
-  width: 90px;
-  height: 90px;
-  object-fit: cover;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
 }
 
-header nav {
+header nav span {
+  margin-left: 15px;
+  color: white;
+}
+
+header nav ul {
+  display: flex;
+  list-style: none;
+  gap: 175px; /* antes tava exagerado */
+}
+
+header nav ul a {
+  color: white;
+  text-decoration: none;
+}
+
+header nav button {
+  background: transparent;
+  border: 3px solid white;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 250px;
+  height: 50px;
+}
+
+/* HERO */
+#hero {
+  background: linear-gradient(
+  180deg,
+  #56338D 0%,
+  #73328A 25%,
+  #92358F 50%,
+  #BB5C6D 75%,
+  #EC9C21 100%
+);
+padding-bottom: 150px;
+  height: 880px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 60px;
+  
+}
+
+#hero div {
+    margin-top: 10;
+}
+
+#hero h1 {
+    width: 50.0%;
+    text-align: center;
+    font-size: 2.66rem;
+    font-weight: 600;
+    color: white;
+}
+
+#hero p {
+    width: 47.6%;
+    text-align: center;
+    font-size: 1.33rem;
+    font-weight: 500;
+    color: white;
+}
+
+.highlight {
+    color: #E5A644;
+}
+
+#stats {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    justify-content: space-evenly;
+    background-color: #2C2C2C;
+    height: 540px;
+    padding-left: 0px;
+}
+
+#stats strong {
+    color: #EC9C21;
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+#stats p {
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.inner-stat {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0px;
+}
+
+#top-stats {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+    padding: 0px;
 }

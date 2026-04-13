@@ -7,7 +7,9 @@
     <title>Meninas Digitais</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/landing_page.css') }}">
 </head>
 
@@ -15,44 +17,48 @@
 
     <header>
         <nav>
-            <img src="{{ url_for('static', filename='img/meninas_logo.png') }}" alt="Logo">
-            <span>Meninas Digitais</span>
-            <ul>
+            <div>
+                <img src="{{ url_for('static', filename='img/meninas_logo.png') }}" alt="Logo">
+                <span class="poppins-semibold-48px">Meninas Digitais</span>
+            </div>
+            <ul class="poppins-semibold-24px">
                 <li><a href="#sobre">Sobre</a></li>
                 <li><a href="#pilares">Pilares</a></li>
                 <li><a href="#equipe">Equipe</a></li>
             </ul>
-            <a href="#">Entrar no sistema</a>
+            <button class="poppins-semibold-24px">Entrar no sistema</button>
         </nav>
     </header>
 
     <main>
 
-        <section id="hero">
-            <h1>Empoderando meninas na tecnologia e educação</h1>
-            <p>O Meninas Digitais conecta, apoia e acompanha meninas dedicadas a transformar a realidade por meio da
+        <div id="hero">
+            <h1>Empoderando meninas na <span class="highlight">tecnologia</span> e educação</h1>
+            <p>O Meninas Digitais conecta, apoia e acompanha meninas dedicadas a transformar a realidade <br> por meio
+                da
                 tecnologia e do conhecimento.</p>
-            <a href="#sobre">Conheça o projeto</a>
-        </section>
+        </div>
 
-        <section id="stats">
-            <div>
-                <strong>100+</strong>
-                <p>Voluntárias ativas</p>
+        <div id="stats">
+            <div id="top-stats">
+                <div class="inner-stat">
+                    <strong>100+</strong>
+                    <p>Voluntárias ativas</p>
+                </div>
+                <div class="inner-stat">
+                    <strong>5 anos</strong>
+                    <p>De projeto</p>
+                </div>
+                <div class="inner-stat">
+                    <strong>500+</strong>
+                    <p>Meninas impactadas</p>
+                </div>
             </div>
-            <div>
-                <strong>5 anos</strong>
-                <p>De projeto</p>
-            </div>
-            <div>
-                <strong>500+</strong>
-                <p>Meninas impactadas</p>
-            </div>
-            <div>
+            <div class="inner-stat">
                 <strong>2</strong>
                 <p>Bolsistas envolvidas</p>
             </div>
-        </section>
+        </div>
 
         <section id="sobre">
             <h2>Sobre o projeto</h2>
