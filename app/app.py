@@ -1,10 +1,11 @@
 from flask import Flask
+from flask import render_template
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "<h1>Hello, Flask!</h1><p>Your app is running.</p>"
+    return render_template("landing_page.html")
 
 @app.route("/ping")
 def ping():
