@@ -17,16 +17,16 @@ html {
   --magenta:   #92358F;
   --pink:      #BB5C6D;
   --orange:    #EC9C21;
-  --card-bg:   #1e1e24;
+  --card-bg:   #2C2C2C;
   --input-bg:  #d5d5d5;
   --text-light: #f0f0f0;
   --text-muted: #aaa;
 
-  --nav-height:    3.75rem;   /* 60px */
+  --nav-height:    6.25rem;   /* 100px */
   --card-padding:  3rem 2.75rem 2.5rem;
   --card-radius:   1.125rem;  /* 18px */
-  --input-height:  2.625rem;  /* 42px */
-  --btn-height:    2.875rem;  /* 46px */
+  --input-height:  3.75rem;  /* 60px */
+  --btn-height:    2.5rem;  /* 46px */
 }
 
 /* ── BODY ── */
@@ -45,13 +45,13 @@ nav {
   gap: 0.875rem;
   padding: 0 1.75rem;
   height: var(--nav-height);
-  background: #111;
+  background: var(--card-bg);
   flex-shrink: 0;
 }
 
 .nav-logo {
-  width: 2.875rem;   /* 46px */
-  height: 2.875rem;
+  width: 5.625rem;   /* 90px */
+  height: 5.625rem;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
@@ -60,7 +60,7 @@ nav {
 nav h1 {
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
-  font-size: 1.35rem;
+  font-size: 2.96rem;
   color: #fff;
   letter-spacing: 0.03rem;
 }
@@ -80,7 +80,8 @@ main {
   border-radius: var(--card-radius);
   padding: var(--card-padding);
   width: 100%;
-  max-width: 22.5rem;   /* 360px */
+  max-width: 31.25rem; /* 500px */
+  min-height: 33.125rem;  /* 530px */
   box-shadow:
     0 1.5rem 3.75rem rgba(0, 0, 0, 0.45),
     0 0 0 0.0625rem rgba(255, 255, 255, 0.06);
@@ -95,7 +96,7 @@ main {
 /* ── CARD TITLE ── */
 .card-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.75rem;
+  font-size: 2.25rem;
   color: var(--text-light);
   text-align: center;
   margin-bottom: 2.25rem;
@@ -112,7 +113,7 @@ main {
   align-items: center;
   gap: 0.5rem;
   color: var(--text-light);
-  font-size: 0.9375rem;
+  font-size: 1.5rem;
   font-weight: 400;
   margin-bottom: 0.5rem;
 }
@@ -125,8 +126,8 @@ main {
   width: 100%;
   height: var(--input-height);
   background: var(--input-bg);
-  border: none;
-  border-radius: 0.4375rem;
+  border: 0.125rem #EC9C21 solid;
+  border-radius: 0.625rem;
   padding: 0 0.875rem;
   font-size: 0.9rem;
   font-family: 'Poppins', sans-serif;
@@ -144,13 +145,13 @@ main {
   display: block;
   text-align: right;
   color: var(--text-muted);
-  font-size: 0.8125rem;
+  font-size: 1rem;
   margin-top: 0.375rem;
   cursor: pointer;
   transition: color 0.2s;
   background: none;
   border: none;
-  font-family: inherit;
+  font-family: 'Poppins', sans-serif;
   width: 100%;
 }
 
@@ -161,14 +162,14 @@ main {
 /* ── LOGIN BUTTON ── */
 .btn-login {
   margin-top: 1.75rem;
-  width: 100%;
+  width: 25.245%;
   height: var(--btn-height);
-  border: none;
-  border-radius: 0.5625rem;
-  background: linear-gradient(90deg, var(--purple), var(--magenta));
-  color: #fff;
+  border: 0.125rem #EC9C21 solid;
+  border-radius: 0.625rem;
+  background: #fff;
+  color: #000000;
   font-family: 'Poppins', sans-serif;
-  font-size: 0.9375rem;
+  font-size: 1.25rem;
   font-weight: 500;
   letter-spacing: 0.0375rem;
   cursor: pointer;
