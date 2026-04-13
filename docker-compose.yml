@@ -1,0 +1,29 @@
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+      - DATABASE_URL=postgresql://user:senha@db:5432/bd_meninas
+    depends_on:
+      - db
+    volumes:
+      - ./app:/app
+
+  db:
+    image: postgres:18.3-alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: meninas_bd
+      POSTGRES_DB: bd_meninas
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:

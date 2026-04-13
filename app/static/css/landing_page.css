@@ -1,0 +1,18 @@
+header nav span {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 48px;
+  font-style: normal;
+}
+
+header nav img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
