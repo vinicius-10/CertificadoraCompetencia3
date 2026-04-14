@@ -223,12 +223,16 @@ padding-bottom: 150px;
   padding-left: 3.6rem;
   padding-bottom: 1rem;
   font-weight: 300;
+  width: 70rem;
+  text-align: justify;
 }
 
 #visao p{
   padding-left: 3.6rem;
   padding-bottom: 1rem;
   font-weight: 300;
+  width: 70rem;
+  text-align: justify;
 }
 
 #visao div {
@@ -356,6 +360,7 @@ padding-bottom: 150px;
 
 #npilas {
   font-weight: 300;
+  font-size: 1.66rem;
   color: #56338D;
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
@@ -369,4 +374,21 @@ padding-bottom: 150px;
 #pilares div h3 {
   font-weight: 300;
   color: #000000;
+}
+
+/*Equipe*/
+
+#equipe {
+  height: 36rem;
+  padding-left: 3rem;
+  background-color: #F2E4D8;
+}
+
+#who {
+  font-weight: 300;
+  font-size: 1.66rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  color: #56338D;
+
 }
