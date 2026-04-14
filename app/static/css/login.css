@@ -137,7 +137,7 @@ main {
 }
 
 .field input:focus {
-  box-shadow: 0 0 0 0.15625rem var(--purple);
+  box-shadow: 0 0 0 0.25rem var(--purple);
 }
 
 /* ── FORGOT PASSWORD ── */
@@ -162,14 +162,14 @@ main {
 /* ── LOGIN BUTTON ── */
 .btn-login {
   margin-top: 1.75rem;
-  width: 25.245%;
+  width: 100%;
   height: var(--btn-height);
-  border: 0.125rem #EC9C21 solid;
-  border-radius: 0.625rem;
-  background: #fff;
-  color: #000000;
+  border: none;
+  border-radius: 0.5625rem;
+  background: linear-gradient(90deg, var(--purple), var(--magenta));
+  color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 500;
   letter-spacing: 0.0375rem;
   cursor: pointer;
@@ -177,7 +177,7 @@ main {
   position: relative;
   overflow: hidden;
 }
-
+ 
 .btn-login::after {
   content: '';
   position: absolute;
