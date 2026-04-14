@@ -150,3 +150,52 @@ padding-bottom: 150px;
     justify-content: space-evenly;
     padding: 0px;
 }
+
+/*sobre*/
+
+#sobre {
+  background-color: #F2E4D8;
+  height: 890px;
+  display: flex;
+  flex-direction: column;
+  gap: 9%;
+}
+
+#sobre h2 {
+  font-weight: 300;
+  font-size: 2rem;
+  color: #56338D;
+  padding-top: 4.5%;
+  margin-bottom: -3%;
+  padding-left: 3%;
+}
+
+.p-sobre {
+  font-weight: 300;
+  font-size: 1rem;
+  width: 73.5%;
+  color: #000000;
+  padding-left: 5.5%;
+  text-align: justify;
+}
+
+#p-img {
+  font-weight: 300;
+  font-size: 1rem;
+  color: #000000;
+  text-align: justify;
+  width: 72%;
+}
+
+#sobre div {
+  display: flex;
+  flex-direction: row;
+  padding-left: 5.5%;
+  align-items: center;
+  gap: 2%;
+}
+
+#sobre div img {
+  width: 378px;
+  height: 136px;
+}
