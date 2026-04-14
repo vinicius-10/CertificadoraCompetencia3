@@ -60,29 +60,111 @@
             </div>
         </div>
 
-        <section id="sobre">
+        <div id="sobre">
             <h2>Sobre o projeto</h2>
-            <p>
+            <p class="p-sobre">
                 O projeto Meninas Digitais – UTFPR-CP visa contribuir para o aumento da participação de meninas e
-                mulheres em computação e STEM, incentivando e auxiliando meninas estudantes de ensino fundamental e
-                médio de Cornélio Procópio a seguirem carreira nessas áreas.
+                mulheres em computação e STEM
+                (sigla em inglês para ciência, tecnologia, engenharia e matemática), incentivando e auxiliando meninas
+                estudantes de ensino fundamental
+                e médio de Cornélio Procópio a seguirem carreira nessas áreas.
             </p>
-        </section>
+            <div>
+                <img src="{{ url_for('static', filename='img/meninas_digitais.png') }}" alt="meninas_digitais">
+                <p id="p-img">
+                    Para isso, o projeto tem como estratégia o ensino de temas em computação e STEM voltados à resolução
+                    de desafios de sustentabilidade
+                    alinhados com os Objetivos de Desenvolvimento Sustentável (ODS), a partir de mentorias, oficinas,
+                    palestras, minicursos e mesas redondas,
+                    com foco em capacitar e estimular o aprendizado de meninas e mulheres nessas áreas, demonstrando
+                    como essas podem causar impacto positivo na sociedade.
+                </p>
+            </div>
+            <p class="p-sobre">
+                Busca-se, dessa forma, contribuir para a redução da desigualdade de gênero no Campus da universidade,
+                tornando o ambiente mais igualitário, diverso e inclusivo,
+                bem como ampliar as perspectivas de trabalho de meninas e mulheres, auxiliando-as em sua independência a
+                partir da educação de qualidade.
+            </p>
+        </div>
 
-        <section id="pilares">
-            <h2>Pilares</h2>
-            <ul>
-                <li>Mentoria</li>
-                <li>Oficinas</li>
-                <li>Palestras</li>
-                <li>Mesas redondas</li>
-            </ul>
-        </section>
+        <div id="pilares">
+            <h2 id="npilas">Nossos Pilares</h2>
+            <div id="move">
+                <h2>O que nos move</h2>
+                <div>
+                    <img src="{{ url_for('static', filename='img/target.png') }}" alt="target">
+                    <h3>Missão</h3>
+                </div>
+                <p>Despertar o interesse de meninas para seguirem carreira em Tecnologia da Informação e Comunicação,
+                    aproximando-as da computação de forma motivadora e acessível.
+                </p>
+            </div>
+            <div id="visao">
+                <h2>O queremos nos tornar</h2>
+                <div>
+                    <img src="{{ url_for('static', filename='img/eye.png') }}" alt="eye">
+                    <h3>Visão</h3>
+                </div>
+                <p>Ser referência na América Latina em equidade de gênero nas carreiras de Tecnologia da Informação
+                    e Comunicação, inspirando outros projetos e políticas de inclusão.
+                </p>
+            </div>
+            <div id="valores">
+                <h2>Nossas regras inegociáveis</h2>
+                <div>
+                    <img src="{{ url_for('static', filename='img/heart.png') }}" alt="heart">
+                    <h3>Valores</h3>
+                </div>
+            </div>
+            <div id="card-valores">
+                <div id="card-row1">
+                    <div class="card1" id="equidade">
+                        <div>
+                            <img src="{{ url_for('static', filename='img/circle1.png') }}" alt="dot">
+                            <h3>Equidade</h3>
+                        </div>
+                        <p>Garantir igualdade real de oportunidades para todas as meninas.</p>
+                    </div>
+                    <div class="card1" id="inspiracao">
+                        <div>
+                            <img src="{{ url_for('static', filename='img/circle2.png') }}" alt="dot">
+                            <h3>Inspiração</h3>
+                        </div>
+                        <p>Fortalecer a confiança e a autonomia de cada participante.</p>
+                    </div>
+                    <div class="card1" id="educacao">
+                        <div>
+                            <img src="{{ url_for('static', filename='img/circle3.png') }}" alt="dot">
+                            <h3>Educação</h3>
+                        </div>
+                        <p>Promover o conhecime-nto como ferramenta de transformação social.</p>
+                    </div>
+                </div>
+                <div id="card-row2">
+                    <div class="card2" id="inclusao">
+                        <div>
+                            <img src="{{ url_for('static', filename='img/circle4.png') }}" alt="dot">
+                            <h3>Inclusão</h3>
+                        </div>
+                        <p>Acolher meninas de todas as origens, especialmente do ensino médio e fundamental.</p>
+                    </div>
+                    <div class="card2" id="empoderamento">
+                        <div>
+                            <img src="{{ url_for('static', filename='img/circle5.png') }}" alt="meninas_digitais">
+                            <h3>Empoderamento</h3>
+                        </div>
+                        <p>Mostrar que a tecnologia é um espaço para elas construírem seu futuro.</p>
+                    </div>
+                </div>
+            </div>
 
-        <section id="equipe">
-            <h2>Equipe</h2>
-            <p>Conheça as pessoas por trás do projeto.</p>
-        </section>
+        </div>
+
+        <div id="equipe">
+            <h2 id="who">Quem somos</h2>
+
+        </div>
 
     </main>
 
