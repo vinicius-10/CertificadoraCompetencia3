@@ -1,0 +1,283 @@
+/* ── RESET & BASE ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Base: 16px → 1rem = 16px */
+html {
+  font-size: 16px;
+}
+
+/* ── CUSTOM PROPERTIES ── */
+:root {
+  --purple:    #56338D;
+  --light-purple:    #73328A;
+  --magenta:   #92358F;
+  --pink:      #BB5C6D;
+  --orange:    #EC9C21;
+  --card-bg:   #2C2C2C;
+  --input-bg:  #d5d5d5;
+  --text-light: #f0f0f0;
+  --text-muted: #aaa;
+
+  --nav-height:    6.25rem;   /* 100px */
+  --card-padding:  3rem 2.75rem 2.5rem;
+  --card-radius:   1.125rem;  /* 18px */
+  --input-height:  3.75rem;  /* 60px */
+  --btn-height:    2.5rem;  /* 46px */
+}
+
+/* ── BODY ── */
+body {
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(180deg, var(--purple) 0%, var(--light-purple) 25%, var(--magenta) 50%, var(--pink) 75%, var(--orange) 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── NAVBAR ── */
+nav {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0 1.75rem;
+  height: var(--nav-height);
+  background: var(--card-bg);
+  flex-shrink: 0;
+}
+
+.nav-logo {
+  width: 5.625rem;   /* 90px */
+  height: 5.625rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+nav h1 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 2.96rem;
+  color: #fff;
+  letter-spacing: 0.03rem;
+}
+
+/* ── MAIN ── */
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  padding: var(--card-padding);
+  width: 100%;
+  max-width: 31.25rem; /* 500px */
+  min-height: 33.125rem;  /* 530px */
+  box-shadow:
+    0 1.5rem 3.75rem rgba(0, 0, 0, 0.45),
+    0 0 0 0.0625rem rgba(255, 255, 255, 0.06);
+  animation: rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(1.75rem) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)       scale(1);    }
+}
+
+/* ── CARD TITLE ── */
+.card-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.25rem;
+  color: var(--text-light);
+  text-align: center;
+  margin-bottom: 2.25rem;
+  letter-spacing: 0.03rem;
+}
+
+/* ── FIELDS ── */
+.field {
+  margin-bottom: 1.375rem;
+}
+
+.field-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-light);
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.field-label svg {
+  flex-shrink: 0;
+}
+
+.field input {
+  width: 100%;
+  height: var(--input-height);
+  background: var(--input-bg);
+  border: 0.125rem #EC9C21 solid;
+  border-radius: 0.625rem;
+  padding: 0 0.875rem;
+  font-size: 1.25rem;
+  font-family: 'Poppins', sans-serif;
+  color: #222;
+  outline: none;
+  transition: box-shadow 0.2s;
+}
+
+.field input:focus {
+  box-shadow: 0 0 0 0.25rem var(--purple);
+}
+
+/* ── FORGOT PASSWORD ── */
+.forgot {
+  display: block;
+  text-align: right;
+  color: #fff;
+  font-size: 1rem;
+  margin-top: 19px;
+  cursor: pointer;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  font-family: 'Poppins', sans-serif;
+  width: 100%;
+}
+
+.forgot:hover {
+  color: var(--text-muted);
+}
+
+/* ── LOGIN BUTTON ── */
+.btn-login {
+  margin-top: 1.75rem;
+  width: 100%;
+  height: var(--btn-height);
+  border: none;
+  border-radius: 0.5625rem;
+  background: linear-gradient(90deg, var(--purple), var(--magenta));
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: 0.0375rem;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+ 
+.btn-login::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.12);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.btn-login:hover::after { opacity: 1; }
+.btn-login:active       { transform: scale(0.98); }
+
+
+/* ════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ════════════════════════════════════════ */
+
+/* ── MOBILE  (≤ 480px) ── */
+@media (max-width: 30rem) {
+  html {
+    font-size: 15px;
+  }
+
+  :root {
+    --nav-height:   3.2rem;
+    --card-padding: 2rem 1.5rem 1.75rem;
+  }
+
+  nav {
+    padding: 0 1rem;
+    gap: 0.625rem;
+  }
+
+  .nav-logo {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  nav h1 {
+    font-size: 1.15rem;
+  }
+
+  .card {
+    max-width: 100%;
+    border-radius: 0.875rem;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.75rem;
+  }
+
+  main {
+    padding: 1.5rem 0.75rem;
+    align-items: flex-start;
+    padding-top: 2.5rem;
+  }
+}
+
+/* ── TABLET  (481px – 1024px) ── */
+@media (min-width: 30.0625rem) and (max-width: 64rem) {
+  html {
+    font-size: 16px;
+  }
+
+  :root {
+    --card-padding: 2.75rem 2.5rem 2.25rem;
+  }
+
+  .card {
+    max-width: 26rem;
+  }
+}
+
+/* ── DESKTOP  (1025px – 1920px) — default styles apply ── */
+
+/* ── TV / LARGE SCREENS  (> 1920px) ── */
+@media (min-width: 120rem) {
+  html {
+    font-size: 22px;
+  }
+
+  :root {
+    --nav-height:    4.5rem;
+    --card-padding:  3.5rem 3.25rem 3rem;
+    --card-radius:   1.5rem;
+    --input-height:  3rem;
+    --btn-height:    3.25rem;
+  }
+
+  .card {
+    max-width: 28rem;
+  }
+
+  .nav-logo {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+
+  nav h1 {
+    font-size: 1.5rem;
+  }
+}
