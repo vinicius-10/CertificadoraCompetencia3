@@ -89,6 +89,13 @@ select {
 .nav-links a {
   color: var(--color-light);
   text-decoration: none;
+  transition: color 0.3s ease, opacity 0.3s ease, transform 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: var(--color-secondary);
+  opacity: 0.9;
+  transform: translateY(-2px);
 }
 
 .nav-action {
@@ -100,6 +107,14 @@ select {
   color: var(--color-light);
   cursor: pointer;
   flex-shrink: 0;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.nav-action:hover {
+  background-color: var(--color-light);
+  color: var(--color-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
 /* Hero */
