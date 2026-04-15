@@ -357,6 +357,7 @@ select {
   .main-nav {
     flex-wrap: wrap;
     justify-content: center;
+    column-gap: 1.25rem;
     row-gap: 1rem;
     padding: 1rem 20px;
   }
@@ -517,6 +518,7 @@ select {
   #sobre {
     gap: 1.5rem;
     padding: 0 1rem 2rem;
+    align-items: center;
   }
 
   #sobre h2 {
@@ -533,16 +535,40 @@ select {
   .about-content {
     padding-left: 0;
     padding-right: 0;
+    align-items: center;
   }
 
   #pilares {
     padding: 0 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
   }
 
   #npilas,
   #who {
     padding-top: 2rem;
     padding-bottom: 2rem;
+  }
+
+  #npilas,
+  .pillar-block,
+  .pillar-block p {
+    text-align: justify;
+  }
+
+  .pillar-block h2 {
+    text-align: center;
+  }
+
+  .pillar-block {
+    width: 100%;
+  }
+
+  .pillar-label,
+  .value-card__header {
+    justify-content: center;
   }
 
   .pillar-block p {
@@ -560,6 +586,10 @@ select {
     padding: 1rem 0.75rem;
   }
 
+  .value-card {
+    align-items: center;
+  }
+
   .value-card__header {
     margin-left: 0;
   }
@@ -568,6 +598,7 @@ select {
   .card2 p {
     width: 100%;
     margin-left: 0;
+    text-align: center;
   }
 
   #equipe {
