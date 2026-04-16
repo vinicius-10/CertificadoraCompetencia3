@@ -117,6 +117,14 @@ select {
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
+@media (min-width: 1080px) {
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+}
+
 /* Hero */
 #hero {
   display: flex;
@@ -619,5 +627,9 @@ select {
   #equipe {
     min-height: 24rem;
     padding: 0 1rem 2rem;
+  }
+
+  .nav-links {
+    display: none;
   }
 }
