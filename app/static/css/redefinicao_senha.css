@@ -222,6 +222,18 @@ main {
     .card {
         max-width: 26rem;
     }
+
+    .card-title {
+        font-size: 1.75rem;
+    }
+
+    .field-label {
+        font-size: 1.1rem;
+    }
+
+    .field input {
+        font-size: 1rem;
+    }
 }
 
 /* ── DESKTOP  (1025px – 1920px) — default styles apply ── */
