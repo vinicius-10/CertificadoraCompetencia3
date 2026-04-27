@@ -12,8 +12,8 @@ html {
 
 /* ── CUSTOM PROPERTIES ── */
 :root {
-    --purple: #56338D;
-    --magenta: #92358F;
+    --purple: #73328a;
+    --magenta: #bb5c6d;
     --card-bg: #2C2C2C;
     --input-bg: #d5d5d5;
     --text-light: #ffffff;
