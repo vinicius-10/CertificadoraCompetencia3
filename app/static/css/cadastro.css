@@ -18,13 +18,11 @@ html {
     --input-bg: #d5d5d5;
     --text-light: #ffffff;
     --field-light: #f2eadf;
-    --text-muted: #aaa;
 
     --nav-height: 6.25rem;   /* 100px */
     --card-padding: 3rem 9.375rem 2.5rem;
     --card-radius: 1.125rem;  /* 18px */
     --input-height: 3.75rem;  /* 60px */
-    --btn-height: 2.5rem;  /* 46px */
 }
 
 /* ── BODY ── */
@@ -117,10 +115,6 @@ main {
     margin-bottom: 0.5rem;
 }
 
-.field-label svg {
-    flex-shrink: 0;
-}
-
 .field input {
     width: 100%;
     height: var(--input-height);
@@ -149,10 +143,6 @@ main {
 
 .field input:focus {
     box-shadow: 0 0 0 0.25rem var(--purple);
-}
-
-.forgot:hover {
-    color: var(--text-muted);
 }
 
 .btn-cadastrar {
@@ -258,7 +248,6 @@ main {
         --card-padding:  3.5rem 3.25rem 3rem;
         --card-radius:   1.5rem;
         --input-height:  3rem;
-        --btn-height:    3.25rem;
     }
 
     .card {
