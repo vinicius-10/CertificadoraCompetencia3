@@ -1,1 +1,6 @@
 flask==3.1.0
+Flask-SQLAlchemy
+Flask-Migrate
+psycopg2-binary
+argon2-cffi
+flask-login
