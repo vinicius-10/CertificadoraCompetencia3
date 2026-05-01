@@ -16,3 +16,7 @@ def ping():
 @main_bp.route("/login")
 def login():
     return render_template("login.html")
+
+@main_bp.route("/forgot_password")
+def forgot_password():
+    return render_template("RecuperacaoSenha.html")
