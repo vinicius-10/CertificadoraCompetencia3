@@ -9,9 +9,10 @@ async function submitForm() {
     console.log('Form element:', form.usuario.value, form.senha.value);
 
     Swal.fire({
-        title: 'Sucesso!',
-        text: 'Sua alteração foi salva.',
-        icon: 'success',
-        confirmButtonText: 'Ok'
+        title: "Validando...",
+        text: "Aguarde um momento.",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => Swal.showLoading(),
     });
 }
