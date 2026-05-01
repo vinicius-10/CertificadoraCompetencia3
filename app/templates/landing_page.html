@@ -10,6 +10,8 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/landing_page.css') }}">
+    <script src="{{ url_for('static', filename='js/landing_page.js') }}" defer></script>
+    
 </head>
 <body>
     <header>
@@ -25,7 +27,7 @@
                 <li><a href="#equipe">Equipe</a></li>
             </ul>
 
-            <button type="button" class="nav-action poppins-semibold-24px">Entrar no sistema</button>
+            <a href="{{ url_for('main.login') }}"><button type="button" class="nav-action poppins-semibold-24px">Entrar no sistema</button></a>
         </nav>
     </header>
 
@@ -38,21 +40,21 @@
         <section id="stats">
             <div id="top-stats">
                 <div class="inner-stat">
-                    <strong>100+</strong>
+                    <strong id="volunteers">100+</strong>
                     <p>Voluntárias ativas</p>
                 </div>
                 <div class="inner-stat">
-                    <strong>5 anos</strong>
+                    <strong id="years">5 anos</strong>
                     <p>De projeto</p>
                 </div>
                 <div class="inner-stat">
-                    <strong>500+</strong>
+                    <strong id="girls">500+</strong>
                     <p>Meninas impactadas</p>
                 </div>
             </div>
 
             <div class="inner-stat">
-                <strong>2</strong>
+                <strong id="scholars">2</strong>
                 <p>Bolsistas envolvidas</p>
             </div>
         </section>
