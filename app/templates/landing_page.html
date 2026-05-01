@@ -16,7 +16,7 @@
         <nav class="main-nav" aria-label="Navegação principal">
             <div class="nav-brand">
                 <img src="{{ url_for('static', filename='img/meninas_logo.png') }}" alt="Logo do projeto Meninas Digitais">
-                <span class="brand-name poppins-semibold-48px">Meninas Digitais</span>
+                <span class="brand-name poppins-semibold-48px">Meninas Digitais UTFPR-CP</span>
             </div>
 
             <ul class="nav-links poppins-semibold-24px">
@@ -159,7 +159,81 @@
 
         <section id="equipe">
             <h2 id="who">Quem somos</h2>
+
+            <article class="team-card">
+                <div class="team-card__avatar">
+                    <img src="{{ url_for('static', filename='img/team-placeholder.svg') }}" alt="Foto da coordenadora do projeto" class="team-card__avatar-img">
+                </div>
+
+                <div class="team-card__content">
+                    <header class="team-card__header">
+                        <h3>Professora Doutora Rosangêla Marquesone</h3>
+                        <p class="team-card__role">Coordenadora do projeto</p>
+                    </header>
+
+                    <div class="team-card__text">
+                        <p>Professora adjunta do Departamento Acadêmico de Computação (DACOM) da Universidade Tecnológica Federal do Paraná, campus Cornélio Procópio (UTFPR-CP).</p>
+                        <p>Embaixadora do projeto Meninas Digitais na UTFPR-CP e coordenadora do projeto, controlando e orientando as voluntárias na construção de um futuro com mais mulheres na ciência e na engenharia.</p>
+                    </div>
+                </div>
+            </article>
         </section>
     </main>
+
+    <footer class="site-footer">
+        <div class="site-footer__inner">
+            <section class="footer-brand">
+                <div class="footer-brand__top">
+                    <img src="{{ url_for('static', filename='img/meninas_logo.png') }}" alt="Logo do projeto Meninas Digitais UTFPR-CP">
+                    <h2>Meninas Digitais<br>UTFPR-CP</h2>
+                </div>
+
+                <p>Projeto de extensão universitária dedicado a despertar o interesse de meninas para carreiras em Tecnologia da Informação e Comunicação.</p>
+            </section>
+
+            <nav class="footer-nav" aria-label="Navegação do rodapé">
+                <h3>Navegação</h3>
+                <a href="#sobre">Sobre</a>
+                <a href="#pilares">Pilares</a>
+                <a href="#equipe">Quem somos</a>
+            </nav>
+
+            <section class="footer-social">
+                <h3>Onde nos encontrar</h3>
+
+                <div class="footer-social__grid">
+                    <a href="#" class="social-link" aria-label="Instagram do projeto">
+                        <img src="{{ url_for('static', filename='img/footer/social-instagram.svg') }}" alt="" class="social-link__img">
+                    </a>
+
+                    <a href="#" class="social-link" aria-label="Facebook do projeto">
+                        <img src="{{ url_for('static', filename='img/footer/social-facebook.svg') }}" alt="" class="social-link__img">
+                    </a>
+
+                    <a href="#" class="social-link" aria-label="LinkedIn do projeto">
+                        <img src="{{ url_for('static', filename='img/footer/social-linkedin.svg') }}" alt="" class="social-link__img">
+                    </a>
+
+                    <a href="#" class="social-link" aria-label="YouTube do projeto">
+                        <img src="{{ url_for('static', filename='img/footer/social-youtube.svg') }}" alt="" class="social-link__img">
+                    </a>
+
+                    <a href="#" class="social-link" aria-label="Site do projeto">
+                        <img src="{{ url_for('static', filename='img/footer/social-web.svg') }}" alt="" class="social-link__img">
+                    </a>
+                </div>
+            </section>
+
+            <section class="footer-logo footer-logo--utfpr">
+                <img src="{{ url_for('static', filename='img/footer/footer-utfpr.svg') }}" alt="Logo da UTFPR Campus Cornélio Procópio" class="footer-logo__image footer-logo__image--utfpr">
+            </section>
+
+            <section class="footer-logo footer-logo--meninas">
+                <img src="{{ url_for('static', filename='img/footer/footer-meninas-digitais.svg') }}" alt="Logo do programa Meninas Digitais" class="footer-logo__image footer-logo__image--meninas">
+            </section>
+        </div>
+
+        <p class="site-footer__bottom">© 2026 Meninas Digitais - UTFPR-CP - Projeto de Extensão Universitária. Feito com carinho para quem acredita nas meninas.</p>
+    </footer>
 </body>
 </html>
