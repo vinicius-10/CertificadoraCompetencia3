@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meninas Hub - Login</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
-    <!--<link rel="stylesheet" href="../static/css/login.css">-->
+    <!--<script src="{{ url_for('static', filename='js/login.js') }}"></script>-->
+    <link rel="stylesheet" href="../static/css/login.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -24,8 +24,7 @@
   <main>
     <div class="card">
       <p class="card-title">Login</p>
- 
-      <form method="POST" action="" id="login-form" onsubmit="submitForm()">
+      <form id="login-form">
         <div class="field">
           <label class="field-label" for="usuario">
             <svg width="40px" height="40px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -46,7 +45,7 @@
             Senha
           </label>
           <input type="password" id="senha" autocomplete="current-password" />
-          <a href= {{url_for('main.forgot_password')}}><button class="forgot" type="button">Esqueci a senha</button></a><!--Tem que remover o text decoration daqui -->
+          <a href="{{ url_for('main.forgot_password') }}" class="forgot">Esqueci a senha</a>
         </div>
   
         <button class="btn-login" type="submit">Entrar</button>
