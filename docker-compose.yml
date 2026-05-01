@@ -1,13 +1,18 @@
-
+# sh -c "sleep 5 && flask db upgrade && flask seed-db && python app.py"
 services:
   web:
     build: .
+    restart: on-failure
+    command: >
+      sh -c "sleep 5 && flask db upgrade && flask seed-db && python app.py"
     ports:
       - "5000:5000"
     environment:
       - FLASK_APP=app.py
       - FLASK_ENV=development
-      - DATABASE_URL=postgresql://user:senha@db:5432/bd_meninas
+      - DATABASE_URL=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@db:5432/${DATABASE_NAME}
+    env_file:
+      - .env
     depends_on:
       - db
     volumes:
@@ -16,11 +21,11 @@ services:
   db:
     image: postgres:18.3-alpine
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: meninas_bd
-      POSTGRES_DB: bd_meninas
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - postgres_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
