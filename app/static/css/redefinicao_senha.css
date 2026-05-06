@@ -163,12 +163,7 @@ main {
     transform: scale(0.97);
 }
 
-/* ════════════════════════════════════════
-   RESPONSIVE BREAKPOINTS
-   ════════════════════════════════════════ */
-
-/* ── MOBILE  (≤ 480px) ── */
-@media (max-width: 30rem) {
+@media (max-width: 768px) {
     html {
         font-size: 15px;
     }
@@ -206,62 +201,5 @@ main {
         padding: 1.5rem 0.75rem;
         align-items: flex-start;
         padding-top: 2.5rem;
-    }
-}
-
-/* ── TABLET  (481px – 1024px) ── */
-@media (min-width: 30.0625rem) and (max-width: 64rem) {
-    html {
-        font-size: 16px;
-    }
-
-    :root {
-        --card-padding: 2.75rem 2.5rem 2.25rem;
-    }
-
-    .card {
-        max-width: 26rem;
-    }
-
-    .card-title {
-        font-size: 1.75rem;
-    }
-
-    .field-label {
-        font-size: 1.1rem;
-    }
-
-    .field input {
-        font-size: 1rem;
-    }
-}
-
-/* ── DESKTOP  (1025px – 1920px) — default styles apply ── */
-
-/* ── TV / LARGE SCREENS  (> 1920px) ── */
-@media (min-width: 120rem) {
-    html {
-        font-size: 22px;
-    }
-
-    :root {
-        --nav-height:    4.5rem;
-        --card-padding:  3.5rem 3.25rem 3rem;
-        --card-radius:   1.5rem;
-        --input-height:  3rem;
-        --btn-height:    3.25rem;
-    }
-
-    .card {
-        max-width: 28rem;
-    }
-
-    .nav-logo {
-        width: 3.25rem;
-        height: 3.25rem;
-    }
-
-    nav h1 {
-        font-size: 1.5rem;
     }
 }

@@ -186,141 +186,43 @@ main {
     max-width: none;
 }
 
-/* ════════════════════════════════════════
-   RESPONSIVE BREAKPOINTS
-   ════════════════════════════════════════ */
+@media (max-width: 768px) {
+    html {
+        font-size: 15px;
+    }
 
-/* ══════════════════════════════════════
-   MOBILE  (≤ 480px)
-   ══════════════════════════════════════ */
-@media (max-width: 30rem) {
-    :root { --nav-height: 3.5rem; }
- 
-    nav { padding: 0 1rem; gap: 0.5rem; }
-    .nav-logo { width: 2.5rem; height: 2.5rem; }
-    nav h1 { font-size: 1.2rem; }
- 
-    main {
-        padding: 1rem 0.75rem;
-        align-items: flex-start;
-        flex: unset;
-    }
- 
-    .card {
-        width: 100%;
-        max-width: 100%;
-        min-height: unset;
-        padding: 1.25rem;
-        gap: 1rem;
-        border-radius: 0.75rem;
-    }
- 
-    .card-top {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
- 
-    .card-avatar-wrapper {
-        width: 9rem;
-        height: 10.25rem;
-    }
-    .card-avatar-wrapper img {
-        width: 8rem;
-        height: 9.25rem;
-    }
- 
-    .field-label { font-size: 1rem; }
-    .field { margin-bottom: 0.75rem; }
- 
-    .field-box,
-    .field-box--wide {
-        width: 100%;
-        max-width: 100%;
-        height: 2.5rem;
-    }
-}
- 
-/* ══════════════════════════════════════
-   TABLET  (481px – 768px)
-   ══════════════════════════════════════ */
-@media (min-width: 30.0625rem) and (max-width: 48rem) {
-    :root { --nav-height: 4.5rem; }
- 
-    nav { padding: 0 1.25rem; }
-    .nav-logo { width: 3.25rem; height: 3.25rem; }
-    nav h1 { font-size: 1.75rem; }
- 
-    main { padding: 1.5rem 1rem; align-items: flex-start; flex: unset; }
- 
-    .card {
-        max-width: 100%;
-        min-height: unset;
-        padding: 2rem;
-        gap: 1.25rem;
-        border-radius: 1rem;
-    }
- 
-    .card-top {
-        flex-direction: row;
-        align-items: flex-start;
-        gap: 1.5rem;
-    }
- 
-    .card-avatar-wrapper {
-        width: 11rem;
-        height: 12.5rem;
-    }
-    .card-avatar-wrapper img {
-        width: 10rem;
-        height: 11.5rem;
-    }
- 
-    .field-label { font-size: 1.1rem; }
-    .field { margin-bottom: 1rem; }
- 
-    .field-box,
-    .field-box--wide {
-        width: 100%;
-        max-width: 100%;
-        height: 2.75rem;
-    }
-}
- 
-/* ══════════════════════════════════════
-   TV / TELAS GRANDES  (> 1920px)
-   ══════════════════════════════════════ */
-@media (min-width: 120rem) {
     :root {
-        --nav-height: 5.5rem;
-        --card-radius: 1.5rem;
+        --nav-height:   3.2rem;
+        --card-padding: 2rem 1.5rem 1.75rem;
     }
- 
-    nav { padding: 0 2rem; gap: 1rem; }
-    .nav-logo { width: 4rem; height: 4rem; }
-    nav h1 { font-size: 2rem; }
- 
-    main { padding: 3rem 2rem; }
- 
+
+    nav {
+        padding: 0 1rem;
+        gap: 0.625rem;
+    }
+
+    .nav-logo {
+        width: 2.4rem;
+        height: 2.4rem;
+    }
+
+    nav h1 {
+        font-size: 1.15rem;
+    }
+
     .card {
-        padding: 4rem;
-        gap: 2.25rem;
+        max-width: 100%;
+        border-radius: 0.875rem;
     }
- 
-    .card-top { gap: 5rem; }
- 
-    .card-avatar-wrapper {
-        width: 26rem;
-        height: 29.5rem;
+
+    .card-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.75rem;
     }
-    .card-avatar-wrapper img {
-        width: 24.5rem;
-        height: 28rem;
+
+    main {
+        padding: 1.5rem 0.75rem;
+        align-items: flex-start;
+        padding-top: 2.5rem;
     }
- 
-    .field-label { font-size: 3.5rem; }
-    .field { margin-bottom: 2.25rem; }
- 
-    .field-box,
-    .field-box--wide { height: 4.5rem; }
 }
