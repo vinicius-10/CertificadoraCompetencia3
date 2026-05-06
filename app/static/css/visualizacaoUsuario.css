@@ -174,6 +174,10 @@ main {
     height: 3.75rem;
     background: var(--input-bg);
     border-radius: 0.625rem;
+    font-size: 1.25rem;
+    padding: 0 20px;
+    display: flex;
+    align-items: center; 
 }
 
 .field-box--wide{
@@ -229,7 +233,6 @@ main {
     .field-label { font-size: 1rem; }
     .field { margin-bottom: 0.75rem; }
  
-    /* Todas as caixas com largura igual no mobile */
     .field-box,
     .field-box--wide {
         width: 100%;
