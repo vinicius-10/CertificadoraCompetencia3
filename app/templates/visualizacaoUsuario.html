@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meninas Hub - Visualização de Usuário</title>
+    <!--<link rel="stylesheet" href="../static/css/visualizacaoUsuario.css">-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/visualizacao_usuario.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/meninas_logo.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('main.home') }}">
+            <img src="../static/img/meninas_logo.png" alt="Meninas Digitais brand logo displayed in the top navigation bar" class="nav-logo"/>
+        </a>
+        <h1>Meninas Hub</h1>
+    </nav>
+ 
+    <main>
+        <div class="card">
+            <div class="card-top">
+
+                <div class="card-avatar-wrapper">
+                    <img src="../static/img/meninas_digitais_perfil.png" alt="Foto do usuário"/>
+                </div>
+                <div class="card-fields">
+                    <div class="field">
+                        <label class="field-label" for="Nome">Nome</label>
+                        <div class="field-box" id="nome"></div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="Email">Email</label>
+                        <div class="field-box" id="email"></div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="Registro Academico">Registro Acadêmico</label>
+                        <div class="field-box" id="registro-academico"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-bottom">
+                <div class="field">
+                    <label class="field-label" for="Endereco">Endereço</label>
+                    <div class="field-box field-box--wide" id="endereco"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

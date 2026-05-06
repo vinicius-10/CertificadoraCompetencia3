@@ -1,0 +1,323 @@
+/* ── RESET & BASE ── */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Base: 16px → 1rem = 16px */
+html {
+    font-size: 16px;
+}
+
+/* ── CUSTOM PROPERTIES ── */
+:root {
+    --purple: #56338d;
+    --yellow: #ec9c21;
+    --card-bg: #2C2C2C;
+    --card2-bg: #404040;
+    --input-bg: #d5d5d5;
+    --text-light: #ffffff;
+    --field-light: #f2eadf;
+
+    --nav-height: 6.25rem;   /* 100px */
+    --card-padding: 3rem 6.25rem 2.5rem;
+    --card-radius: 1.125rem;  /* 18px */
+    --input-height: 3.75rem;  /* 60px */
+}
+
+/* ── BODY ── */
+body {
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(180deg, var(--purple) 0%, var(--yellow) 100%);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── NAVBAR ── */
+nav {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 0 1.75rem;
+    height: var(--nav-height);
+    background: var(--card-bg);
+    flex-shrink: 0;
+}
+
+.nav-logo {
+    width: 5.625rem;   /* 90px */
+    height: 5.625rem;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+nav h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 2.96rem;
+    color: #fff;
+    letter-spacing: 0.03rem;
+}
+
+/* ── MAIN ── */
+main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1rem;
+    width: 100%;
+}
+
+/* ── CARD ── */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: var(--card-padding);
+    width: 100%;
+    max-width: 112.5rem; /* 1800px */
+    min-height: 43.75rem;  /* 700px */
+    box-shadow:
+        0 1.5rem 3.75rem rgba(0, 0, 0, 0.45),
+        0 0 0 0.0625rem rgba(255, 255, 255, 0.06);
+    animation: rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+    display: flex;
+    flex-direction: column;
+    padding: 3.75rem;
+    gap: 2rem;
+}
+
+@keyframes rise {
+    from { opacity: 0; transform: translateY(1.75rem) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)       scale(1);    }
+}
+
+/* ── CAIXA DA IMAGEM ── */
+.card-avatar-wrapper {
+    width: 23.25rem;
+    height: 26.25rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--card2-bg);
+    border-radius: 0.625rem;
+    overflow: hidden;
+}
+
+.card-avatar-wrapper img {
+    width: 22rem;
+    height: 25rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+.card-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex: 1;
+    width: 100%;
+}
+
+.card-top {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 4.3125rem;
+}
+
+.card-bottom {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── CARD TITLE ── */
+.card-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 2.5rem;
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 2.25rem;
+    letter-spacing: 0.03rem;
+}
+
+/* ── FIELDS ── */
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.375rem;
+    width: 100%;
+}
+
+.field:last-child {
+    margin-bottom: 0;
+}
+
+.field-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--field-light);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.field-box {
+    width: 100%;
+    height: 3.75rem;
+    background: var(--input-bg);
+    border-radius: 0.625rem;
+}
+
+.field-box--wide{
+    width: 100%;
+    height: 3.75rem;
+    max-width: none;
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ════════════════════════════════════════ */
+
+/* ══════════════════════════════════════
+   MOBILE  (≤ 480px)
+   ══════════════════════════════════════ */
+@media (max-width: 30rem) {
+    :root { --nav-height: 3.5rem; }
+ 
+    nav { padding: 0 1rem; gap: 0.5rem; }
+    .nav-logo { width: 2.5rem; height: 2.5rem; }
+    nav h1 { font-size: 1.2rem; }
+ 
+    main {
+        padding: 1rem 0.75rem;
+        align-items: flex-start;
+        flex: unset;
+    }
+ 
+    .card {
+        width: 100%;
+        max-width: 100%;
+        min-height: unset;
+        padding: 1.25rem;
+        gap: 1rem;
+        border-radius: 0.75rem;
+    }
+ 
+    .card-top {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+ 
+    .card-avatar-wrapper {
+        width: 9rem;
+        height: 10.25rem;
+    }
+    .card-avatar-wrapper img {
+        width: 8rem;
+        height: 9.25rem;
+    }
+ 
+    .field-label { font-size: 1rem; }
+    .field { margin-bottom: 0.75rem; }
+ 
+    /* Todas as caixas com largura igual no mobile */
+    .field-box,
+    .field-box--wide {
+        width: 100%;
+        max-width: 100%;
+        height: 2.5rem;
+    }
+}
+ 
+/* ══════════════════════════════════════
+   TABLET  (481px – 768px)
+   ══════════════════════════════════════ */
+@media (min-width: 30.0625rem) and (max-width: 48rem) {
+    :root { --nav-height: 4.5rem; }
+ 
+    nav { padding: 0 1.25rem; }
+    .nav-logo { width: 3.25rem; height: 3.25rem; }
+    nav h1 { font-size: 1.75rem; }
+ 
+    main { padding: 1.5rem 1rem; align-items: flex-start; flex: unset; }
+ 
+    .card {
+        max-width: 100%;
+        min-height: unset;
+        padding: 2rem;
+        gap: 1.25rem;
+        border-radius: 1rem;
+    }
+ 
+    .card-top {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+ 
+    .card-avatar-wrapper {
+        width: 11rem;
+        height: 12.5rem;
+    }
+    .card-avatar-wrapper img {
+        width: 10rem;
+        height: 11.5rem;
+    }
+ 
+    .field-label { font-size: 1.1rem; }
+    .field { margin-bottom: 1rem; }
+ 
+    .field-box,
+    .field-box--wide {
+        width: 100%;
+        max-width: 100%;
+        height: 2.75rem;
+    }
+}
+ 
+/* ══════════════════════════════════════
+   TV / TELAS GRANDES  (> 1920px)
+   ══════════════════════════════════════ */
+@media (min-width: 120rem) {
+    :root {
+        --nav-height: 5.5rem;
+        --card-radius: 1.5rem;
+    }
+ 
+    nav { padding: 0 2rem; gap: 1rem; }
+    .nav-logo { width: 4rem; height: 4rem; }
+    nav h1 { font-size: 2rem; }
+ 
+    main { padding: 3rem 2rem; }
+ 
+    .card {
+        padding: 4rem;
+        gap: 2.25rem;
+    }
+ 
+    .card-top { gap: 5rem; }
+ 
+    .card-avatar-wrapper {
+        width: 26rem;
+        height: 29.5rem;
+    }
+    .card-avatar-wrapper img {
+        width: 24.5rem;
+        height: 28rem;
+    }
+ 
+    .field-label { font-size: 3.5rem; }
+    .field { margin-bottom: 2.25rem; }
+ 
+    .field-box,
+    .field-box--wide { height: 4.5rem; }
+}

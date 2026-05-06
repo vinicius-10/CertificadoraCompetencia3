@@ -153,6 +153,7 @@ main {
   border: none;
   font-family: 'Poppins', sans-serif;
   width: 100%;
+  text-decoration: none;
 }
 
 .forgot:hover {
