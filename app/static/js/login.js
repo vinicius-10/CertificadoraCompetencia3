@@ -41,15 +41,7 @@ async function login() {
         const data = await response.json();
 
         if (response.ok && data.success) {
-            await Swal.fire({
-                icon: "success",
-                title: "Bem-vindo!",
-                text: data.message || "Login realizado com sucesso.",
-                timer: 1800,
-                showConfirmButton: false,
-            });
-
-            window.location.href = data.redirect || "/dashboard";
+            window.location.href = data.redirect || "/";
 
         } else {
             Swal.fire({
