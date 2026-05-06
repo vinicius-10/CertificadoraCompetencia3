@@ -19,8 +19,8 @@ def ping():
 def login():
     return render_template("login.html")
 
-@main_bp.route("/forgot_password")
-def forgot_password():
+@main_bp.route("/RecuperacaoSenha")
+def RecuperacaoSenha():
     return render_template("RecuperacaoSenha.html")
 
 @main_bp.route("/RedefinirSenha")
@@ -41,3 +41,8 @@ def user_view():
 @perfil_required(UserProfile.ADMIN)
 def admin_view():
     return render_template("paginaADM.html")
+
+
+@main_bp.route("/cadastro")
+def cadastro():
+    return render_template("cadastro.html")
