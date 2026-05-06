@@ -18,7 +18,9 @@
     <header>
         <nav class="main-nav" aria-label="Navegação principal">
             <div class="nav-brand">
-                <img src="{{ url_for('static', filename='img/meninas_logo.png') }}" alt="Logo do projeto Meninas Digitais">
+                <a href="{{ url_for('main.home') }}">
+                    <img src="{{ url_for('static', filename='img/meninas_logo.png') }}" alt="Logo do projeto Meninas Digitais">
+                </a>
                 <span class="brand-name poppins-semibold-48px">Meninas Digitais UTFPR-CP</span>
             </div>
 
