@@ -20,3 +20,7 @@ def login():
 @main_bp.route("/forgot_password")
 def forgot_password():
     return render_template("RecuperacaoSenha.html")
+
+@main_bp.route("/RedefinirSenha")
+def reset_password():
+    return render_template("RedefinicaoSenha.html")

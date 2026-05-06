@@ -37,8 +37,10 @@ def load_user(user_id):
 
 from main_routes import main_bp
 from test_routes import test_bp
+from api_routes import api_bp 
 app.register_blueprint(main_bp)
 app.register_blueprint(test_bp, url_prefix="/test")
+app.register_blueprint(api_bp, url_prefix="/api")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

@@ -2,6 +2,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("login-form").addEventListener("submit", (e) => {
+    console.log("Formulário de login submetido");
     e.preventDefault();
     login();
   });
@@ -30,16 +31,16 @@ async function login() {
     });
 
     try {
-        const response = await fetch("/auth/login", {
+        const response = await fetch("/api/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ usuario, senha }),
         });
-
         const data = await response.json();
-
+        Swal.close();
+        
         if (response.ok && data.success) {
             window.location.href = data.redirect || "/";
 
