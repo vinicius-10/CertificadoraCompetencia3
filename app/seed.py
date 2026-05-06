@@ -1,4 +1,4 @@
-from models import db, User, UserProfile, UserStatus, UserMarital, UserType
+from models import db, User, UserProfile, UserStatus, UserMarital
 
 def seed_data():
     
@@ -15,7 +15,6 @@ def seed_data():
             profession='Teste',
             profile=UserProfile.ADMIN,
             status=UserStatus.ACTIVE,
-            type_user=UserType.OTHER
         )
         
         new_user.set_password("senha")
@@ -34,7 +33,6 @@ def seed_data():
             profession='Teste',
             profile=UserProfile.VOLUNTEER,
             status=UserStatus.ACTIVE,
-            type_user=UserType.OTHER
         )
         
         new_user.set_password("senha")

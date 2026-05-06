@@ -42,7 +42,7 @@ def login():
         if authenticated:
             login_user(user)
            
-            page = "/RecuperacaoSenha" if user.profile == UserProfile.ADMIN else "/RedefinirSenha"
+            page = "/adminView" if user.profile == UserProfile.ADMIN else "/userView"
             print(f"\n\n Login bem-sucedido para {user.profile}, mandando para {page}\n\n",flush=True)
             return jsonify({
                 "success": True,

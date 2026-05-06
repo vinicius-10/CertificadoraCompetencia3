@@ -38,17 +38,12 @@ class UserMarital(enum.Enum):
     STABLE_UNION = "União Estável"     
     
 
-class UserType(enum.Enum):
-    STUDENT = "Estudante"
-    TEACHER = "Professor(a)"
-    OTHER = "Outro(a)"
 # --- Tabelas ---
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    type_user = Column(SAEnum(UserType, values_callable=lambda x: [e.value for e in x]), nullable=False)
     code_institutional = Column(String(20), unique=True, nullable=True)
     password_hash = Column(String(255), nullable=False)
     name = Column(String(150), nullable=False)
