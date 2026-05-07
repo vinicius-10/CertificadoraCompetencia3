@@ -40,29 +40,34 @@ body {
 
 /* ── NAVBAR ── */
 nav {
-  display: flex;
-  align-items: center;
-  gap: 0.875rem;
   padding: 0 1.75rem;
   height: var(--nav-height);
   background: var(--card-bg);
   flex-shrink: 0;
 }
 
+nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  text-decoration: none;
+  color: inherit;
+}
+
 .nav-logo {
-  width: 5.625rem;   /* 90px */
+  width: 5.625rem;
   height: 5.625rem;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
+  margin: 5px 0;
 }
 
 nav h1 {
-  font-family: 'Poppins', sans-serif;
   font-weight: 500;
   font-size: 2.96rem;
-  color: #fff;
   letter-spacing: 0.03rem;
+  color: #fff
 }
 
 /* ── MAIN ── */
