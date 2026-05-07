@@ -28,7 +28,7 @@ def reset_password():
     return render_template("RedefinicaoSenha.html")
 
 @main_bp.route("/userView")
-@perfil_required(UserProfile.VOLUNTEER, UserProfile.ADMIN)
+@perfil_required(UserProfile.VOLUNTEER, UserProfile.ADMIN, UserProfile.COORDINATOR)
 def user_view():
     print(current_user.id,flush=True)
     
@@ -38,7 +38,7 @@ def user_view():
 
 
 @main_bp.route("/adminView")
-@perfil_required(UserProfile.ADMIN)
+@perfil_required(UserProfile.ADMIN, UserProfile.COORDINATOR)
 def admin_view():
     return render_template("paginaADM.html")
 
