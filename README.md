@@ -43,7 +43,7 @@ O sistema tem como finalidade centralizar informações, facilitar a gestão de 
 - Apoiadores externos (professores, IC Júnior, parceiros)
   
 ## 🛠 Tecnologias Utilizadas
-
+- Container: Docker 29.4
 - Backend: Flask 3.1
 - Frontend: HTML 5, CSS, JavaScript
 - Banco de Dados: postgresql 18.3
