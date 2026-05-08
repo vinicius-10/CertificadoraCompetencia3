@@ -3,12 +3,15 @@ from decorators import perfil_required
 from flask import render_template, Blueprint
 from flask_login import login_required, current_user
 from models import UserProfile, db, User, Address
+from datetime import datetime, timedelta, timezone
+
 
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route("/")
 def home():
-    return render_template("landing_page.html")
+    years = (datetime.now(timezone.utc) - timedelta(days=2023*365)).year
+    return render_template("landing_page.html", years=years)
 
 @main_bp.route("/ping")
 def ping():
