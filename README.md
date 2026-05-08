@@ -44,6 +44,7 @@ O sistema tem como finalidade centralizar informações, facilitar a gestão de 
   
 ## 🛠 Tecnologias Utilizadas
 - Container: Docker 29.4
+- Design: Figma
 - Backend: Flask 3.1
 - Frontend: HTML 5, CSS, JavaScript
 - Banco de Dados: postgresql 18.3
