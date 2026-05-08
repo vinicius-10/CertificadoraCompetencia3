@@ -1,6 +1,6 @@
 
-from flask import Blueprint, request, jsonify
-from flask_login import login_user
+from flask import Blueprint, request, jsonify, redirect, url_for
+from flask_login import login_user, logout_user, login_required
 from models import UserProfile, db, User, AccessLog, UserBlock
 
 api_bp = Blueprint('api', __name__)
@@ -59,3 +59,9 @@ def login():
     if not user :               
         AccessLog.register_attempt(username_attempt=username, is_successful=False)
     return jsonify({"success": False, "message": "Usuário ou senha incorretos."}), 401 
+
+@api_bp.route('/logout')
+@login_required
+def logout():
+    logout_user() # Esta função limpa a sessão do usuário
+    return redirect(url_for("main.login"))
