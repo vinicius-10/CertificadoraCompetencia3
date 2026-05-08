@@ -4,7 +4,7 @@
 
 <div align="left">
   <img src="https://img.shields.io/badge/Status-Em_Desenvolvimento-yellow" alt="Status">
-  <img src="https://img.shields.io/badge/Backend-flaks-8CBFD3" alt="Flask">
+  <img src="https://img.shields.io/badge/Backend-flask-8CBFD3" alt="Flask">
   <img src="https://img.shields.io/badge/Infra-Docker-blue" alt="Docker">
   <img src="https://img.shields.io/badge/Linguagem-Python-2b5b84" alt="PHP">
 </div>
@@ -43,7 +43,7 @@ O sistema tem como finalidade centralizar informações, facilitar a gestão de 
 - Apoiadores externos (professores, IC Júnior, parceiros)
   
 ## 🛠 Tecnologias Utilizadas
-
+- Container: Docker 29.4
 - Backend: Flask 3.1
 - Frontend: HTML 5, CSS, JavaScript
 - Banco de Dados: postgresql 18.3
