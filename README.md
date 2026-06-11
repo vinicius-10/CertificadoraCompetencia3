@@ -15,7 +15,6 @@
 - [Objetivo](#-objetivo)
 - [Público-Alvo](#-público-alvo)
 - [Tecnologias Utilizadas](#-tecnologias-utilizadas)
-- [Código](./application)
 - [Documetação](https://github.com/vinicius-10/CertificadoraCompetencia3/wiki)
 
 ---
