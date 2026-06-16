@@ -1,0 +1,458 @@
+/* ── RESET & BASE ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+/* ── CUSTOM PROPERTIES ── */
+:root {
+  --purple:       #56338D;
+  --light-purple: #73328A;
+  --magenta:      #92358F;
+  --pink:         #BB5C6D;
+  --card-bg:      #2C2C2C;
+  --card2-bg:     #404040;
+  --field-light:  #f2eadf;
+  --text-light:   #ffffff;
+  --text-dark:    #2C2C2C;
+  --blue:         #1f7ec4;
+  --red:          #C81E1E;
+  --green:        #2E9E2E;
+
+  --nav-height:   6.25rem;   /* 100px */
+  --card-radius:  1.125rem;  /* 18px */
+}
+
+/* ── BODY ── */
+body {
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(180deg, var(--purple) 0%, var(--light-purple) 30%, var(--magenta) 65%, var(--pink) 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── NAVBAR ── */
+nav {
+  display: flex;
+  padding: 0 1.75rem;
+  height: var(--nav-height);
+  background: var(--card-bg);
+  flex-shrink: 0;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav-logo {
+  width: 5.625rem;
+  height: 5.625rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  margin: 5px 0;
+}
+
+nav h1 {
+  font-weight: 500;
+  font-size: 2.96rem;
+  letter-spacing: 0.03rem;
+  color: var(--text-light);
+}
+
+/* ── BOTÃO SAIR ── */
+.btn-sair {
+  display: inline-block;
+  padding: 0.625rem 1.875rem;
+  color: var(--text-light);
+  background-color: var(--card-bg);
+  text-decoration: none;
+  border: 2px solid var(--text-light);
+  border-radius: 0.9375rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.4375rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-sair:hover {
+  background-color: var(--text-light);
+  color: var(--card-bg);
+}
+
+/* ── MAIN (LAYOUT EM DUAS COLUNAS) ── */
+main {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 2.5rem;
+  padding: 2.5rem 2.25rem;
+  width: 100%;
+  animation: rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(1.75rem) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)       scale(1);    }
+}
+
+/* ── COLUNA LATERAL (PERFIL + RELATÓRIO) ── */
+.sidebar {
+  width: 22rem;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-height: 48rem;
+}
+
+.profile-avatar {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: var(--card2-bg);
+  border-radius: 0.875rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── CAMPOS DO PERFIL ── */
+.sidebar .field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.field-label {
+  color: var(--text-light);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.sidebar input {
+  width: 100%;
+  height: 3.25rem;
+  background: var(--field-light);
+  border: none;
+  border-radius: 0.625rem;
+  padding: 0 1rem;
+  font-size: 1.15rem;
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-dark);
+  outline: none;
+  transition: box-shadow 0.2s;
+}
+
+.sidebar input:focus {
+  box-shadow: 0 0 0 0.2rem var(--purple);
+}
+
+/* ── BOTÃO EDITAR (PERFIL) ── */
+.btn-editar-perfil {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  padding: 0.625rem 2.5rem;
+  color: var(--text-light);
+  background-color: var(--card-bg);
+  border: 2px solid var(--text-light);
+  border-radius: 0.9375rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.4375rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-editar-perfil:hover {
+  background-color: var(--text-light);
+  color: var(--card-bg);
+}
+
+/* ── PAINEL GERAR RELATÓRIO ── */
+.report-panel {
+  margin-top: auto;
+  background: var(--card-bg);
+  border: 2px solid var(--text-light);
+  border-radius: 0.875rem;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.report-title {
+  color: var(--text-light);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.report-buttons {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.btn-report {
+  padding: 0.5rem 1.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  color: var(--text-light);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.btn-report:hover  { opacity: 0.88; }
+.btn-report:active { transform: scale(0.97); }
+
+.btn-report--pdf { background-color: var(--red); }
+.btn-report--csv { background-color: var(--green); }
+
+/* ── TABELA DE VOLUNTÁRIOS ── */
+.table-card {
+  flex: 1;
+  background: var(--field-light);
+  border-radius: var(--card-radius);
+  min-height: 48rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow:
+    0 1.5rem 3.75rem rgba(0, 0, 0, 0.45),
+    0 0 0 0.0625rem rgba(255, 255, 255, 0.06);
+}
+
+/* Grid compartilhado entre cabeçalho e linhas */
+.table-header,
+.table-row {
+  display: grid;
+  grid-template-columns: 2.4fr 1fr 1fr 0.9fr 0.9fr 1fr 7rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.125rem 1.75rem;
+}
+
+.table-header {
+  background: var(--card-bg);
+  color: var(--text-light);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.table-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.table-row {
+  color: var(--text-dark);
+  font-size: 1.0625rem;
+  font-weight: 600;
+}
+
+.table-row + .table-row {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.table-row .col-nome {
+  font-weight: 700;
+}
+
+/* Colunas centralizadas (exceto o nome) */
+.table-header span:not(:first-child),
+.table-row > :not(.col-nome):not(.btn-editar-linha) {
+  text-align: center;
+}
+
+/* ── BOTÃO EDITAR (LINHA DA TABELA) ── */
+.btn-editar-linha {
+  justify-self: center;
+  padding: 0.45rem 1.4rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: var(--blue);
+  color: var(--text-light);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.125rem;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.btn-editar-linha:hover  { opacity: 0.9; }
+.btn-editar-linha:active { transform: scale(0.97); }
+
+/* ── BARRA DE FILTROS (RODAPÉ DA TABELA) ── */
+.table-filters {
+  background: var(--card-bg);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 14rem;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  background: var(--field-light);
+  border-radius: 0.5rem;
+  padding: 0 0.875rem;
+}
+
+.search-box svg {
+  flex-shrink: 0;
+  color: var(--card-bg);
+}
+
+.search-box input {
+  flex: 1;
+  height: 2.5rem;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  color: var(--text-dark);
+}
+
+.filter-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-light);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.filter-check input {
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  accent-color: var(--field-light);
+}
+
+.filter-select {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-light);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.filter-select select {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--text-light);
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding-right: 0.25rem;
+}
+
+.filter-select select option {
+  color: var(--text-dark);
+}
+
+.filter-caret {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+  fill: var(--text-light);
+}
+
+/* ── RESPONSIVIDADE ── */
+@media (max-width: 1200px) {
+  main {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-height: unset;
+  }
+
+  .profile-avatar {
+    max-width: 18rem;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+  }
+
+  .report-panel {
+    margin-top: 1rem;
+  }
+
+  .table-card {
+    min-height: 32rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  html { font-size: 14px; }
+
+  :root { --nav-height: 4rem; }
+
+  nav { padding: 0 1.25rem; }
+
+  .nav-logo { width: 3rem; height: 3rem; }
+
+  nav h1 { font-size: 1.5rem; }
+
+  .btn-sair {
+    padding: 0.4rem 1.25rem;
+    font-size: 1.1rem;
+    border-radius: 0.5rem;
+  }
+}
+
+/* Em telas estreitas a tabela rola horizontalmente para não esmagar colunas */
+@media (max-width: 720px) {
+  .table-header,
+  .table-row {
+    grid-template-columns: 12rem 8rem 8rem 7rem 7rem 8rem 7rem;
+  }
+
+  .table-card {
+    overflow-x: auto;
+  }
+
+  .table-header,
+  .table-body,
+  .table-filters {
+    min-width: 57rem;
+  }
+}
