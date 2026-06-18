@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meninas Hub - Cadastro</title>
-    <!--<link rel="stylesheet" href="../static/css/cadastro.css">-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
+    <link rel="stylesheet" href="../static/css/cadastro.css">
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">-->
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/meninas_logo.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
@@ -51,7 +51,15 @@
 
                     <div class="field">
                         <label class="field-label" for="Estado Civil">Estado Civil</label>
-                        <input type="text" id="Estado Civil" autocomplete="family-name"/>
+                        <div class="field-input-wrapper custom-select">
+                            <select id="Estado Civil">
+                                <option value="">Selecione...</option>
+                                <option value="Solteiro">Solteiro</option>
+                                <option value="Casado">Casado</option>
+                                <option value="Divorciado">Divorciado</option>
+                                <option value="Viúvo">Viúvo</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -104,6 +112,56 @@
                 <div class="field">
                     <label class="field-label" for="complemento">Complemento</label>
                     <input type="text" id="complemento" autocomplete="address-line2" />
+                </div>
+
+                <div class="field">
+                    <label class="field-label" for="setor">Setor</label>
+                    <div class="field-input-wrapper custom-select">
+                        <select id="setor">
+                            <option value="">Selecione...</option>
+                            <option value="xxx">XXX</option>
+                            <option value="yyy">YYY</option>
+                            <option value="www">WWW</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="field-label" for="tipoUsuario">Tipo de Usuário</label>
+                    <div class="field-input-wrapper custom-select">
+                        <select id="tipoUsuario">
+                            <option value="">Selecione...</option>
+                            <option value="xxx">XXX</option>
+                            <option value="yyy">YYY</option>
+                            <option value="www">WWW</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="field-label" for="status">Status</label>
+                    <div class="field-input-wrapper custom-select">
+                        <select id="status">
+                            <option value="">Selecione...</option>
+                            <option value="xxx">XXX</option>
+                            <option value="yyy">YYY</option>
+                            <option value="www">WWW</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="field-label" for="dataEntrada">Data de Entrada</label>
+                    <div class="field-input-wrapper custom-date">
+                        <input type="date" id="dataEntrada" />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="field-label" for="dataSaida">Data de Saída</label>
+                    <div class="field-input-wrapper custom-date">
+                        <input type="date" id="dataSaida" />
+                    </div>
                 </div>
 
                 <button class="btn-cadastrar" type="button">Cadastrar</button>
