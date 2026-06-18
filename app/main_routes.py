@@ -1,8 +1,8 @@
 
-from decorators import perfil_required
+from app.decorators import perfil_required
 from flask import render_template, Blueprint
 from flask_login import login_required, current_user
-from models import UserProfile, db, User, Address
+from app.models import UserProfile, db, User, Address
 from datetime import datetime, timedelta, timezone
 
 
@@ -31,7 +31,7 @@ def reset_password():
     return render_template("RedefinicaoSenha.html")
 
 @main_bp.route("/userView")
-@perfil_required(UserProfile.VOLUNTEER, UserProfile.ADMIN, UserProfile.COORDINATOR)
+@login_required
 def user_view():
     print(current_user.id,flush=True)
     

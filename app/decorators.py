@@ -1,7 +1,7 @@
 from flask import redirect, url_for
 from flask_login import login_required, current_user
 from functools import wraps
-from models import UserProfile
+from app.models import UserProfile
 
 def perfil_required(*perfis):
     def decorator(f):

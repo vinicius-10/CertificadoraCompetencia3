@@ -1,7 +1,7 @@
-from models import db, User, UserProfile, UserStatus, UserMarital
+from app.models import db, User, UserProfile, UserStatus, UserMarital
 
 def seed_data():
-    
+    print("Iniciando inserção de dados de semente (seed)...")
     if not User.query.first():
         
         new_user = User(

@@ -4,7 +4,7 @@ from flask import render_template
 from flask_migrate import Migrate
 from seed import seed_data
 from flask_login import LoginManager
-from models import db, User
+from app.models import db, User
 import os
 from datetime import timedelta
 
@@ -28,7 +28,7 @@ migrate = Migrate(app, db)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'main.login'
+login_manager.login_view = 'main.cadastro'
 
 @login_manager.user_loader
 def load_user(user_id):

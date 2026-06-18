@@ -14,13 +14,17 @@ async function login() {
 
     if (!usuario || !senha) {
         Swal.fire({
-        icon: "warning",
-        title: "Campos obrigatórios",
-        text: "Preencha o usuário e a senha antes de continuar.",
-        confirmButtonText: "Ok",
+            icon: "warning",
+            title: "Campos obrigatórios",
+            text: "Preencha o usuário e a senha antes de continuar.",
+            confirmButtonText: "Ok",
         });
         return;
     }
+
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const nextUrl = urlParams.get("next");
 
     Swal.fire({
         title: "Entrando...",
@@ -35,15 +39,21 @@ async function login() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest" 
             },
-            body: JSON.stringify({ usuario, senha }),
+            body: JSON.stringify({ 
+                usuario, 
+                senha,
+                next_url: nextUrl 
+            }),
         });
+        
         const data = await response.json();
         Swal.close();
         
         if (response.ok && data.success) {
-            window.location.href = data.redirect || "/";
-
+            
+            window.location.href = data.redirect;
         } else {
             Swal.fire({
                 icon: "error",
@@ -55,10 +65,10 @@ async function login() {
 
     } catch (err) {
         Swal.fire({
-        icon: "error",
-        title: "Erro de conexão",
-        text: "Não foi possível conectar ao servidor. Tente novamente.",
-        confirmButtonText: "Ok",
+            icon: "error",
+            title: "Erro de conexão",
+            text: "Não foi possível conectar ao servidor. Tente novamente.",
+            confirmButtonText: "Ok",
         });
         console.error("Erro na requisição de login:", err);
     }
