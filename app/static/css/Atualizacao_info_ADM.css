@@ -1,0 +1,285 @@
+/* ── RESET & BASE ── */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+}
+
+/* ── CUSTOM PROPERTIES ── */
+:root {
+    --purple: #56338D;
+    --magenta: #92358F;
+    --card-bg: #2C2C2C;
+    --input-bg: #EAE0D5;
+    --text-light: #ffffff;
+    --field-light: #ffffff;
+
+    --nav-height: 6.25rem; 
+    --card-padding: 3rem 9.375rem 2.5rem;
+    --card-radius: 1.125rem;
+    --input-height: 3.75rem;
+}
+
+/* ── BODY & NAVBAR ── */
+body {
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(180deg, var(--purple) 0%, var(--magenta) 100%);
+    display: flex;
+    flex-direction: column;
+}
+
+nav {
+    padding: 0 1.75rem;
+    height: var(--nav-height);
+    background: var(--card-bg);
+    flex-shrink: 0;
+}
+
+nav a {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.nav-logo {
+    width: 5.625rem;
+    height: 5.625rem;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    margin: 5px 0;
+}
+
+nav h1 {
+    font-weight: 500;
+    font-size: 2.96rem;
+    letter-spacing: 0.03rem;
+    color: #fff
+}
+
+/* ── MAIN & CARD ── */
+main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1rem;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: var(--card-padding);
+    width: 100%;
+    max-width: 62.5rem;
+    min-height: 33.125rem;
+    box-shadow:
+        0 1.5rem 3.75rem rgba(0, 0, 0, 0.45),
+        0 0 0 0.0625rem rgba(255, 255, 255, 0.06);
+    animation: rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes rise {
+    from { opacity: 0; transform: translateY(1.75rem) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)       scale(1);    }
+}
+
+.card-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 3rem;
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 2.25rem;
+    letter-spacing: 0.03rem;
+}
+
+/* ── FIELDS & INPUTS ── */
+.field {
+    margin-bottom: 1.375rem;
+}
+
+.field-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--field-light);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.field-row {
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.field-row .field {
+    margin-bottom: 0;
+    flex: 1;
+}
+
+/* Estilo geral para todos os inputs e selects */
+.field input, .field select {
+    width: 100%;
+    height: var(--input-height);
+    background: var(--input-bg);
+    border: none;
+    border-radius: 0.625rem;
+    padding: 0 1rem;
+    font-size: 1.15rem;
+    font-family: 'Poppins', sans-serif;
+    color: #222;
+    outline: none;
+    transition: box-shadow 0.2s;
+    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.field input:focus, .field select:focus {
+    box-shadow: 0 0 0 0.25rem var(--purple);
+}
+
+/* ── WRAPPERS PARA ÍCONES CUSTOMIZADOS ── */
+.field-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* Setinha customizada do Select */
+.custom-select::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 1.2rem;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 10px solid #333;
+    pointer-events: none;
+}
+
+/* Calendário customizado da Data */
+.custom-date input[type="date"] {
+    padding-right: 3rem;
+}
+
+/* Substitui o ícone padrão por outro via ::after */
+.custom-date::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    width: 1.5rem;
+    height: 1.5rem;
+    /* Ícone de calendário SVG codificado */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23333' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: none;
+}
+
+/* Transforma o indicador padrão do Chrome num botão invisível gigante que cobre nosso ícone customizado */
+.custom-date input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 3rem;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* ── BOTÕES ── */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+.btn-cadastrar, .btn-excluir {
+    width: 8.75rem;
+    height: 2.5rem;
+    background-color: #ffffff;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s, background-color 0.2s, color 0.2s;
+}
+
+.btn-cadastrar {
+    border: 3px solid var(--magenta);
+    color: #222222;
+}
+
+.btn-excluir {
+    border: 3px solid #e53935;
+    color: #e53935;
+}
+
+.btn-excluir:hover {
+    background-color: #e53935;
+    color: #ffffff;
+}
+
+.btn-cadastrar:hover {
+    opacity: 0.9;
+}
+
+.btn-cadastrar:active, .btn-excluir:active {
+    transform: scale(0.97);
+}
+
+/* ── RESPONSIVO ── */
+@media (max-width: 768px) {
+    html {
+        font-size: 15px;
+    }
+    :root {
+        --nav-height:   3.2rem;
+        --card-padding: 2rem 1.5rem 1.75rem;
+    }
+    nav {
+        padding: 0 1rem;
+        gap: 0.625rem;
+    }
+    .nav-logo {
+        width: 2.4rem;
+        height: 2.4rem;
+    }
+    nav h1 {
+        font-size: 1.15rem;
+    }
+    .card {
+        max-width: 100%;
+        border-radius: 0.875rem;
+    }
+    .card-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.75rem;
+    }
+    main {
+        padding: 1.5rem 0.75rem;
+        padding-top: 2.5rem;
+    }
+}
