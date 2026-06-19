@@ -1,5 +1,5 @@
 from app.models.db_instance import db
-from app.models.enums import UserProfile, UserStatus, UserMarital
+from app.models.enums import UserProfile, UserStatus, UserMarital, UserSector, UserPosition
 
 from argon2 import PasswordHasher
 from sqlalchemy import Enum as SAEnum
@@ -28,10 +28,14 @@ class User(db.Model, UserMixin):
     nationality = Column(String(50), nullable=False)
     marital = Column(SAEnum(UserMarital, values_callable=lambda x: [e.value for e in x]), nullable=True)
     profession = Column(String(100), nullable=True)
+    sector = Column(SAEnum(UserSector, values_callable=lambda x: [e.value for e in x]), nullable=True)
+    position = Column(SAEnum(UserPosition, values_callable=lambda x: [e.value for e in x]), nullable=True)
     profile = Column(SAEnum(UserProfile, values_callable=lambda x: [e.value for e in x]), nullable=False)
     status = Column(SAEnum(UserStatus, values_callable=lambda x: [e.value for e in x]), nullable=False)
-    created_at = Column(DateTime, default=datetime.now(timezone.utc), nullable=False)
-    update_at = Column(DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc), nullable=False)
+    entry_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+    departure_at = Column(DateTime(timezone=True), nullable=True)
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+    update_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc), nullable=False)
 
     # Relacionamentos
     address = relationship("Address", back_populates="user", uselist=False)

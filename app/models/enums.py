@@ -4,7 +4,7 @@ from enum import Enum
 
 class UserProfile(Enum):
     COORDINATOR  = "Coordenador(a)"
-    ADMIN  = "Admin"
+    SCHOLARSHIP  = "Bolsista"
     VOLUNTEER  = "Voluntário(a)"
 
 class UserStatus(Enum):
@@ -19,3 +19,13 @@ class UserMarital(Enum):
     WIDOWED  = "Viúvo(a)"
     STABLE_UNION = "União Estável"     
     
+class UserSector(Enum):
+    MARKETING = "Marketing"
+    RH = "Recursos Humanos"
+    CONTENT = "Conteúdo"
+    INSTRUCTORS = "Instrutor"
+    
+class UserPosition(Enum):
+    STUDANT_COORDINATOR = "Coordenador(a) estudantil"
+    REPRESENTATIVE = "Representante do setor"
+    VOLUNTEER = "Voluntário(a)"

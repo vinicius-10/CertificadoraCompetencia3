@@ -41,7 +41,7 @@ def user_view():
 
 
 @main_bp.route("/adminView")
-@perfil_required(UserProfile.ADMIN, UserProfile.COORDINATOR)
+@perfil_required(UserProfile.SCHOLARSHIP, UserProfile.COORDINATOR)
 def admin_view():
     return render_template("paginaADM.html")
 

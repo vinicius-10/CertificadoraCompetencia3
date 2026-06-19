@@ -13,7 +13,7 @@ from app.models.status_history import StatusHistory
 from app.models.access_log import AccessLog
 from app.models.password_recovery import PasswordRecoveryToken
 from app.models.user_block import UserBlock
-from app.models.enums import UserProfile, UserStatus, UserMarital
+from app.models.enums import UserProfile, UserStatus, UserMarital, UserSector, UserPosition
 
 # 2. Exponha todos eles para o resto do app
 __all__ = [
@@ -26,5 +26,7 @@ __all__ = [
     'UserBlock',
     'UserProfile',
     'UserStatus',
-    'UserMarital'
+    'UserMarital',
+    'UserSector',
+    'UserPosition'
 ]

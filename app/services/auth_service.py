@@ -29,7 +29,7 @@ def authenticate_user(username, password, next_page):
             if next_page and urlsplit(next_page).netloc == '' and not next_page.startswith('//'):
                 page = next_page
             else:
-                page = "/adminView" if user.profile == UserProfile.ADMIN else "/userView"
+                page = "/adminView" if user.profile == UserProfile.SCHOLARSHIP else "/userView"
                 
             return {"success": True, "redirect": page}, 200
         
