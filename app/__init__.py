@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from app.models import db, User
 from app.seed import seed_data
-
+from app.config import Config
 
 migrate = Migrate()
 login_manager = LoginManager()
@@ -13,7 +13,7 @@ login_manager = LoginManager()
 def create_app():
     app = Flask(__name__)
 
-    _configure_app(app)
+    app.config.from_object(Config)
 
     db.init_app(app)
     migrate.init_app(app, db)
@@ -28,17 +28,6 @@ def create_app():
         seed_data()
 
     return app
-
-def _configure_app(app):
-    env = os.environ
-    app.config['SQLALCHEMY_DATABASE_URI'] = env.get('DATABASE_URL')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = env.get('SECRET_KEY')
-    app.config['SESSION_COOKIE_DURATION'] = timedelta(hours=8)
-    app.config['SESSION_COOKIE_LIFETIME'] = timedelta(hours=8)
-    app.config['SESSION_COOKIE_HTTPONLY'] = True
-    app.config['SESSION_COOKIE_SECURE'] = False if (env.get('FLASK_ENV') == 'development') else True
-    app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
 def _configure_login_manager(app):
     login_manager.login_view = 'main.login'

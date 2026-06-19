@@ -3,8 +3,9 @@ import uuid
 from sqlalchemy import Column, String, Integer, DateTime, Boolean, ForeignKey, Enum, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
-
+from flask import current_app
 from app.models.db_instance import db
+
 
 class AccessLog(db.Model):
     __tablename__ = 'access_logs'
@@ -35,12 +36,12 @@ class AccessLog(db.Model):
         return log
     
     @classmethod
-    def count_access_attempts(cls, username, within_minutes=15):
+    def count_access_attempts(cls, user):
+        minutes=current_app.config.get('WITHIN_MINUTES')
         try:
-            time_threshold = datetime.now(timezone.utc) - timedelta(minutes=within_minutes)
-            print(f"\n\n verificando tentativas para {username} desde {time_threshold}\n\n",flush=True)
+            time_threshold = datetime.now(timezone.utc) - timedelta(minutes=minutes)
             return cls.query.filter(
-                cls.attempted__user == username,
+                cls.attempted__user == user.cpf,
                 cls.accessed_at >= time_threshold,
                 cls.is_successful == False
             ).count()
