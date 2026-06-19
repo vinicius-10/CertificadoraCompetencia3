@@ -14,4 +14,4 @@ class StatusHistory(db.Model):
     changed_by_user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=False)
     previous_status = Column(Enum(UserStatus), nullable=False)
     new_status = Column(Enum(UserStatus), nullable=False)
-    created_at = Column(DateTime, default=datetime.now(timezone.utc), nullable=False)
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)

@@ -13,7 +13,7 @@ class AccessLog(db.Model):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=True)
     attempted__user = Column(String(255), nullable=False)
-    accessed_at = Column(DateTime, default=datetime.now(timezone.utc), nullable=False)
+    accessed_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
     is_successful = Column(Boolean, nullable=False)
 
     user = relationship("User", back_populates="logs")
