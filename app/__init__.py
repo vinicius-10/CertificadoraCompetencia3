@@ -49,10 +49,13 @@ def _configure_login_manager(app):
 
 def _register_blueprints(app):
     
-    from app.main_routes import main_bp
-    from app.test_routes import test_bp
-    from app.api_routes import api_bp
+    from app.routes.main_routes import main_bp
+    from app.routes.api_routes import api_bp
 
     app.register_blueprint(main_bp)
-    app.register_blueprint(test_bp, url_prefix="/test")
     app.register_blueprint(api_bp, url_prefix="/api")
+    
+    
+    if app.config.get('ENV') == 'development' or os.environ.get('FLASK_ENV') == 'development':
+        from app.routes.test_routes import test_bp
+        app.register_blueprint(test_bp, url_prefix="/test")
