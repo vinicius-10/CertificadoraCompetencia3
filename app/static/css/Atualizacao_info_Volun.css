@@ -204,15 +204,7 @@ main {
 }
 
 /* ── BOTÕES ── */
-.form-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1.5rem;
-    width: 100%;
-}
-
-.btn-atualizar, .btn-excluir {
+.btn-atualizar {
     width: 8.75rem;
     height: 2.5rem;
     background-color: #ffffff;
@@ -222,31 +214,19 @@ main {
     font-size: 1.15rem;
     display: flex;
     align-items: center;
+    margin-left: auto;
     justify-content: center;
     cursor: pointer;
     transition: transform 0.2s, opacity 0.2s, background-color 0.2s, color 0.2s;
-}
-
-.btn-atualizar {
     border: 3px solid var(--magenta);
     color: #222222;
-}
-
-.btn-excluir {
-    border: 3px solid #e53935;
-    color: #e53935;
-}
-
-.btn-excluir:hover {
-    background-color: #e53935;
-    color: #ffffff;
 }
 
 .btn-atualizar:hover {
     opacity: 0.9;
 }
 
-.btn-atualizar:active, .btn-excluir:active {
+.btn-atualizar:active{
     transform: scale(0.97);
 }
 
