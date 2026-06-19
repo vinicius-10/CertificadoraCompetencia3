@@ -1,5 +1,9 @@
 # app/models/__init__.py
 
+#docker-compose exec web flask db migrate -m "descricao"
+#docker-compose exec web flask db upgrade
+
+
 from app.models.db_instance import db
 
 # 1. Importe ABSOLUTAMENTE TODOS os seus modelos aqui

@@ -15,8 +15,9 @@ def authenticate_user(username, password, next_page):
         #Chama a lógica que verifica se o usuário está bloqueado
         minutes_block = UserBlock.get_block_by_user(user)
         if minutes_block:
+            print(f"\n\nUsuário bloqado por tempo\n", flush=True)
             return {"success": False, "message": f"Usuário bloqueado. Tente novamente em {minutes_block} minutos."}, 403
-        
+        print(f"\n\nMinutos bloqueados: {minutes_block}\n", flush=True)
         # 2. Tenta autenticar
         authenticated = user.check_password(password)
         AccessLog.register_attempt(user=user, username_attempt=username, is_successful=authenticated)
@@ -36,7 +37,7 @@ def authenticate_user(username, password, next_page):
             # 3. Trata erro de senha e possível bloqueio
             attempts = AccessLog.count_access_attempts(user=user)
             if attempts >= MAX_LOGIN_ATTEMPTS:
-                UserBlock.block_user(user=user, block_duration_minutes=MINUTES_BLOCKED)
+                UserBlock.block_user(user=user)
                 return {"success": False, "message": f"Usuário bloqueado devido a múltiplas tentativas. Tente novamente em {MINUTES_BLOCKED} minutos."}, 403
     else:
         # Registro de tentativa para usuário inexistente
