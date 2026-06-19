@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meninas Hub - Atualização de Informações ADM</title>
+    <link rel="stylesheet" href="../static/css/Atualizacao_info_ADM.css">
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/Atualizacao_info_ADM.css') }}">-->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/meninas_logo.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('main.home') }}">
+            <img src="../static/img/meninas_logo.png" alt="Meninas Digitais brand logo displayed in the top navigation bar" class="nav-logo"/>
+            <h1>Meninas Hub</h1>
+        </a>
+  </nav>
+ 
+    <main>
+        <div class="card">
+            <p class="card-title">Atualização de Informações</p>
+            <form id="cadastro-form">
+                <div class="field">
+                    <label class="field-label" for="Nome">Nome</label>
+                    <input type="text" id="Nome" autocomplete="name" />
+                </div>
+    
+                <div class="field">
+                    <label class="field-label" for="Email">Email</label>
+                    <input type="email" id="Email" autocomplete="email" />
+                </div>
+    
+                <div class="field-row">
+                    <div class="field">
+                        <label class="field-label" for="CPF">CPF</label>
+                        <input type="text" id="CPF" autocomplete="cpf"/>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="RG">RG</label>
+                        <input type="text" id="RG" autocomplete="rg"/>
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label class="field-label" for="Profissao">Profissão</label>
+                        <input type="text" id="Profissao" autocomplete="job-title"/>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="Estado Civil">Estado Civil</label>
+                        <div class="field-input-wrapper custom-select">
+                            <select id="Estado Civil">
+                                <option value="">Selecione...</option>
+                                <option value="Solteiro">Solteiro</option>
+                                <option value="Casado">Casado</option>
+                                <option value="Divorciado">Divorciado</option>
+                                <option value="Viúvo">Viúvo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="field-label" for="Nacionalidade">Nacionalidade</label>
+                    <input type="text" id="Nacionalidade" autocomplete="country" />
+                </div>
+
+                <div class="field">
+                    <label class="field-label" for="Logradouro">Logradouro</label>
+                    <input type="text" id="Logradouro" autocomplete="street-address" />
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label class="field-label" for="Bairro">Bairro</label>
+                        <input type="text" id="Bairro" autocomplete="neighborhood"/>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="CEP">CEP</label>
+                        <input type="text" id="CEP" autocomplete="postal-code"/>
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label class="field-label" for="Numero">Número</label>
+                        <input type="text" id="Numero" autocomplete="address-line1"/>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="Cidade">Cidade</label>
+                        <input type="text" id="Cidade" autocomplete="address-level2"/>
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label class="field-label" for="Estado">Estado</label>
+                        <input type="text" id="Estado" autocomplete="address-level1"/>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="Pais">País</label>
+                        <input type="text" id="Pais" autocomplete="country"/>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="field-label" for="complemento">Complemento</label>
+                    <input type="text" id="complemento" autocomplete="address-line2" />
+                </div>
+
+                <div class="field">
+                    <label class="field-label" for="setor">Setor</label>
+                    <div class="field-input-wrapper custom-select">
+                        <select id="setor">
+                            <option value="">Selecione...</option>
+                            <option value="xxx">XXX</option>
+                            <option value="yyy">YYY</option>
+                            <option value="www">WWW</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="field-label" for="tipoUsuario">Tipo de Usuário</label>
+                    <div class="field-input-wrapper custom-select">
+                        <select id="tipoUsuario">
+                            <option value="">Selecione...</option>
+                            <option value="xxx">XXX</option>
+                            <option value="yyy">YYY</option>
+                            <option value="www">WWW</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="field-label" for="status">Status</label>
+                    <div class="field-input-wrapper custom-select">
+                        <select id="status">
+                            <option value="">Selecione...</option>
+                            <option value="xxx">XXX</option>
+                            <option value="yyy">YYY</option>
+                            <option value="www">WWW</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="field-label" for="dataEntrada">Data de Entrada</label>
+                    <div class="field-input-wrapper custom-date">
+                        <input type="date" id="dataEntrada" />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="field-label" for="dataSaida">Data de Saída</label>
+                    <div class="field-input-wrapper custom-date">
+                        <input type="date" id="dataSaida" />
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn-excluir" type="button">Excluir</button>
+                    <button class="btn-atualizar" type="button">Atualizar</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
