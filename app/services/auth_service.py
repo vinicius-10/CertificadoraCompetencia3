@@ -3,11 +3,11 @@ from flask_login import login_user
 from urllib.parse import urlsplit
 from flask import current_app
 
-MAX_LOGIN_ATTEMPTS = current_app.config.get('MAX_LOGIN_ATTEMPTS')
-WITHIN_MINUTES = current_app.config.get('WITHIN_MINUTES')
-MINUTES_BLOCKED = current_app.config.get('MINUTES_BLOCKED')
 
 def authenticate_user(username, password, next_page):
+    MAX_LOGIN_ATTEMPTS = current_app.config['MAX_LOGIN_ATTEMPTS']
+    MINUTES_BLOCKED = current_app.config['MINUTES_BLOCKED']
+
     #obetm dados do usuário com base no cpf (username) (o retorno padrão é uma lista de objetos, como quero só um, uso o first())
     user = User.query.filter(User.cpf == username).first()
     

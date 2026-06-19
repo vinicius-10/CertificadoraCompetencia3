@@ -37,7 +37,7 @@ class AccessLog(db.Model):
     
     @classmethod
     def count_access_attempts(cls, user):
-        minutes=current_app.config.get('WITHIN_MINUTES')
+        minutes=current_app.config['WITHIN_MINUTES']
         try:
             time_threshold = datetime.now(timezone.utc) - timedelta(minutes=minutes)
             return cls.query.filter(

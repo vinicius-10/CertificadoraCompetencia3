@@ -39,7 +39,7 @@ def _configure_login_manager(app):
 def _register_blueprints(app):
     
     from app.routes.main_routes import main_bp
-    from app.routes.api_routes import api_bp
+    from app.routes.api import api_bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(api_bp, url_prefix="/api")

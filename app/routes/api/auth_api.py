@@ -3,10 +3,9 @@ from flask import Blueprint, request, jsonify, redirect, url_for
 from flask_login import logout_user, login_required
 from app.services.auth_service import authenticate_user
 
-api_bp = Blueprint('api', __name__)
+auth_api_bp = Blueprint('auth_api', __name__)
 
-#declaração da rota de login e o metodo que os dados são recebidos
-@api_bp.route("/login", methods=['POST'])
+@auth_api_bp.route("/login", methods=['POST'])
 def login():
     #obtenção dos dados da requisição
     data = request.get_json(silent=True)
@@ -28,7 +27,8 @@ def login():
     #retorno da resposta para o frontend
     return jsonify(result), status_code
 
-@api_bp.route('/logout')
+
+@auth_api_bp.route('/logout')
 @login_required
 def logout():
     logout_user()
