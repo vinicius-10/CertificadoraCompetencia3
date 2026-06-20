@@ -81,23 +81,31 @@ select {
 
 .nav-brand {
   min-width: 0;
+  gap: 15px;
+}
+
+.nav-brand a {
+  display: inline-flex;
+  flex-shrink: 0;
 }
 
 .nav-brand img {
   width: 70px;
   height: 70px;
   border-radius: 50%;
+  object-fit: cover;
   flex-shrink: 0;
 }
 
 .brand-name {
-  margin-left: 15px;
   color: var(--color-light);
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .nav-links {
   list-style: none;
-  gap: 175px;
+  gap: clamp(1.5rem, 7vw, 175px);
 }
 
 .nav-links a {
@@ -285,6 +293,7 @@ select {
 #pilares {
   min-height: 51rem;
   padding-left: 3rem;
+  padding-right: 3rem;
   background-color: var(--bg-pillars);
 }
 
@@ -319,41 +328,30 @@ select {
   text-align: justify;
 }
 
+/* Os cinco valores ficam numa grade única (3 → 2 → 1 colunas). Todos os
+   cards têm a mesma largura, então seus textos se alinham na vertical em
+   qualquer largura de tela — e nada transborda/é cortado. */
 #card-valores {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  margin-left: -3rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 2.5rem 2rem;
+  width: min(100%, 66rem);
+  margin: 1rem auto 0;
   padding-top: 1rem;
 }
 
-.card-row {
-  display: flex;
-  align-items: center;
-}
-
-#card-row1 {
-  justify-content: space-evenly;
-}
-
+/* As linhas viram contêineres "transparentes" para que todos os cards
+   participem da mesma grade de #card-valores. */
+#card-row1,
 #card-row2 {
-  justify-content: center;
-  gap: 3rem;
+  display: contents;
 }
 
 .value-card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  height: 7.3rem;
-}
-
-.card1 {
-  width: 20.8rem;
-}
-
-.card2 {
-  width: 25rem;
+  justify-content: flex-start;
 }
 
 .value-card__header {
@@ -376,15 +374,8 @@ select {
   font-size: 1rem;
   font-weight: 300;
   text-align: justify;
+  margin-top: 0.3rem;
   margin-left: 2.05rem;
-}
-
-.card1 p {
-  width: 18rem;
-}
-
-.card2 p {
-  width: 20rem;
 }
 
 .value-card--wide {
@@ -634,11 +625,9 @@ select {
   line-height: 1.5;
 }
 
-@media (max-width: 1200px) {
-  html {
-    font-size: 20px;
-  }
-
+/* Cabeçalho empilha mais cedo que o conteúdo: o brand em 48px não cabe
+   na mesma linha que os links + botão acima disso, causando sobreposição. */
+@media (max-width: 1600px) {
   .main-nav {
     flex-wrap: wrap;
     justify-content: center;
@@ -651,7 +640,20 @@ select {
     order: 3;
     justify-content: center;
     width: 100%;
-    gap: 4rem;
+    gap: clamp(2rem, 6vw, 4rem);
+  }
+}
+
+/* Abaixo disso três colunas ficariam estreitas demais → cai para duas. */
+@media (max-width: 1350px) {
+  #card-valores {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1200px) {
+  html {
+    font-size: 20px;
   }
 
   #hero h1 {
@@ -680,24 +682,12 @@ select {
   }
 
   #pilares {
-    padding-right: 3rem;
     padding-bottom: 3rem;
   }
 
   .pillar-block p {
     width: auto;
     max-width: 100%;
-  }
-
-  #card-valores {
-    margin-left: 0;
-  }
-
-  #card-row1,
-  #card-row2 {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem;
   }
 
   .team-card__header h3 {
@@ -914,18 +904,13 @@ select {
   }
 
   #card-valores {
-    gap: 1rem;
-  }
-
-  .card1,
-  .card2 {
-    width: 100%;
-    height: auto;
-    padding: 1rem 0.75rem;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .value-card {
     align-items: center;
+    text-align: center;
   }
 
   .value-card__header {
@@ -934,7 +919,6 @@ select {
 
   .card1 p,
   .card2 p {
-    width: 100%;
     margin-left: 0;
     text-align: center;
   }
