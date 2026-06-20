@@ -31,10 +31,8 @@ def reset_password():
     return render_template("RedefinicaoSenha.html")
 
 @main_bp.route("/userView")
-@login_required
+@perfil_required(UserProfile.VOLUNTEER)
 def user_view():
-    print(current_user.id,flush=True)
-    
     user = User.query.filter_by(id=current_user.id).first()
     address = Address.query.filter_by(user_id=user.id).first()
     return render_template("visualizacaoUsuario.html",user=user, address=address)
@@ -49,3 +47,18 @@ def admin_view():
 @main_bp.route("/cadastro")
 def cadastro():
     return render_template("cadastro.html")
+
+
+
+@main_bp.route("/editVolunteer")
+def edit_volunteer():
+    from app.models import UserMarital
+    marital_options = {e.name: "" for e in UserMarital}
+    
+    
+    user = User.query.filter_by(id=current_user.id).first()
+    address = Address.query.filter_by(user_id=user.id).first()
+    
+    marital_options[user.marital.name] = "selected"
+    print("Marital options:", marital_options, flush=True)  # Debugging line to check the marital options
+    return render_template("Atualizacao_info_Volun.html", user=user, address=address, UserMarital=UserMarital, marital_options=marital_options)
