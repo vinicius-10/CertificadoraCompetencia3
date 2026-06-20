@@ -9,8 +9,8 @@ class Config:
     MINUTES_BLOCKED = 2
     
     # Chaves de segurança e Banco de Dados
-    SECRET_KEY = environ.get('SECRET_KEY', 'uma-chave-padrao-muito-segura')
-    SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URL', 'sqlite:///meu_banco.db')
+    SECRET_KEY = environ.get('SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Configurações de Sessão e Cookies

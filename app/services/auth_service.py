@@ -15,9 +15,9 @@ def authenticate_user(username, password, next_page):
         #Chama a lógica que verifica se o usuário está bloqueado
         minutes_block = UserBlock.get_block_by_user(user)
         if minutes_block:
-            print(f"\n\nUsuário bloqado por tempo\n", flush=True)
+
             return {"success": False, "message": f"Usuário bloqueado. Tente novamente em {minutes_block} minutos."}, 403
-        print(f"\n\nMinutos bloqueados: {minutes_block}\n", flush=True)
+        
         # 2. Tenta autenticar
         authenticated = user.check_password(password)
         AccessLog.register_attempt(user=user, username_attempt=username, is_successful=authenticated)
