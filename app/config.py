@@ -6,7 +6,7 @@ class Config:
     #valores para bloquear usuario após tentativas de login
     MAX_LOGIN_ATTEMPTS = 5
     WITHIN_MINUTES = 5
-    MINUTES_BLOCKED = 2
+    MINUTES_BLOCKED = 15
     
     # Chaves de segurança e Banco de Dados
     SECRET_KEY = environ.get('SECRET_KEY')
