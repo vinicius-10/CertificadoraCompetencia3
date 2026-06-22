@@ -51,6 +51,7 @@ def cadastro():
 
 
 @main_bp.route("/editVolunteer")
+@perfil_required(UserProfile.VOLUNTEER, UserProfile.SCHOLARSHIP)
 def edit_volunteer():
     from app.models import UserMarital
     marital_options = {e.name: "" for e in UserMarital}
@@ -60,5 +61,18 @@ def edit_volunteer():
     address = Address.query.filter_by(user_id=user.id).first()
     
     marital_options[user.marital.name] = "selected"
-    print("Marital options:", marital_options, flush=True)  # Debugging line to check the marital options
     return render_template("Atualizacao_info_Volun.html", user=user, address=address, UserMarital=UserMarital, marital_options=marital_options)
+
+
+@main_bp.route("/editADM")
+@perfil_required(UserProfile.COORDINATOR, UserProfile.SCHOLARSHIP)
+def edit_adm():
+    from app.models import UserMarital
+    marital_options = {e.name: "" for e in UserMarital}
+    
+    
+    user = User.query.filter_by(id=current_user.id).first()
+    address = Address.query.filter_by(user_id=user.id).first()
+    
+    marital_options[user.marital.name] = "selected"
+    return render_template("Atualizacao_info_ADM.html", user=user, address=address, UserMarital=UserMarital, marital_options=marital_options)
