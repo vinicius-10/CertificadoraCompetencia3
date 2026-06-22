@@ -1,6 +1,6 @@
 
 from app.decorators import perfil_required
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, redirect, url_for
 from flask_login import login_required, current_user
 from app.models import UserProfile, db, User, Address
 from datetime import datetime, timedelta, timezone
@@ -20,6 +20,15 @@ def ping():
 
 @main_bp.route("/login")
 def login():
+    if current_user.is_authenticated:
+        if current_user.profile == UserProfile.VOLUNTEER:
+            return redirect(url_for("main.user_view"))
+        elif current_user.profile in [UserProfile.COORDINATOR, UserProfile.SCHOLARSHIP]:
+            return redirect(url_for("main.admin_view"))
+        
+        else:
+            return redirect(url_for("api.auth_api.logout"))
+        
     return render_template("login.html")
 
 @main_bp.route("/RecuperacaoSenha")
@@ -33,9 +42,8 @@ def reset_password():
 @main_bp.route("/userView")
 @perfil_required(UserProfile.VOLUNTEER)
 def user_view():
-    user = User.query.filter_by(id=current_user.id).first()
-    address = Address.query.filter_by(user_id=user.id).first()
-    return render_template("visualizacaoUsuario.html",user=user, address=address)
+    address = Address.query.filter_by(user_id=current_user.id).first()
+    return render_template("visualizacaoUsuario.html",user=current_user, address=address)
 
 
 @main_bp.route("/adminView")
