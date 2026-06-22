@@ -1,7 +1,8 @@
-from models import db, User, UserProfile, UserStatus, UserMarital
+from app.models import db, User, UserProfile, UserStatus, UserMarital, UserSector, UserPosition
+from datetime import datetime, timezone
 
 def seed_data():
-    
+    print("Iniciando inserção de dados de semente (seed)...")
     if not User.query.first():
         
         new_user = User(
@@ -13,8 +14,11 @@ def seed_data():
             nationality='Brasileiro',
             marital=UserMarital.SINGLE,
             profession='Teste',
-            profile=UserProfile.ADMIN,
+            profile=UserProfile.SCHOLARSHIP,
             status=UserStatus.ACTIVE,
+            sector=UserSector.CONTENT,
+            position=UserPosition.REPRESENTATIVE,
+            entry_at=datetime.now(timezone.utc),
         )
         
         new_user.set_password("senha")
@@ -33,6 +37,9 @@ def seed_data():
             profession='Teste',
             profile=UserProfile.VOLUNTEER,
             status=UserStatus.ACTIVE,
+            sector=UserSector.CONTENT,
+            position=UserPosition.VOLUNTEER,
+            entry_at=datetime.now(timezone.utc),
         )
         
         new_user.set_password("senha")

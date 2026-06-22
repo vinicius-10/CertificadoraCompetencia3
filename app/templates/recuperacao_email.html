@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperação de senha - Meninas Digitais UTFPR-CP</title>
+    <!--
+        E-mail de redefinição de senha.
+        Variáveis esperadas no render_template:
+          - nome_usuario      → nome de quem solicitou
+          - link_redefinicao  → URL absoluta do link de redefinição
+          - tempo_expiracao   → ex.: "1 hora"
+          - hora_limite       → ex.: "15:30"
+    -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/recuperacao_email.css') }}">
+    <link rel="stylesheet" href="../static/css/recuperacao_email.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/meninas_logo.png') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Texto de pré-visualização (oculto) -->
+    <div class="preheader">
+        Recebemos uma solicitação para redefinir a senha da sua conta no Meninas Digitais UTFPR-CP.
+    </div>
+
+    <!-- ── CABEÇALHO ── -->
+    <header class="email-header">
+        <div class="header-inner">
+            <img class="header-logo" src="../static/img/meninas_logo.png" alt="Logo do projeto Meninas Digitais UTFPR-CP"/>
+            <span class="brand-title">MENINAS DIGITAIS UTFPR-CP</span>
+        </div>
+    </header>
+
+    <!-- ── CORPO ── -->
+    <main>
+        <div class="email-card">
+            <h1 class="email-title">Recuperação de senha</h1>
+
+            <p class="email-text">Olá, {{ nome_usuario }},</p>
+
+            <p class="email-text">
+                Recebemos uma solicitação para redefinir a senha da sua conta no sistema
+                do Meninas Digitais - UTFPR Campus Cornélio Procópio.
+            </p>
+
+            <p class="email-text email-text--cta">
+                Para criar uma nova senha, clique no botão abaixo:
+            </p>
+
+            <div class="btn-wrap">
+                <a class="btn-redefinir" href="{{ link_redefinicao }}" target="_blank" rel="noopener">Redefinir</a>
+            </div>
+
+            <p class="email-text fallback-label">
+                Se o botão acima não funcionar, copie e cole o link abaixo no seu navegador:
+            </p>
+            <a class="fallback-link" href="{{ link_redefinicao }}" target="_blank" rel="noopener">{{ link_redefinicao }}</a>
+
+            <hr class="email-divider">
+
+            <p class="info-title">Informações Importantes:</p>
+            <ul class="info-list">
+                <li class="info-item">
+                    <strong>Validade:</strong> Este link é válido por {{ tempo_expiracao }}
+                    (até às {{ hora_limite }} de hoje). Após esse período, será necessário solicitar um novo link.
+                </li>
+                <li class="info-item">
+                    <strong>Segurança:</strong> Se você não solicitou a alteração desta senha, por favor,
+                    desconsidere este e-mail. Sua conta permanece segura e nenhuma alteração foi realizada.
+                </li>
+            </ul>
+
+            <p class="support-text">
+                Caso tenha dificuldades para acessar o sistema ou precise de suporte técnico,
+                entre em contato com a equipe coordenadora através do e-mail institucional do projeto.
+            </p>
+        </div>
+    </main>
+
+    <!-- ── RODAPÉ ── -->
+    <footer class="email-footer">
+        © Meninas Digitais - UTFPR Campus Cornélio Procópio.<br>
+        Esta é uma mensagem automática, por favor não responda.
+    </footer>
+
+</body>
+</html>
