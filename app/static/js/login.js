@@ -1,12 +1,34 @@
 // login.js — Autenticação via Fetch + SweetAlert2
 
+
+
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("login-form").addEventListener("submit", (e) => {
-    console.log("Formulário de login submetido");
-    e.preventDefault();
-    login();
-  });
+    document.getElementById("login-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        login();
+    });
+
+    document.getElementById('usuario').addEventListener('input', (e) => {
+        masckaraCPF(e);
+    });
 });
+
+
+function masckaraCPF(e) {
+    let value = e.target.value;
+    console.log("Valor original:", value);
+
+    if (value.length > 14) {
+        value = value.slice(0, 14);
+    }
+    value = value.replace(/\D/g, '');
+
+    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+    value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    
+    e.target.value = value;
+}
 
 async function login() {
     const usuario = document.getElementById("usuario").value.trim();
@@ -73,3 +95,4 @@ async function login() {
         console.error("Erro na requisição de login:", err);
     }
 }
+
