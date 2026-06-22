@@ -23,30 +23,31 @@
             <form id="cadastro-form">
                 <div class="field">
                     <label class="field-label" for="Nome">Nome</label>
-                    <input type="text" id="Nome" autocomplete="name" value="{{ user.name }}"/>
+                    <input type="text" id="Nome" autocomplete="name" name="Nome" required value="{{ user.name }}"/>
                 </div>
     
                 <div class="field">
                     <label class="field-label" for="Email">Email</label>
-                    <input type="email" id="Email" autocomplete="email" value="{{ user.email }}"/>
+                    <input type="email" id="Email" autocomplete="email" name="Email" required value="{{ user.email }}"/>
+
                 </div>
     
                 <div class="field-row">
                     <div class="field">
                         <label class="field-label" for="CPF">CPF</label>
-                        <input type="text" id="CPF" autocomplete="cpf" required value="{{ user.cpf }}"/>
+                        <input type="text" id="CPF" autocomplete="cpf" name="CPF" required value="{{ user.cpf }}"/>
                     </div>
 
                     <div class="field">
                         <label class="field-label" for="RG">RG</label>
-                        <input type="text" id="RG" autocomplete="rg" required value="{{ user.rg }}"/>
+                        <input type="text" id="RG" autocomplete="rg" name="RG" required value="{{ user.rg }}"/>
                     </div>
                 </div>
 
                 <div class="field-row">
                     <div class="field">
                         <label class="field-label" for="Profissao">Profissão</label>
-                        <input type="text" id="Profissao" required  autocomplete="job-title" value="{{ user.profession }}"/>
+                        <input type="text" id="Profissao" autocomplete="job-title" name="Profissao" required value="{{ user.profession }}"/>
                     </div>
 
                     <div class="field">
@@ -67,53 +68,53 @@
 
                 <div class="field">
                     <label class="field-label" for="Nacionalidade">Nacionalidade</label>
-                    <input type="text" id="Nacionalidade" autocomplete="country" required value="{{user.nationality}}" />
+                    <input type="text" id="Nacionalidade" autocomplete="country" name="Nacionalidade" required value="{{user.nationality}}"/>
                 </div>
 
                 <div class="field">
                     <label class="field-label" for="Logradouro">Logradouro</label>
-                    <input type="text" id="Logradouro" autocomplete="street-address" required value="{{address.street}}" />
+                    <input type="text" id="Logradouro" autocomplete="street-address" name="Logradouro" required value="{{address.street}}"/>
                 </div>
 
                 <div class="field-row">
                     <div class="field">
                         <label class="field-label" for="Bairro">Bairro</label>
-                        <input type="text" id="Bairro" autocomplete="neighborhood" required value="{{address.neighborhood}}" />
+                        <input type="text" id="Bairro" autocomplete="neighborhood" name="Bairro" required value="{{address.neighborhood}}"/>
                     </div>
 
                     <div class="field">
                         <label class="field-label" for="CEP">CEP</label>
-                        <input type="text" id="CEP" autocomplete="postal-code" required value="{{address.zip_code}}" />
+                        <input type="text" id="CEP" autocomplete="postal-code" name="CEP" required value="{{address.zip_code}}"/>
                     </div>
                 </div>
 
                 <div class="field-row">
                     <div class="field">
                         <label class="field-label" for="Numero">Número</label>
-                        <input type="text" id="Numero" autocomplete="address-line1" required value="{{address.number}}" />
+                        <input type="text" id="Numero" autocomplete="address-line1" name="Numero" required value="{{address.number}}"/>
                     </div>
 
                     <div class="field">
                         <label class="field-label" for="Cidade">Cidade</label>
-                        <input type="text" id="Cidade" autocomplete="address-level2" required value="{{address.city}}" />
+                        <input type="text" id="Cidade" autocomplete="address-level2" name="Cidade" required value="{{address.city}}"/>
                     </div>
                 </div>
 
                 <div class="field-row">
                     <div class="field">
                         <label class="field-label" for="Estado">Estado</label>
-                        <input type="text" id="Estado" autocomplete="address-level1" required value="{{address.state}}" />
+                        <input type="text" id="Estado" autocomplete="address-level1" name="Estado" required value="{{address.state}}"/>
                     </div>
 
                     <div class="field">
                         <label class="field-label" for="Pais">País</label>
-                        <input type="text" id="Pais" autocomplete="country" required value="{{user.country}}" />
+                        <input type="text" id="Pais" autocomplete="country" name="Pais" required value="{{user.country}}"/>
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="field-label" for="complemento">Complemento</label>
-                    <input type="text" id="complemento" autocomplete="address-line2" required value="{{address.complement}}" />
+                    <input type="text" id="complemento" autocomplete="address-line2" name="complemento" required value="{{address.complement}}"/>
                 </div>
 
                 <button class="btn-atualizar" type="button">Atualizar</button>
