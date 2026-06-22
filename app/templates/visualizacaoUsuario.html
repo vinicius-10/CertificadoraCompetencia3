@@ -15,7 +15,7 @@
             <img src="../static/img/meninas_logo.png" alt="Meninas Digitais brand logo displayed in the top navigation bar" class="nav-logo"/>
             <h1>Meninas Hub</h1>
         </a>
-        <a href="{{ url_for('main.home') }}" class="btn-sair">Sair</a>
+        <a href="{{ url_for('api.auth_api.logout') }}" class="btn-sair">Sair</a>
     </nav>
  
     <main>
@@ -45,10 +45,10 @@
             <div class="card-bottom">
                 <div class="field">
                     <label class="field-label" for="Endereco">Endereço</label>
-                    <div class="field-box field-box--wide" id="endereco">{{address.street}}, {{address.number}} - {{address.neighborhood}}, {{address.city}} - {{address.state}}</div>
+                    <div class="field-box field-box--wide" id="endereco">{{address.street}}, {{address.number}} - {{address.neighborhood}}, {{address.city}} - {{address.state}}, {{address.postal_code}}</div>
                 </div>
                 <div class="card-actions">
-                    <a href="#" class="btn-editar">Editar</a>
+                    <a href="{{url_for('main.edit_volunteer')}}" class="btn-editar">Editar</a>
                 </div>
             </div>
         </div>
