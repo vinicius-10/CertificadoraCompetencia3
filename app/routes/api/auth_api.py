@@ -3,6 +3,8 @@ from flask import Blueprint, request, jsonify, redirect, url_for
 from flask_login import logout_user, login_required
 from app.services.auth_service import authenticate_user
 
+from app.services.email_service import send_password_recovery_email
+
 auth_api_bp = Blueprint('auth_api', __name__)
 
 @auth_api_bp.route("/login", methods=['POST'])
@@ -33,3 +35,8 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("main.home"))
+
+
+@auth_api_bp.route('/recovery')
+def recovery():
+    return send_password_recovery_email('vs211570@gmail.com', 'token-de-teste')
