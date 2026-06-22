@@ -76,3 +76,8 @@ def edit_adm():
     
     marital_options[user.marital.name] = "selected"
     return render_template("Atualizacao_info_ADM.html", user=user, address=address, UserMarital=UserMarital, marital_options=marital_options)
+
+
+@main_bp.route("/emailSent")
+def email_sent():
+    return render_template("recuperacao_email.html")
