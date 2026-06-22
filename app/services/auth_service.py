@@ -8,6 +8,10 @@ def authenticate_user(username, password, next_page):
     MAX_LOGIN_ATTEMPTS = current_app.config['MAX_LOGIN_ATTEMPTS']
     MINUTES_BLOCKED = current_app.config['MINUTES_BLOCKED']
 
+    #validação de entrada
+    bool_username = isinstance(username, str) and username.strip() != ""
+    
+    
     #obetm dados do usuário com base no cpf (username) (o retorno padrão é uma lista de objetos, como quero só um, uso o first())
     user = User.query.filter(User.cpf == username).first()
     
@@ -18,7 +22,7 @@ def authenticate_user(username, password, next_page):
 
             return {"success": False, "message": f"Usuário bloqueado. Tente novamente em {minutes_block} minutos."}, 403
         
-        # 2. Tenta autenticar
+        #Tenta autenticar
         authenticated = user.check_password(password)
         AccessLog.register_attempt(user=user, username_attempt=username, is_successful=authenticated)
         
@@ -29,12 +33,16 @@ def authenticate_user(username, password, next_page):
             if next_page and urlsplit(next_page).netloc == '' and not next_page.startswith('//'):
                 page = next_page
             else:
-                page = "/adminView" if user.profile == UserProfile.SCHOLARSHIP else "/userView"
+                if user.profile == UserProfile.VOLUNTEER:
+                    page = "/userView"
+                else:
+                    page = "/adminView"
                 
+            print(f"\nRota: {page}, user {user.profile}\n", flush=True)
             return {"success": True, "redirect": page}, 200
         
         else:
-            # 3. Trata erro de senha e possível bloqueio
+            #Trata erro de senha e possível bloqueio
             attempts = AccessLog.count_access_attempts(user=user)
             if attempts >= MAX_LOGIN_ATTEMPTS:
                 UserBlock.block_user(user=user)
