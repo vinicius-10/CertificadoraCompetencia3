@@ -21,3 +21,13 @@ class Config:
     # Se FLASK_ENV for 'development', SECURE será False. Caso contrário (produção), True.
     SESSION_COOKIE_SECURE = environ.get('FLASK_ENV') != 'development'
     SESSION_COOKIE_SAMESITE = 'Lax'
+    
+    #email
+    
+    MAIL_SERVER = environ.get('MAIL_SERVER')
+    MAIL_PORT = environ.get('MAIL_PORT')
+    MAIL_USERNAME = environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = environ.get('MAIL_PASSWORD')
+    MAIL_TIMEOUT = int(environ.get('MAIL_TIMEOUT'))
+    MAIL_USE_TLS = environ.get('MAIL_USE_TLS')
+    MAIL_DEFAULT_SENDER = environ.get('MAIL_DEFAULT_SENDER')

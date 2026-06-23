@@ -5,6 +5,7 @@ from flask_login import LoginManager
 from app.models import db, User
 from app.seed import seed_data
 from app.config import Config
+from flask_mailman  import Mail
 
 migrate = Migrate()
 login_manager = LoginManager()
@@ -17,6 +18,8 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
+    
+    mail = Mail(app)
     
     _configure_login_manager(app)
 

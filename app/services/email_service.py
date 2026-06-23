@@ -1,30 +1,30 @@
-# app/services/email_service.py
-from flask import current_app, render_template, url_for
-# import flask_mail ou smtplib aqui se for o caso
+from email_validator import validate_email, EmailNotValidError
+from flask_mailman  import EmailMessage
 
-def _send_base_email(to : str, subject : str, body_html):
-    print(f"Enviando email para: {to}", flush=True)
-    print(f"Assunto: {subject}" , flush=True)
-    print(f"Corpo do email: {body_html}", flush=True)
-    
-    
-    return "hffff"
+def send_email(to : str, subject : str, body_html):
+    code = 0
+    for i in range(0,3):
+        try:
+            msg = EmailMessage(
+                subject=subject,
+                body=body_html, 
+                to=[to],        
+            )
+            msg.content_subtype = 'html'
+            
+            code = msg.send()
+            if not code:
+                break 
+        except Exception as e:
+            code = 0
+            print(f"Erro ao tentar enviar email: {e}")
+        
+    return code
 
 
-def send_password_recovery_email(user_email: str, token: str):
-    
-    subject = "Recuperação de Senha - Meninas Hub"
-    link = f"localhost:5000/{url_for('main.reset_password', token=token)}"
-    
-    body = render_template("recuperacao_email.html", link=link)
-    
-    saiddddd = _send_base_email(to=user_email, subject=subject, body_html=body)
-    return saiddddd
-
-
-def send_welcome_email(user_email: str, username: str):
-    
-    subject = "Bem-vindo ao Meninas Hub!"
-    body = render_template("bem_vindo_email.html", username=username)
-    
-    return _send_base_email(to=user_email, subject=subject, body_html=body)
+def email_validate (email):
+    try:
+        email_check = validate_email(email, check_deliverability=True)
+        return email_check.normalized
+    except EmailNotValidError as e:
+        return False

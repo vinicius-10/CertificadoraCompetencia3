@@ -1,9 +1,9 @@
 
-from flask import Blueprint, request, jsonify, redirect, url_for
+from flask import Blueprint, request, jsonify, redirect, url_for, render_template
 from flask_login import logout_user, login_required
-from app.services.auth_service import authenticate_user
+from app.services.auth_service import authenticate_user, recovery_password
 
-from app.services.email_service import send_password_recovery_email
+from app.services.email_service import send_email
 
 auth_api_bp = Blueprint('auth_api', __name__)
 
@@ -37,6 +37,17 @@ def logout():
     return redirect(url_for("main.home"))
 
 
-@auth_api_bp.route('/recovery')
+@auth_api_bp.route('/recovery', methods=['POST'])
 def recovery():
-    return send_password_recovery_email('vs211570@gmail.com', 'token-de-teste')
+    data = request.get_json(silent=True)
+    if not data:
+        return jsonify({"success": False, "message": "Requisição inválida."}), 400
+    
+    email = data.get('email',"").strip()
+    if not email:
+        return jsonify({"success": False, "message": "Email é obrigatório."}), 400
+    
+    result, status_code = recovery_password(email=email)
+    
+    #retorno da resposta para o frontend
+    return jsonify(result), status_code

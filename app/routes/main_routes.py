@@ -53,6 +53,7 @@ def admin_view():
 
 
 @main_bp.route("/cadastro")
+@perfil_required(UserProfile.SCHOLARSHIP, UserProfile.COORDINATOR)
 def cadastro():
     return render_template("cadastro.html")
 

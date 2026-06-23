@@ -1,7 +1,9 @@
 from app.models import User, UserBlock, AccessLog, UserProfile
 from flask_login import login_user
 from urllib.parse import urlsplit
-from flask import current_app
+from flask import current_app, url_for, render_template
+
+from app.services.email_service import send_email
 
 
 def authenticate_user(username, password, next_page):
@@ -54,3 +56,24 @@ def authenticate_user(username, password, next_page):
             AccessLog.register_attempt(username_attempt=username, is_successful=False)
 
     return {"success": False, "message": "Usuário ou senha incorretos."}, 401
+
+
+def recovery_password(email):
+    
+    try:
+        email_check = validate_email(email, check_deliverability=True)
+        validated_email = email_check.normalized
+    except EmailNotValidError as e:
+        return {"success": False, "message": "Email invalido"}, 401
+    
+    subject = "Recuperação de Senha - Meninas Hub"
+    link = f"localhost:5000/{url_for('main.reset_password', token=token)}"
+    
+    body = render_template("recuperacao_email.html", link=link)
+    
+    code = send_email(to=email, subject=subject, body_html=body)
+    
+    if code == 0:
+        return {"success": False, "message": "Não foi posivel enviar o email. Tente novamente mais tarde"}, 401
+    else:
+        return {"success": True, "message": "Casso email esteje cadastrado foi enviado um link para redefinir a senha, Lembre de verificar o span"}, 200
