@@ -37,10 +37,11 @@ body {
   flex-direction: column;
 }
 
-/* ── NAVBAR ── */
+/* ── NAVBAR ── (mesmo esquema de tamanho da página de cadastro;
+   mantém flex/space-between por causa do botão "Sair" à direita) */
 nav {
   display: flex;
-  padding: 0 1.25rem;
+  padding: 0 1.75rem;
   height: var(--nav-height);
   background: var(--card-bg);
   flex-shrink: 0;
@@ -51,22 +52,23 @@ nav {
 nav a {
   display: flex;
   align-items: center;
-  gap: 0.9375rem;
+  gap: 0.875rem;
   text-decoration: none;
   color: inherit;
 }
 
 .nav-logo {
-  width: 4.375rem;   /* 70px — igual à landing page e ao login */
-  height: 4.375rem;
+  width: 5.625rem;
+  height: 5.625rem;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
+  margin: 5px 0;
 }
 
 nav h1 {
-  font-weight: 600;
-  font-size: 3rem;   /* 48px — igual à landing page e ao login */
+  font-weight: 500;
+  font-size: 2.96rem;
   letter-spacing: 0.03rem;
   color: var(--text-light);
 }
