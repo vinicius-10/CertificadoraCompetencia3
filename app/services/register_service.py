@@ -14,5 +14,10 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
     if existing_user:
         return {"success": False, "message": "Usuário já registrado."}, 400
     
-    # validar novo usuário
+    # validar nome
+    bool_name = username
+    if not name.isalpha():
+        return {"success": False, "message": "O nome de usuário deve conter apenas letras."}, 400
     
+    # validar email
+    bool_email = User.validate_email(email)
