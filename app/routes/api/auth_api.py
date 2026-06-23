@@ -5,7 +5,7 @@ import traceback
 from flask import Blueprint, jsonify, redirect, request, url_for
 from flask_login import login_required, logout_user
 
-from app.services.auth_service import authenticate_user, recovery_password
+from app.services import authenticate_user, recovery_password
 
 auth_api_bp = Blueprint('auth_api', __name__)
 

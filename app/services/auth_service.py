@@ -124,4 +124,3 @@ def recovery_password(email) -> tuple:
     else:
         time.sleep(1)
         return {"success": True, "message": "Caso o e-mail esteja cadastrado, um link de redefinição foi enviado. Lembre-se de verificar a pasta de spam."}, 200
-
