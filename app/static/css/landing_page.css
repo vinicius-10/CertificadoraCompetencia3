@@ -277,6 +277,7 @@ select {
   align-items: center;
   gap: 2%;
   padding-left: 5.5%;
+  padding-right: 5.5%;
 }
 
 .about-content img {
@@ -285,8 +286,10 @@ select {
   flex-shrink: 0;
 }
 
+/* Largura total (encolhe no flex para caber ao lado da imagem); junto com o
+   padding-right acima, evita que o texto estoure a largura em telas ~1366px. */
 #p-img {
-  width: 72%;
+  width: 100%;
 }
 
 /* Pilares */
@@ -625,6 +628,15 @@ select {
   line-height: 1.5;
 }
 
+/* O rodapé de 5 colunas precisa de ~1680px de largura; abaixo disso ele
+   estourava a viewport e a logo da direita era cortada. Cai para 3 colunas. */
+@media (max-width: 1750px) {
+  .site-footer__inner {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
 /* Cabeçalho empilha mais cedo que o conteúdo: o brand em 48px não cabe
    na mesma linha que os links + botão acima disso, causando sobreposição. */
 @media (max-width: 1600px) {
@@ -673,14 +685,6 @@ select {
     width: 88%;
   }
 
-  .about-content {
-    padding-right: 5.5%;
-  }
-
-  #p-img {
-    width: 100%;
-  }
-
   #pilares {
     padding-bottom: 3rem;
   }
@@ -692,11 +696,6 @@ select {
 
   .team-card__header h3 {
     font-size: 1.3rem;
-  }
-
-  .site-footer__inner {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    align-items: start;
   }
 
   .footer-brand p {
