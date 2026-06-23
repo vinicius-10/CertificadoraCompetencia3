@@ -105,5 +105,34 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
     
     #inserção no BD
     
+    user1 = User(
+        code_institutional= code_institutional,
+        name= username,
+        email= email,
+        cpf= cpf,
+        rg= rg,
+        nationality= nationality,
+        marital= ,
+        profession= profession,
+        profile= ,
+        status= ,
+        sector= ,
+        position= ,
+        entry_at= data_entry,
+    )
+    #user1.set_password() tem que fazer a função de gerar senha
+
+    # Criando e vinculando o endereço diretamente
+    addr1 = Address(
+        postal_code= postal_code,
+        street= street,
+        number= number,
+        complement= complement,
+        neighborhood= neighborhood,
+        city= city,
+        state= state,
+        country= country,
+        user=user1 # O SQLAlchemy vincula o ID automaticamente aqui
+    )
     
     
