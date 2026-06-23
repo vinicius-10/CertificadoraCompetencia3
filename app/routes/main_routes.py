@@ -55,6 +55,7 @@ def admin_view():
 @main_bp.route("/cadastro")
 @perfil_required(UserProfile.SCHOLARSHIP, UserProfile.COORDINATOR)
 def cadastro():
+    
     current_profile_coedinator = (current_user.profile == UserProfile.COORDINATOR)
     print(f"validação: {current_profile_coedinator}, perfil: {current_user.profile}",flush=True)
     return render_template("cadastro.html", UserMarital=UserMarital, UserProfile=UserProfile, UserSector=UserSector, UserPosition=UserPosition, current_profile_coedinator=current_profile_coedinator, UserStatus= UserStatus)
