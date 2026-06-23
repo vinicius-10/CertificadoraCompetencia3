@@ -21,3 +21,5 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
     
     # validar email
     bool_email = User.validate_email(email)
+    if not bool_email:
+        return {"success": False, "message": "Email inválido."}, 400
