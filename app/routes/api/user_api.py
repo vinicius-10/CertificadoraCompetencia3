@@ -5,6 +5,7 @@ from app.services.register_service import register_user
 user_api_bp = Blueprint('user_api', __name__)
 
 @user_api_bp.route("/register", methods=['POST'])
+@perfil_required(UserProfile.SCHOLARSHIP, UserProfile.COORDINATOR)
 def register():
     #obtenção dos dados do requisição
     data = request.get_json(silent=True)
