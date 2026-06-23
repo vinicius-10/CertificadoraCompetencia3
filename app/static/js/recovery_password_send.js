@@ -60,6 +60,14 @@ async function register(){
             });
             console.error("Erro na requisição de login:", err);
         }
+    }else{
+        Swal.fire({
+            icon: "error",
+            title: "Email invalido",
+            text: "Verifique o email.",
+            confirmButtonText: "Ok",
+        });
+
     }
     
     
