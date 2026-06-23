@@ -105,34 +105,39 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
     
     #inserção no BD
     
-    user1 = User(
-        code_institutional= code_institutional,
-        name= username,
-        email= email,
-        cpf= cpf,
-        rg= rg,
-        nationality= nationality,
-        marital= ,
-        profession= profession,
-        profile= ,
-        status= ,
-        sector= ,
-        position= ,
-        entry_at= data_entry,
-    )
-    #user1.set_password() tem que fazer a função de gerar senha
+    try:
+        user1 = User(
+            code_institutional= code_institutional,
+            name= username,
+            email= email,
+            cpf= cpf,
+            rg= rg,
+            nationality= nationality,
+            marital= UserMarital[marital],
+            profession= profession,
+            profile= UserProfile[profile],
+            status= UserStatus[status],
+            sector= UserSector[sector],
+            position= UserPosition[position],
+            entry_at= data_entry,
+        )
 
-    # Criando e vinculando o endereço diretamente
-    addr1 = Address(
-        postal_code= postal_code,
-        street= street,
-        number= number,
-        complement= complement,
-        neighborhood= neighborhood,
-        city= city,
-        state= state,
-        country= country,
-        user=user1 # O SQLAlchemy vincula o ID automaticamente aqui
-    )
-    
-    
+        # Criando e vinculando o endereço diretamente
+        addr1 = Address(
+            postal_code= postal_code,
+            street= street,
+            number= number,
+            complement= complement,
+            neighborhood= neighborhood,
+            city= city,
+            state= state,
+            country= country,
+            user=user1 # O SQLAlchemy vincula o ID automaticamente aqui
+        )
+        
+        db.session.add_all([user1, addr1])
+        db.session.commit()
+        return {"success": True, "message": "Usuário Registrado com Sucesso."}, 201
+    except:
+        db.session.rollback()
+        return {"success": False, "message": "Erro ao registrar usuário."}, 500
