@@ -1,4 +1,17 @@
+/**
+ * Handles the user registration form submission.
+ *
+ * This script prevents the default form submission, collects the form data,
+ * sends the registration request to the backend API, and displays feedback to
+ * the user through SweetAlert2.
+ */
 document.addEventListener("DOMContentLoaded", () => {
+    /**
+     * Prevents the default form submission and starts the registration flow.
+     *
+     * @param {SubmitEvent} e - Submit event triggered by the registration form.
+     * @returns {void}
+     */
     document.getElementById("cadastro-form").addEventListener("submit", (e) => {
         e.preventDefault();
         register();
@@ -6,6 +19,20 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+/**
+ * Submits the registration form data to the user registration API.
+ *
+ * The function reads the current values from the registration form, converts
+ * them into a JSON payload, sends the data to the backend, and handles both
+ * success and error responses with user-friendly alerts.
+ *
+ * @async
+ * @function register
+ * @description Input: none. The function reads data directly from the
+ * registration form in the DOM.
+ * @returns {Promise<void>} Resolves when the registration request has been
+ * processed and the corresponding alert has been displayed.
+ */
 async function register(){
     const form_register = document.getElementById("cadastro-form");
     console.log("formulario:" + form_register.Nome.value);
@@ -15,12 +42,13 @@ async function register(){
         text: 'Por favor, aguarde',
         allowOutsideClick: false,
         didOpen: () => {
-        Swal.showLoading();
+            Swal.showLoading();
         }
     });
     
     try{
         const formData = new FormData(form_register);
+        /** @type {Record<string, FormDataEntryValue>} */
         const dataRegister = Object.fromEntries(formData.entries());
         console.log("form data:", dataRegister);
 
@@ -52,7 +80,7 @@ async function register(){
                 confirmButtonText: "Tentar novamente",
             });
         }
-    }catch(err){
+    } catch(err) {
         Swal.close();
         Swal.fire({
             icon: "error",
@@ -61,6 +89,5 @@ async function register(){
             confirmButtonText: " Tente novamente",
         });
         console.error("Erro na requisição de login:", err);
-}
-
+    }
 }
