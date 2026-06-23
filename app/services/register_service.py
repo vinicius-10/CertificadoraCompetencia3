@@ -1,5 +1,6 @@
 from app.models import User, UserBlock, UserProfile, UserStatus, UserMarital, UserSector, UserPosition, Address, db
 from flask_login import current_user
+from app.utils import parse_from_date
 
 
 def register_user(username, email, cpf, rg, profession, marital, nationality, code_institutional, street, neighborhood, postal_code, number, city, state, country, complement, sector, position, profile, status, entry_at, departure_at):
@@ -31,10 +32,10 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
         return {"success": False, "message": "A profissão deve conter apenas letras."}, 400
     
     #validar estado civil
-    print('\n antes do teste')
+    print('\nmarital:',marital, type(marital),flush=True)
     teste = (marital in [UserMarital.SINGLE, UserMarital.MARRIED, UserMarital.DIVORCED, UserMarital.WIDOWED, UserMarital.STABLE_UNION])
     print('\nteste:',teste,flush=True)
-    if not teste:
+    if teste:
         return {"success": False, "message": "Estado civil inválido."}, 400
     
     #validar nacionalidade
@@ -94,5 +95,18 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
         return {"success": False, "message": "Status inválido."}, 400
     
     #validar data de entrada
+    data_entry = parse_from_date(entry_at)
+    
+    if not data_entry:
+        return {"success": False, "message": "Data de entrada inválida."}, 400
+    
+    #validar data de saída
+    data_departure = parse_from_date(departure_at)
+    
+    if not data_departure or data_departure < data_entry:
+        return {"success": False, "message": "Data de saída inválida."}, 400
+    
+    #inserção no BD
+    
     
     
