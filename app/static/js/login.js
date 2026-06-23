@@ -56,7 +56,7 @@ async function login() {
                     next_url: nextUrl 
                 }),
             });
-            
+            console.log("Response text:", response.text().then(text => console.log(text))); //apenas para debug
             const data = await response.json();
             Swal.close();
             
@@ -73,6 +73,7 @@ async function login() {
             }
 
         } catch (err) {
+            Swal.close();
             Swal.fire({
                 icon: "error",
                 title: "Erro de conexão",

@@ -2,7 +2,7 @@ from app.models import User, UserBlock, AccessLog, UserProfile
 from flask_login import login_user
 from urllib.parse import urlsplit
 from flask import current_app, url_for, render_template
-
+import secrets
 from app.services.email_service import send_email
 
 
@@ -59,21 +59,23 @@ def authenticate_user(username, password, next_page):
 
 
 def recovery_password(email):
+    valited_email = User.email_validate(email)
+    if not valited_email:
+        return {"success": False, "message": "Informe um email valido"}, 401
     
-    try:
-        email_check = validate_email(email, check_deliverability=True)
-        validated_email = email_check.normalized
-    except EmailNotValidError as e:
-        return {"success": False, "message": "Email invalido"}, 401
-    
-    subject = "Recuperação de Senha - Meninas Hub"
-    link = f"localhost:5000/{url_for('main.reset_password', token=token)}"
-    
-    body = render_template("recuperacao_email.html", link=link)
-    
-    code = send_email(to=email, subject=subject, body_html=body)
-    
-    if code == 0:
-        return {"success": False, "message": "Não foi posivel enviar o email. Tente novamente mais tarde"}, 401
-    else:
-        return {"success": True, "message": "Casso email esteje cadastrado foi enviado um link para redefinir a senha, Lembre de verificar o span"}, 200
+    user = User.query.filter(User.email == valited_email).first()
+    if user:
+        token = secrets.token_urlsafe(32)
+        print("\n\nemail",flush=True)
+        
+        subject = "Recuperação de Senha - Meninas Hub"
+        link = f"localhost:5000/{url_for('main.reset_password', token=token)}"
+        
+        body = render_template("recuperacao_email.html", link=link)
+        
+        code = send_email(to=user.email, subject=subject, body_html=body)
+        
+        if code == 0:
+            return {"success": False, "message": "Não foi possível enviar o e-mail. Tente novamente mais tarde."}, 401
+        
+    return {"success": True, "message": "Caso o e-mail esteja cadastrado, um link de redefinição foi enviado. Lembre-se de verificar a pasta de spam."}, 200
