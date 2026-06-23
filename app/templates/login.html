@@ -37,7 +37,8 @@
             </svg>
             CPF
           </label>
-          <input type="text" id="usuario" autocomplete="username" maxlength="14" />
+          
+          <input type="text" id="usuario" autocomplete="username" name="usuario" maxlength="14" />
         </div>
   
         <div class="field">
@@ -48,7 +49,7 @@
             </svg>
             Senha
           </label>
-          <input type="password" id="senha" autocomplete="current-password" />
+          <input type="password" id="senha" autocomplete="current-password" name="senha"/>
           <a href="{{ url_for('main.RecuperacaoSenha') }}" class="forgot">Esqueci a senha</a>
         </div>
   
