@@ -2,7 +2,7 @@
 from app.utils import perfil_required
 from flask import render_template, Blueprint, redirect, url_for
 from flask_login import login_required, current_user
-from app.models import UserProfile, db, User, Address, UserProfile, UserMarital, UserSector, UserPosition
+from app.models import UserProfile, db, User, Address, UserProfile, UserMarital, UserSector, UserPosition, UserStatus
 from datetime import datetime, timedelta, timezone
 
 
@@ -57,7 +57,7 @@ def admin_view():
 def cadastro():
     current_profile_coedinator = (current_user.profile == UserProfile.COORDINATOR)
     print(f"validação: {current_profile_coedinator}, perfil: {current_user.profile}",flush=True)
-    return render_template("cadastro.html", UserMarital=UserMarital, UserProfile=UserProfile, UserSector=UserSector, UserPosition=UserPosition, current_profile_coedinator=current_profile_coedinator)
+    return render_template("cadastro.html", UserMarital=UserMarital, UserProfile=UserProfile, UserSector=UserSector, UserPosition=UserPosition, current_profile_coedinator=current_profile_coedinator, UserStatus= UserStatus)
 
 
 
