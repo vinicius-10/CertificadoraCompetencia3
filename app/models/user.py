@@ -1,7 +1,5 @@
 from app.models.db_instance import db
 from app.models.enums import UserProfile, UserStatus, UserMarital, UserSector, UserPosition
-
-from argon2 import PasswordHasher
 from sqlalchemy import Enum as SAEnum
 import uuid
 from sqlalchemy import Column, String, Integer, DateTime, Boolean, ForeignKey, Enum, Text
@@ -10,6 +8,7 @@ from sqlalchemy.orm import relationship
 from flask_login import UserMixin
 from argon2 import PasswordHasher
 from datetime import datetime, timezone
+from email_validator import validate_email, EmailNotValidError
 
 
 ph = PasswordHasher()
@@ -57,3 +56,40 @@ class User(db.Model, UserMixin):
             return ph.verify(self.password_hash, password)
         except:
             return False    
+    
+    @staticmethod
+    def validate_cpf(cleaned_cpf: str) -> bool:
+        if not isinstance(cleaned_cpf, str):
+            return False
+
+        if not cleaned_cpf.isdigit() or len(cleaned_cpf) != 11 or cleaned_cpf == cleaned_cpf[0] * 11:
+            return False
+        
+        for i in range(9, 11):
+            total_sum = 0
+            for j in range(0, i):
+                total_sum += int(cleaned_cpf[j]) * ((i + 1) - j)
+            
+            digit = (total_sum * 10) % 11
+            if digit == 10:
+                digit = 0
+                
+            if digit != int(cleaned_cpf[i]):
+                return False
+                
+        return True
+
+    @staticmethod
+    def email_validate (email):
+        try:
+            email_check = validate_email(email, check_deliverability=True)
+            return email_check.normalized
+        except EmailNotValidError as e:
+            return None
+        
+    def rg_validate(rg):
+        rg = ''.join(filter(str.isdigit, rg))
+        if len(rg) == 9:
+            return rg
+        else:
+            return None

@@ -1,46 +1,120 @@
-from app.models import User, UserBlock, AccessLog, UserProfile
-from flask_login import login_user
 from urllib.parse import urlsplit
-from flask import current_app
+
+from flask import current_app, url_for, render_template
+from flask_login import login_user
+
+from app.models import AccessLog, PasswordRecoveryToken, User, UserBlock, UserProfile
+from app.services.email_service import send_email
 
 
-def authenticate_user(username, password, next_page):
+def authenticate_user(username, password, next_page) -> tuple:
+    """
+    Authenticates a user and determines the appropriate redirect destination.
+
+    This function validates the provided credentials, verifies whether the
+    user account is temporarily blocked, records each login attempt, and
+    authenticates the user when the password is correct. When authentication
+    succeeds, the function redirects the user to a safe next page or to the
+    default page associated with the user's profile.
+
+    Args:
+        username (str): CPF submitted as the login identifier.
+        password (str): Password submitted for authentication.
+        next_page (str): Optional page requested before authentication.
+
+    Returns:
+        tuple: A response dictionary and HTTP status code indicating whether
+            authentication succeeded, failed, or was blocked.
+    """
     MAX_LOGIN_ATTEMPTS = current_app.config['MAX_LOGIN_ATTEMPTS']
     MINUTES_BLOCKED = current_app.config['MINUTES_BLOCKED']
 
-    #obetm dados do usuário com base no cpf (username) (o retorno padrão é uma lista de objetos, como quero só um, uso o first())
-    user = User.query.filter(User.cpf == username).first()
-    
-    if user:
-        #Chama a lógica que verifica se o usuário está bloqueado
-        minutes_block = UserBlock.get_block_by_user(user)
-        if minutes_block:
+    username = ''.join(filter(str.isdigit, username))
+    #validação de entrada
+    bool_string = isinstance(username, str) and isinstance(password, str)
+    bool_cpf_validate = User.validate_cpf(username)
+    bool_password_length =  len(password) <= 250 and len(password) >= 6
 
-            return {"success": False, "message": f"Usuário bloqueado. Tente novamente em {minutes_block} minutos."}, 403
+    if((bool_string and bool_cpf_validate and bool_password_length)):
+        #obetm dados do usuário com base no cpf (username) (o retorno padrão é uma lista de objetos, como quero só um, uso o first())
+        user = User.query.filter(User.cpf == username).first()
         
-        # 2. Tenta autenticar
-        authenticated = user.check_password(password)
-        AccessLog.register_attempt(user=user, username_attempt=username, is_successful=authenticated)
-        
-        if authenticated:
-            login_user(user)
+        if user:
+            #Chama a lógica que verifica se o usuário está bloqueado
+            minutes_block = UserBlock.get_block_by_user(user)
+            if minutes_block:
+                return {"success": False, "message": f"Usuário bloqueado. Tente novamente em {minutes_block} minutos."}, 403
             
-            #Define paagina para redirecionamento seguro
-            if next_page and urlsplit(next_page).netloc == '' and not next_page.startswith('//'):
-                page = next_page
-            else:
-                page = "/adminView" if user.profile == UserProfile.SCHOLARSHIP else "/userView"
+            #Tenta autenticar
+            authenticated = user.check_password(password)
+            AccessLog.register_attempt(user=user, username_attempt=username, is_successful=authenticated)
+            
+            if authenticated:
+                login_user(user)
                 
-            return {"success": True, "redirect": page}, 200
-        
+                #Define paagina para redirecionamento seguro
+                if next_page and urlsplit(next_page).netloc == '' and not next_page.startswith('//'):
+                    page = next_page
+                else:
+                    if user.profile == UserProfile.VOLUNTEER:
+                        page = "/userView"
+                    else:
+                        page = "/adminView"
+                    
+                return {"success": True, "redirect": page}, 200
+            
+            else:
+                #Trata erro de senha e possível bloqueio
+                attempts = AccessLog.count_access_attempts(user=user)
+                if attempts >= MAX_LOGIN_ATTEMPTS:
+                    UserBlock.block_user(user=user)
+                    return {"success": False, "message": f"Usuário bloqueado devido a múltiplas tentativas. Tente novamente em {MINUTES_BLOCKED} minutos."}, 403
         else:
-            # 3. Trata erro de senha e possível bloqueio
-            attempts = AccessLog.count_access_attempts(user=user)
-            if attempts >= MAX_LOGIN_ATTEMPTS:
-                UserBlock.block_user(user=user)
-                return {"success": False, "message": f"Usuário bloqueado devido a múltiplas tentativas. Tente novamente em {MINUTES_BLOCKED} minutos."}, 403
-    else:
-        # Registro de tentativa para usuário inexistente
-        AccessLog.register_attempt(username_attempt=username, is_successful=False)
+            # Registro de tentativa para usuário inexistente
+            AccessLog.register_attempt(username_attempt=username, is_successful=False)
 
     return {"success": False, "message": "Usuário ou senha incorretos."}, 401
+
+
+def recovery_password(email) -> tuple:
+    """
+    Handles the password recovery request for a registered user.
+
+    This function validates the provided email address, searches for an
+    associated user account, creates a password recovery token when the user
+    exists, and sends a password reset link by email. To avoid disclosing
+    whether an email address is registered, the function returns a generic
+    success response when the email is valid.
+
+    Args:
+        email (str): Email address submitted for password recovery.
+
+    Returns:
+        tuple: A response dictionary and HTTP status code indicating whether
+            the recovery request was processed successfully.
+    """
+    valited_email = User.email_validate(email)
+    if not valited_email:
+        return {"success": False, "message": "Informe um email valido"}, 401
+    
+    user = User.query.filter(User.email == valited_email).first()
+    
+    if user:
+        password_recovery = PasswordRecoveryToken(
+            user=user
+        )
+        token = password_recovery.token
+        expires_at = password_recovery.expires_at
+
+        subject = "Recuperação de Senha - Meninas Hub"
+        link = f"localhost:5000/{url_for('main.reset_password', token=token)}"
+        time_expiration = current_app.config['TOKEN_EXPIRATION_TIME']
+        
+        body = render_template("recuperacao_email.html", nome_usuario=user.name, link_redefinicao=link, tempo_expiracao=time_expiration, hora_limite=expires_at)
+        
+        code = send_email(to=user.email, subject=subject, body_html=body)
+        
+        if code == 0:
+            return {"success": False, "message": "Não foi possível enviar o e-mail. Tente novamente mais tarde."}, 401
+        
+    return {"success": True, "message": "Caso o e-mail esteja cadastrado, um link de redefinição foi enviado. Lembre-se de verificar a pasta de spam."}, 200
