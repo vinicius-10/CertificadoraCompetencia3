@@ -24,7 +24,7 @@ def register():
     profession = data.get("Profissao","").strip()
     marital = data.get("Estado Civil","").strip()
     nationality = data.get("Nacionalidade","").strip()
-    code_institutional = data.get("RA","").strip()
+    code_institutional = data.get("Registro Academico","").strip()
     street = data.get("Logradouro","").strip()
     neighborhood = data.get("Bairro","").strip()
     postal_code = data.get("CEP","").strip()
