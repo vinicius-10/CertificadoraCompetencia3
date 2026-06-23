@@ -86,3 +86,10 @@ class User(db.Model, UserMixin):
             return email_check.normalized
         except EmailNotValidError as e:
             return None
+        
+    def rg_validate(rg):
+        rg = ''.join(filter(str.isdigit, rg))
+        if len(rg) == 9:
+            return rg
+        else:
+            return None
