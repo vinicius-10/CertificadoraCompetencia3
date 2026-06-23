@@ -18,12 +18,19 @@ async function register(){
         Swal.showLoading();
         }
     });
+    
     try{
-        $fd = new FormData(form_register);
+        const formData = new FormData(form_register);
+        const dataRegister = Object.fromEntries(formData.entries());
+        console.log("form data:", dataRegister);
 
         const response = await fetch("/api/user/register", {
             method: 'POST',
-            body: $fd
+            headers: {
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest" 
+                },
+            body: JSON.stringify(dataRegister)
         });
 
         const data = await response.json();

@@ -9,8 +9,10 @@ user_api_bp = Blueprint('user_api', __name__)
 @user_api_bp.route("/register", methods=['POST'])
 @perfil_required(UserProfile.SCHOLARSHIP, UserProfile.COORDINATOR)
 def register():
+    
     #obtenção dos dados do requisição
     data = request.get_json(silent=True)
+    print("\nDados: ",data,flush=True)
     if not data:
         return jsonify({"success": False, "message": "Requisão Inválida."}), 400
     
