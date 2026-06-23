@@ -55,8 +55,8 @@ async function register(){
             Swal.fire({
                 icon: "error",
                 title: "Erro de conexão",
-                text: "Não foi possível conectar ao servidor. Tente novamente.",
-                confirmButtonText: "Ok",
+                text: "Não foi possível conectar ao servidor.",
+                confirmButtonText: "Tente novamente.",
             });
             console.error("Erro na requisição de login:", err);
         }
@@ -64,7 +64,7 @@ async function register(){
         Swal.fire({
             icon: "error",
             title: "Email invalido",
-            text: "Verifique o email.",
+            text: "Email é obrigatório.",
             confirmButtonText: "Ok",
         });
 

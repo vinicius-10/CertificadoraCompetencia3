@@ -67,7 +67,7 @@ select {
   align-items: center;
   justify-content: space-between;
   min-height: 100px;
-  padding: 0 20px;
+  padding: 0 28px;   /* 28px = 1.75rem das outras páginas, alinha a logo à esquerda */
   background-color: var(--color-dark);
 }
 
@@ -90,8 +90,8 @@ select {
 }
 
 .nav-brand img {
-  width: 70px;
-  height: 70px;
+  width: 90px;   /* mesmo tamanho da logo da página de cadastro (5.625rem @16px) */
+  height: 90px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
