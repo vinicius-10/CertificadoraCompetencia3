@@ -107,7 +107,7 @@ def recovery_password(email) -> tuple:
         expires_at = password_recovery.expires_at
 
         subject = "Recuperação de Senha - Meninas Hub"
-        link = f"localhost:5000/{url_for('main.reset_password', token=token)}"
+        link = url_for('main.reset_password', token=token, _external=True)
         time_expiration = current_app.config['TOKEN_EXPIRATION_TIME']
         
         body = render_template("recuperacao_email.html", nome_usuario=user.name, link_redefinicao=link, tempo_expiracao=time_expiration, hora_limite=expires_at)
