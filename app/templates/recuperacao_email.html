@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recuperação de senha - Meninas Digitais UTFPR-CP</title>
     <!--
         E-mail de redefinição de senha.
         Variáveis esperadas no render_template:
@@ -11,69 +10,83 @@
           - link_redefinicao  → URL absoluta do link de redefinição
           - tempo_expiracao   → ex.: "1 hora"
           - hora_limite       → ex.: "15:30"
+
+        Obs.: como é um e-mail, o CSS fica TODO embutido (inline nos elementos).
+        O <style> abaixo guarda só o que não pode ser inline: reset de
+        box-sizing, :hover e a media query (mobile).
     -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/recuperacao_email.css') }}">
-    <link rel="stylesheet" href="../static/css/recuperacao_email.css">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='img/meninas_logo.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        .btn-redefinir:hover { opacity: 0.9; }
+        @media (max-width: 640px) {
+            .brand-title { font-size: 18px !important; }
+            .email-card  { padding: 28px 24px !important; }
+            .email-title { font-size: 22px !important; }
+            .btn-redefinir { padding: 14px 36px !important; }
+        }
+    </style>
 </head>
-<body>
+<body style="margin:0; padding:0; background-color:#ECE9E4; font-family:'Poppins', Arial, Helvetica, sans-serif;">
 
     <!-- Texto de pré-visualização (oculto) -->
-    <div class="preheader">
+    <div class="preheader" style="display:none; max-height:0; overflow:hidden; opacity:0;">
         Recebemos uma solicitação para redefinir a senha da sua conta no Meninas Digitais UTFPR-CP.
     </div>
 
     <!-- ── CABEÇALHO ── -->
-    <header class="email-header">
-        <div class="header-inner">
-            <img class="header-logo" src="../static/img/meninas_logo.png" alt="Logo do projeto Meninas Digitais UTFPR-CP"/>
-            <span class="brand-title">MENINAS DIGITAIS UTFPR-CP</span>
+    <header class="email-header" style="display:flex; align-items:center; justify-content:center; min-height:100px; padding:0 20px; background-color:#92358F; background-image:linear-gradient(90deg, #56338D 0%, #92358F 55%, #EC9C21 100%);">
+        <div class="header-inner" style="display:flex; align-items:center; gap:15px; width:100%; max-width:640px;">
+            <img class="header-logo" src="https://meninas.sbc.org.br/wp-content/uploads/2024/06/Logo-Meninas-Digitais-UTFPR-CP-scaled-1024x1024.jpg" alt="Logo do projeto Meninas Digitais UTFPR-CP" width="70" height="70" style="width:70px; height:70px; border-radius:50%; object-fit:cover; flex-shrink:0; border:0; display:block;"/>
+            <span class="brand-title" style="font-size:24px; font-weight:700; letter-spacing:0.4px; color:#FFFFFF;">MENINAS DIGITAIS UTFPR-CP</span>
         </div>
     </header>
 
     <!-- ── CORPO ── -->
-    <main>
-        <div class="email-card">
-            <h1 class="email-title">Recuperação de senha</h1>
+    <main style="padding:36px 24px 24px;">
+        <div class="email-card" style="width:100%; max-width:640px; margin:0 auto; box-sizing:border-box; background-color:#2C2C2C; border-radius:18px; padding:40px 44px;">
+            <h1 class="email-title" style="margin:0 0 28px; font-size:26px; font-weight:600; text-align:center; color:#FFFFFF;">Recuperação de senha</h1>
 
-            <p class="email-text">Olá, {{ nome_usuario }},</p>
+            <p class="email-text" style="margin:0 0 20px; font-size:15px; line-height:1.6; color:#E9E9E9;">Olá, {{ nome_usuario }},</p>
 
-            <p class="email-text">
+            <p class="email-text" style="margin:0 0 20px; font-size:15px; line-height:1.6; color:#E9E9E9;">
                 Recebemos uma solicitação para redefinir a senha da sua conta no sistema
                 do Meninas Digitais - UTFPR Campus Cornélio Procópio.
             </p>
 
-            <p class="email-text email-text--cta">
+            <p class="email-text" style="margin:0 0 28px; font-size:15px; line-height:1.6; color:#E9E9E9;">
                 Para criar uma nova senha, clique no botão abaixo:
             </p>
 
-            <div class="btn-wrap">
-                <a class="btn-redefinir" href="{{ link_redefinicao }}" target="_blank" rel="noopener">Redefinir</a>
+            <div class="btn-wrap" style="text-align:center; margin:0 0 28px;">
+                <a class="btn-redefinir" href="{{ link_redefinicao }}" target="_blank" rel="noopener" style="display:inline-block; padding:14px 52px; border-radius:10px; background-color:#56338D; background-image:linear-gradient(90deg, #56338D, #92358F); color:#FFFFFF; font-size:18px; font-weight:600; text-decoration:none;">Redefinir</a>
             </div>
 
-            <p class="email-text fallback-label">
+            <p class="email-text" style="margin:0 0 12px; font-size:15px; line-height:1.6; color:#E9E9E9;">
                 Se o botão acima não funcionar, copie e cole o link abaixo no seu navegador:
             </p>
-            <a class="fallback-link" href="{{ link_redefinicao }}" target="_blank" rel="noopener">{{ link_redefinicao }}</a>
+            <a class="fallback-link" href="{{ link_redefinicao }}" target="_blank" rel="noopener" style="display:block; margin:0 0 28px; font-size:14px; line-height:1.6; color:#EC9C21; word-break:break-all;">{{ link_redefinicao }}</a>
 
-            <hr class="email-divider">
+            <hr class="email-divider" style="border:0; border-top:1px solid #4A4A4A; margin:0 0 24px;">
 
-            <p class="info-title">Informações Importantes:</p>
-            <ul class="info-list">
-                <li class="info-item">
-                    <strong>Validade:</strong> Este link é válido por {{ tempo_expiracao }}
+            <p class="info-title" style="margin:0 0 12px; font-size:15px; font-weight:500; color:#FFFFFF;">Informações Importantes:</p>
+            <ul class="info-list" style="list-style:none; margin:0; padding:0;">
+                <li class="info-item" style="position:relative; padding-left:20px; margin:0 0 10px; font-size:14px; line-height:1.6; color:#CFCFCF;">
+                    <span style="position:absolute; left:0; color:#EC9C21;">&bull;</span>
+                    <strong style="color:#E9E9E9;">Validade:</strong> Este link é válido por {{ tempo_expiracao }}
                     (até às {{ hora_limite }} de hoje). Após esse período, será necessário solicitar um novo link.
                 </li>
-                <li class="info-item">
-                    <strong>Segurança:</strong> Se você não solicitou a alteração desta senha, por favor,
+                <li class="info-item" style="position:relative; padding-left:20px; margin:0; font-size:14px; line-height:1.6; color:#CFCFCF;">
+                    <span style="position:absolute; left:0; color:#EC9C21;">&bull;</span>
+                    <strong style="color:#E9E9E9;">Segurança:</strong> Se você não solicitou a alteração desta senha, por favor,
                     desconsidere este e-mail. Sua conta permanece segura e nenhuma alteração foi realizada.
                 </li>
             </ul>
 
-            <p class="support-text">
+            <p class="support-text" style="margin:24px 0 0; font-size:14px; line-height:1.6; color:#CFCFCF;">
                 Caso tenha dificuldades para acessar o sistema ou precise de suporte técnico,
                 entre em contato com a equipe coordenadora através do e-mail institucional do projeto.
             </p>
@@ -81,7 +94,7 @@
     </main>
 
     <!-- ── RODAPÉ ── -->
-    <footer class="email-footer">
+    <footer class="email-footer" style="padding:0 24px 32px; font-size:12px; line-height:1.5; text-align:center; color:#8A8A8A;">
         © Meninas Digitais - UTFPR Campus Cornélio Procópio.<br>
         Esta é uma mensagem automática, por favor não responda.
     </footer>

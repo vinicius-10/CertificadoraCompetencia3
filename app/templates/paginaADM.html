@@ -40,9 +40,15 @@
                 <input type="email" id="email" name="email" value="{{ current_user.email }}" readonly/>
             </div>
 
-            <a href="{{ url_for('main.edit_adm') }}">
-                <button type="button" class="btn-editar-perfil">Editar</button>
-            </a>
+            <div class="profile-actions">
+                <a href="{{ url_for('main.edit_adm') }}">
+                    <button type="button" class="btn-editar-perfil">Editar</button>
+                </a>
+
+                <a href="{{ url_for('main.cadastro_adm') }}">
+                    <button type="button" class="btn-cadastrar-perfil">Cadastrar</button>
+                </a>
+            </div>
 
             <div class="report-panel">
                 <span class="report-title">Gerar Relatório</span>
