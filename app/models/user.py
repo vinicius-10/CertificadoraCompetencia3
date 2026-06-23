@@ -9,6 +9,7 @@ from flask_login import UserMixin
 from argon2 import PasswordHasher
 from datetime import datetime, timezone
 from email_validator import validate_email, EmailNotValidError
+from unidecode import unidecode
 
 
 ph = PasswordHasher()
@@ -47,6 +48,12 @@ class User(db.Model, UserMixin):
     recovery_tokens = relationship("PasswordRecoveryToken", back_populates="user")
     
     blocks_received = relationship("UserBlock", back_populates="user")
+    
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        
+        if self.password_hash is None:
+            self._set_default_password()
     
     def set_password(self, password):
         self.password_hash = ph.hash(password)
@@ -87,9 +94,17 @@ class User(db.Model, UserMixin):
         except EmailNotValidError as e:
             return None
         
+    @staticmethod
     def rg_validate(rg):
         rg = ''.join(filter(str.isdigit, rg))
         if len(rg) == 9:
             return rg
         else:
             return None
+        
+    def _set_default_password(self):
+        name_array = self.name.strip().split(" ")
+        if not name_array:
+            return
+        password_default = unidecode((name_array[0] + name_array[-1]).lower())
+        self.set_password(password_default)
