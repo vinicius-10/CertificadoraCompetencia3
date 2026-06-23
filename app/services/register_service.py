@@ -32,10 +32,7 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
         return {"success": False, "message": "A profissão deve conter apenas letras."}, 400
     
     #validar estado civil
-    print('\nmarital:',marital, type(marital),flush=True)
-    teste = (marital in [UserMarital.SINGLE, UserMarital.MARRIED, UserMarital.DIVORCED, UserMarital.WIDOWED, UserMarital.STABLE_UNION])
-    print('\nteste:',teste,flush=True)
-    if teste:
+    if not (marital in [UserMarital.SINGLE.name, UserMarital.MARRIED.name, UserMarital.DIVORCED.name, UserMarital.WIDOWED.name, UserMarital.STABLE_UNION.name]):
         return {"success": False, "message": "Estado civil inválido."}, 400
     
     #validar nacionalidade
@@ -79,19 +76,19 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
         return {"success": False, "message": "O complemento deve conter apenas letras e números e ser menor que 100 caracteres."}, 400
     
     #validar setor
-    if not sector in [UserSector.MARKETING, UserSector.RH, UserSector.CONTENT, UserSector.INSTRUCTORS]:
+    if not sector in [UserSector.MARKETING.name, UserSector.RH.name, UserSector.CONTENT.name, UserSector.INSTRUCTORS.name]:
         return {"success": False, "message": "Setor inválido."}, 400
     
     #vaidar posição
-    if not position in [UserPosition.STUDANT_COORDINATOR, UserPosition.REPRESENTATIVE, UserPosition.VOLUNTEER]:
+    if not position in [UserPosition.STUDANT_COORDINATOR.name, UserPosition.REPRESENTATIVE.name, UserPosition.VOLUNTEER.name]:
         return {"success": False, "message": "Posição inválida."}, 400
     
     #validar tipo de usuário
-    if not (profile in [UserProfile.COORDINATOR, UserProfile.SCHOLARSHIP, UserProfile.VOLUNTEER]):
+    if not (profile in [UserProfile.COORDINATOR.name, UserProfile.SCHOLARSHIP.name, UserProfile.VOLUNTEER.name]):
         return {"success": False, "message": "Tipo de usuário inválido."}, 400
     
     #validar status
-    if not status in [UserStatus.ACTIVE, UserStatus.INACTIVE, UserStatus.DELETED]:
+    if not status in [UserStatus.ACTIVE.name, UserStatus.INACTIVE.name, UserStatus.DELETED.name]:
         return {"success": False, "message": "Status inválido."}, 400
     
     #validar data de entrada
@@ -108,5 +105,34 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
     
     #inserção no BD
     
+    user1 = User(
+        code_institutional= code_institutional,
+        name= username,
+        email= email,
+        cpf= cpf,
+        rg= rg,
+        nationality= nationality,
+        marital= ,
+        profession= profession,
+        profile= ,
+        status= ,
+        sector= ,
+        position= ,
+        entry_at= data_entry,
+    )
+    #user1.set_password() tem que fazer a função de gerar senha
+
+    # Criando e vinculando o endereço diretamente
+    addr1 = Address(
+        postal_code= postal_code,
+        street= street,
+        number= number,
+        complement= complement,
+        neighborhood= neighborhood,
+        city= city,
+        state= state,
+        country= country,
+        user=user1 # O SQLAlchemy vincula o ID automaticamente aqui
+    )
     
     
