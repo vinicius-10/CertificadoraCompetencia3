@@ -56,11 +56,12 @@
                         <label class="field-label" for="Estado Civil">Estado Civil</label>
                         <div class="field-input-wrapper custom-select">
                             <select id="Estado Civil" name="Estado Civil">
-                                <option value="">Selecione...</option>
-                                <option value="Solteiro">Solteiro</option>
-                                <option value="Casado">Casado</option>
-                                <option value="Divorciado">Divorciado</option>
-                                <option value="Viúvo">Viúvo</option>
+                                <option value="" hidden>Selecione...</option>
+                                <option value="{{UserMarital.SINGLE}}" >{{UserMarital.SINGLE.value}}</option>
+                                <option value="{{UserMarital.MARRIED}}" >{{UserMarital.MARRIED.value}}</option>
+                                <option value="{{UserMarital.DIVORCED}}" >{{UserMarital.DIVORCED.value}}</option>
+                                <option value="{{UserMarital.WIDOWED}}" >{{UserMarital.WIDOWED.value}}</option>
+                                <option value="{{UserMarital.STABLE_UNION}}">{{UserMarital.STABLE_UNION.value}}</option>
                             </select>
                         </div>
                     </div>
@@ -128,10 +129,11 @@
                     <label class="field-label" for="setor">Setor</label>
                     <div class="field-input-wrapper custom-select">
                         <select id="setor" name="setor">
-                            <option value="">Selecione...</option>
-                            <option value="xxx">XXX</option>
-                            <option value="yyy">YYY</option>
-                            <option value="www">WWW</option>
+                            <option value="" hidden>Selecione...</option>
+                            <option value="{{UserSector.MARKETING}}">{{UserSector.MARKETING.value}}</option>
+                            <option value="{{UserSector.RH}}">{{UserSector.RH.value}}</option>
+                            <option value="{{UserSector.CONTENT}}">{{UserSector.CONTENT.value}}</option>
+                            <option value="{{UserSector.INSTRUCTORS}}">{{UserSector.INSTRUCTORS.value}}</option>
                         </select>
                     </div>
                 </div>
@@ -140,10 +142,10 @@
                     <label class="field-label" for="cargo">Cargo</label>
                     <div class="field-input-wrapper custom-select">
                         <select id="cargo" name="cargo">
-                            <option value="">Selecione...</option>
-                            <option value="xxx">XXX</option>
-                            <option value="yyy">YYY</option>
-                            <option value="www">WWW</option>
+                            <option value="" hidden>Selecione...</option>
+                            <option value="{{UserPosition.STUDANT_COORDINATOR}}">{{UserPosition.STUDANT_COORDINATOR.value}}</option>
+                            <option value="{{UserPosition.REPRESENTATIVE}}">{{UserPosition.REPRESENTATIVE.value}}</option>
+                            <option value="{{UserPosition.VOLUNTEER}}">{{UserPosition.VOLUNTEER.value}}</option>
                         </select>
                     </div>
                 </div>
@@ -152,10 +154,10 @@
                     <label class="field-label" for="tipoUsuario">Tipo de Usuário</label>
                     <div class="field-input-wrapper custom-select">
                         <select id="tipoUsuario" name="tipoUsuario">
-                            <option value="">Selecione...</option>
-                            <option value="xxx">XXX</option>
-                            <option value="yyy">YYY</option>
-                            <option value="www">WWW</option>
+                            <option value="" hidden>Selecione...</option>
+                            {% if current_profile_coedinator %}<option value="{{UserProfile.COORDINATOR}}">{{UserProfile.COORDINATOR.value}}</option>{%endif%}
+                            <option value="{{UserProfile.SCHOLARSHIP}}">{{UserProfile.SCHOLARSHIP.value}}</option>
+                            <option value="{{UserProfile.VOLUNTEER}}">{{UserProfile.VOLUNTEER.value}}</option>
                         </select>
                     </div>
                 </div>
