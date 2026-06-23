@@ -19,7 +19,7 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
         return {"success": False, "message": "O nome de usuário deve conter apenas letras."}, 400
     
     # validar email
-    if not User.validate_email(email):
+    if not User.email_validate(email):
         return {"success": False, "message": "Email inválido."}, 400
     
     # validar rg
@@ -31,7 +31,10 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
         return {"success": False, "message": "A profissão deve conter apenas letras."}, 400
     
     #validar estado civil
-    if not marital in [UserProfile.SINGLE, UserProfile.MARRIED, UserProfile.DIVORCED, UserProfile.WIDOWED, UserProfile.STABLE_UNION]:
+    print('\n antes do teste')
+    teste = (marital in [UserProfile.SINGLE, UserProfile.MARRIED, UserProfile.DIVORCED, UserProfile.WIDOWED, UserProfile.STABLE_UNION])
+    print('\nteste:',teste,flush=True)
+    if not teste:
         return {"success": False, "message": "Estado civil inválido."}, 400
     
     #validar nacionalidade
@@ -83,7 +86,7 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
         return {"success": False, "message": "Posição inválida."}, 400
     
     #validar tipo de usuário
-    if not profile in [UserProfile.COORDINATOR, UserProfile.SCHOLARSHIP, UserProfile.VOLUNTEER]:
+    if not (profile in [UserProfile.COORDINATOR, UserProfile.SCHOLARSHIP, UserProfile.VOLUNTEER]):
         return {"success": False, "message": "Tipo de usuário inválido."}, 400
     
     #validar status
