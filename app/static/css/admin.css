@@ -168,11 +168,24 @@ main {
   box-shadow: 0 0 0 0.2rem var(--purple);
 }
 
-/* ── BOTÃO EDITAR (PERFIL) ── */
-.btn-editar-perfil {
-  align-self: flex-start;
+/* ── AÇÕES DO PERFIL (EDITAR / CADASTRAR) ── */
+.profile-actions {
+  display: flex;
+  gap: 0.75rem;
   margin-top: 0.5rem;
-  padding: 0.625rem 2.5rem;
+}
+
+.profile-actions a {
+  flex: 1;
+  display: flex;
+  min-width: 0;
+  text-decoration: none;
+}
+
+.btn-editar-perfil,
+.btn-cadastrar-perfil {
+  width: 100%;
+  padding: 0.625rem 1rem;
   color: var(--text-light);
   background-color: var(--card-bg);
   border: 2px solid var(--text-light);
@@ -180,11 +193,13 @@ main {
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
   font-size: 1.4375rem;
+  text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.btn-editar-perfil:hover {
+.btn-editar-perfil:hover,
+.btn-cadastrar-perfil:hover {
   background-color: var(--text-light);
   color: var(--card-bg);
 }
