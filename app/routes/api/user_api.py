@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, redirect, url_for
 from flask_login import logout_user, login_required
 from app.services.register_service import register_user
-from app.decorators import perfil_required
+from app.utils import perfil_required
 from app.models import User, UserBlock, UserProfile, UserStatus, UserMarital, UserSector, UserPosition, Address, db
 
 user_api_bp = Blueprint('user_api', __name__)

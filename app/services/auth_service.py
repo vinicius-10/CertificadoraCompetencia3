@@ -3,9 +3,9 @@ from urllib.parse import urlsplit
 from flask import current_app, url_for, render_template
 from flask_login import login_user
 
-from app.models import AccessLog, PasswordRecoveryToken, User, UserBlock, UserProfile
+from app.models import AccessLog, PasswordRecoveryToken, User, UserBlock, UserProfile, db
 from app.services.email_service import send_email
-
+import time
 
 def authenticate_user(username, password, next_page) -> tuple:
     """
@@ -103,6 +103,9 @@ def recovery_password(email) -> tuple:
         password_recovery = PasswordRecoveryToken(
             user=user
         )
+        db.session.add(password_recovery)
+        db.session.commit()
+        
         token = password_recovery.token
         expires_at = password_recovery.expires_at
 
@@ -116,5 +119,9 @@ def recovery_password(email) -> tuple:
         
         if code == 0:
             return {"success": False, "message": "Não foi possível enviar o e-mail. Tente novamente mais tarde."}, 401
-        
-    return {"success": True, "message": "Caso o e-mail esteja cadastrado, um link de redefinição foi enviado. Lembre-se de verificar a pasta de spam."}, 200
+        else:
+            return {"success": True, "message": "Caso o e-mail esteja cadastrado, um link de redefinição foi enviado. Lembre-se de verificar a pasta de spam."}, 200
+    else:
+        time.sleep(1)
+        return {"success": True, "message": "Caso o e-mail esteja cadastrado, um link de redefinição foi enviado. Lembre-se de verificar a pasta de spam."}, 200
+

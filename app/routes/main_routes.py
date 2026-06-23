@@ -1,5 +1,5 @@
 
-from app.decorators import perfil_required
+from app.utils import perfil_required
 from flask import render_template, Blueprint, redirect, url_for
 from flask_login import login_required, current_user
 from app.models import UserProfile, db, User, Address
