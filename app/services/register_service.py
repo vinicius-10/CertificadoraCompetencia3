@@ -21,3 +21,7 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
     # validar email
     if not User.validate_email(email):
         return {"success": False, "message": "Email inválido."}, 400
+    
+    # validar rg
+    if not User.rg_validate(rg):
+        return {"success": False, "message": "RG inválido."}, 400
