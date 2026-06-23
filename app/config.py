@@ -8,6 +8,9 @@ class Config:
     WITHIN_MINUTES = 5
     MINUTES_BLOCKED = 15
     
+    #tempo de expiração do token em horas
+    TOKEN_EXPIRATION_TIME = 1
+    
     # Chaves de segurança e Banco de Dados
     SECRET_KEY = environ.get('SECRET_KEY')
     SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URL')

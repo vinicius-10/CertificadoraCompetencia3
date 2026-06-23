@@ -1,13 +1,18 @@
 from flask import Blueprint, request, jsonify, redirect, url_for
 from flask_login import logout_user, login_required
 from app.services.register_service import register_user
+from app.decorators import perfil_required
+from app.models import User, UserBlock, UserProfile, UserStatus, UserMarital, UserSector, UserPosition, Address, db
 
 user_api_bp = Blueprint('user_api', __name__)
 
 @user_api_bp.route("/register", methods=['POST'])
+@perfil_required(UserProfile.SCHOLARSHIP, UserProfile.COORDINATOR)
 def register():
+    
     #obtenção dos dados do requisição
     data = request.get_json(silent=True)
+    print("\nDados: ",data,flush=True)
     if not data:
         return jsonify({"success": False, "message": "Requisão Inválida."}), 400
     

@@ -73,6 +73,7 @@ async function login() {
             }
 
         } catch (err) {
+            Swal.close();
             Swal.fire({
                 icon: "error",
                 title: "Erro de conexão",

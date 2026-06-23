@@ -1,12 +1,31 @@
-from app.models import User, UserBlock, AccessLog, UserProfile
-from flask_login import login_user
 from urllib.parse import urlsplit
-from flask import current_app, url_for, render_template
 
+from flask import current_app, url_for, render_template
+from flask_login import login_user
+
+from app.models import AccessLog, PasswordRecoveryToken, User, UserBlock, UserProfile
 from app.services.email_service import send_email
 
 
-def authenticate_user(username, password, next_page):
+def authenticate_user(username, password, next_page) -> tuple:
+    """
+    Authenticates a user and determines the appropriate redirect destination.
+
+    This function validates the provided credentials, verifies whether the
+    user account is temporarily blocked, records each login attempt, and
+    authenticates the user when the password is correct. When authentication
+    succeeds, the function redirects the user to a safe next page or to the
+    default page associated with the user's profile.
+
+    Args:
+        username (str): CPF submitted as the login identifier.
+        password (str): Password submitted for authentication.
+        next_page (str): Optional page requested before authentication.
+
+    Returns:
+        tuple: A response dictionary and HTTP status code indicating whether
+            authentication succeeded, failed, or was blocked.
+    """
     MAX_LOGIN_ATTEMPTS = current_app.config['MAX_LOGIN_ATTEMPTS']
     MINUTES_BLOCKED = current_app.config['MINUTES_BLOCKED']
 
@@ -42,7 +61,6 @@ def authenticate_user(username, password, next_page):
                     else:
                         page = "/adminView"
                     
-                print(f"\nRota: {page}, user {user.profile}\n", flush=True)
                 return {"success": True, "redirect": page}, 200
             
             else:
@@ -58,22 +76,45 @@ def authenticate_user(username, password, next_page):
     return {"success": False, "message": "Usuário ou senha incorretos."}, 401
 
 
-def recovery_password(email):
+def recovery_password(email) -> tuple:
+    """
+    Handles the password recovery request for a registered user.
+
+    This function validates the provided email address, searches for an
+    associated user account, creates a password recovery token when the user
+    exists, and sends a password reset link by email. To avoid disclosing
+    whether an email address is registered, the function returns a generic
+    success response when the email is valid.
+
+    Args:
+        email (str): Email address submitted for password recovery.
+
+    Returns:
+        tuple: A response dictionary and HTTP status code indicating whether
+            the recovery request was processed successfully.
+    """
+    valited_email = User.email_validate(email)
+    if not valited_email:
+        return {"success": False, "message": "Informe um email valido"}, 401
     
-    try:
-        email_check = validate_email(email, check_deliverability=True)
-        validated_email = email_check.normalized
-    except EmailNotValidError as e:
-        return {"success": False, "message": "Email invalido"}, 401
+    user = User.query.filter(User.email == valited_email).first()
     
-    subject = "Recuperação de Senha - Meninas Hub"
-    link = f"localhost:5000/{url_for('main.reset_password', token=token)}"
-    
-    body = render_template("recuperacao_email.html", link=link)
-    
-    code = send_email(to=email, subject=subject, body_html=body)
-    
-    if code == 0:
-        return {"success": False, "message": "Não foi posivel enviar o email. Tente novamente mais tarde"}, 401
-    else:
-        return {"success": True, "message": "Casso email esteje cadastrado foi enviado um link para redefinir a senha, Lembre de verificar o span"}, 200
+    if user:
+        password_recovery = PasswordRecoveryToken(
+            user=user
+        )
+        token = password_recovery.token
+        expires_at = password_recovery.expires_at
+
+        subject = "Recuperação de Senha - Meninas Hub"
+        link = f"localhost:5000/{url_for('main.reset_password', token=token)}"
+        time_expiration = current_app.config['TOKEN_EXPIRATION_TIME']
+        
+        body = render_template("recuperacao_email.html", nome_usuario=user.name, link_redefinicao=link, tempo_expiracao=time_expiration, hora_limite=expires_at)
+        
+        code = send_email(to=user.email, subject=subject, body_html=body)
+        
+        if code == 0:
+            return {"success": False, "message": "Não foi possível enviar o e-mail. Tente novamente mais tarde."}, 401
+        
+    return {"success": True, "message": "Caso o e-mail esteja cadastrado, um link de redefinição foi enviado. Lembre-se de verificar a pasta de spam."}, 200

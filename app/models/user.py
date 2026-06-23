@@ -8,6 +8,7 @@ from sqlalchemy.orm import relationship
 from flask_login import UserMixin
 from argon2 import PasswordHasher
 from datetime import datetime, timezone
+from email_validator import validate_email, EmailNotValidError
 
 
 ph = PasswordHasher()
@@ -77,3 +78,18 @@ class User(db.Model, UserMixin):
                 return False
                 
         return True
+
+    @staticmethod
+    def email_validate (email):
+        try:
+            email_check = validate_email(email, check_deliverability=True)
+            return email_check.normalized
+        except EmailNotValidError as e:
+            return None
+        
+    def rg_validate(rg):
+        rg = ''.join(filter(str.isdigit, rg))
+        if len(rg) == 9:
+            return rg
+        else:
+            return None
