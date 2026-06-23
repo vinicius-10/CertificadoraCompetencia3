@@ -1,6 +1,5 @@
 from app.models.db_instance import db
 from app.models.enums import UserProfile, UserStatus, UserMarital, UserSector, UserPosition
-
 from sqlalchemy import Enum as SAEnum
 import uuid
 from sqlalchemy import Column, String, Integer, DateTime, Boolean, ForeignKey, Enum, Text
