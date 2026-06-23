@@ -56,7 +56,7 @@ async function login() {
                     next_url: nextUrl 
                 }),
             });
-            console.log("Response text:", response.text().then(text => console.log(text))); //apenas para debug
+            
             const data = await response.json();
             Swal.close();
             
