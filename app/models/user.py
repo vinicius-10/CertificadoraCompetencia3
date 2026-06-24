@@ -1,4 +1,4 @@
-from app.models.db_instance import db
+from app.models import db
 from app.models.enums import UserProfile, UserStatus, UserMarital, UserSector, UserPosition
 from sqlalchemy import Enum as SAEnum
 import uuid
