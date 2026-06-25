@@ -99,7 +99,7 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
     
     #validar data de saída
     data_departure = parse_from_date(departure_at)
-    
+    # mudar a lógica para permitir que a data de sáida seja none
     if not data_departure or data_departure < data_entry:
         return {"success": False, "message": "Data de saída inválida."}, 400
     
