@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de Voluntários</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 14mm 10mm;
+            @bottom-right {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 8pt;
+                color: #888888;
+            }
+            @bottom-left {
+                content: "Meninas Hub - Administração";
+                font-size: 8pt;
+                color: #888888;
+            }
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            color: #333333;
+            font-size: 8pt;
+            line-height: 1.5;
+        }
+
+        .header {
+            border-bottom: 2px solid #e11d48; /* Tom rosa/magenta do projeto */
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #e11d48;
+            font-size: 22pt;
+            margin: 0;
+        }
+
+        .meta-info {
+            text-align: right;
+            font-size: 9pt;
+            color: #666666;
+            margin-top: -35px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th {
+            background-color: #e11d48;
+            color: white;
+            padding: 6px;
+            font-size: 7.5pt;
+            text-align: left;
+        }
+
+        td {
+            padding: 6px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 7.5pt;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Meninas Hub</h1>
+        <div class="meta-info">
+            Relatório de {{type_report}}<br>
+            Gerado em: {{date}}
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Código institucional</th>
+                <th>Email</th>
+                <th>Setor</th>
+                <th>Cargo</th>
+                <th>Perfil</th>
+                <th>Entrada</th>
+                <th>Saída</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for v in volunteers %}
+            <tr>
+                <td><strong>{{ v.name }}</strong></td>
+                <td>{{ v.code_institutional or '-' }}</td>
+                <td>{{ v.email }}</td>
+                <td>{{ v.sector.value if v.sector else '-' }}</td>
+                <td>{{ v.position.value if v.position else '-' }}</td>
+                <td>{{ v.profile.value if v.profile else '-' }}</td>
+                <td>{{ v.entry_at.strftime('%d/%m/%Y') if v.entry_at else '-' }}</td>
+                <td>{{ v.departure_at.strftime('%d/%m/%Y') if v.departure_at else '-' }}</td>
+                <td>{{ v.status.value if v.status else '-' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

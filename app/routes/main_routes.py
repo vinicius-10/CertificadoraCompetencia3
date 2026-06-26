@@ -1,17 +1,38 @@
 
 from app.utils import perfil_required
-from flask import render_template, Blueprint, redirect, url_for
+from flask import render_template, Blueprint, redirect, url_for, request, flash
 from flask_login import login_required, current_user
-from app.models import UserProfile, db, User, Address, UserProfile, UserMarital, UserSector, UserPosition, UserStatus
-from datetime import datetime, timedelta, timezone
+from app.models import db, User, Address, UserProfile, UserMarital, UserSector, UserPosition, UserStatus
+from datetime import datetime, timezone
+from sqlalchemy import func, select
 
 
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route("/")
 def home():
-    years = (datetime.now(timezone.utc) - timedelta(days=2023*365)).year
-    return render_template("landing_page.html", years=years)
+    project_start_year = 2023
+    years = datetime.now(timezone.utc).year - project_start_year
+    
+    active_scholars = db.session.scalar(
+        select(func.count())
+        .select_from(User)
+        .where(User.profile == UserProfile.SCHOLARSHIP, User.status == UserStatus.ACTIVE)
+    )
+    
+    active_volunteers = db.session.scalar(
+        select(func.count())
+        .select_from(User)
+        .where(User.profile == UserProfile.VOLUNTEER, User.status == UserStatus.ACTIVE)
+    ) + active_scholars
+    
+
+    return render_template(
+        "landing_page.html",
+        years=years,
+        active_volunteers=active_volunteers,
+        active_scholars=active_scholars,
+    )
 
 @main_bp.route("/ping")
 def ping():
@@ -49,7 +70,8 @@ def user_view():
 @main_bp.route("/adminView")
 @perfil_required(UserProfile.SCHOLARSHIP, UserProfile.COORDINATOR)
 def admin_view():
-    return render_template("paginaADM.html")
+    user_id=current_user.id
+    return render_template("paginaADM.html",user_id=user_id, UserProfile=UserProfile, UserPosition=UserPosition, UserSector=UserSector  )
 
 
 @main_bp.route("/cadastro")
@@ -57,7 +79,7 @@ def admin_view():
 def cadastro():
     
     current_profile_coedinator = (current_user.profile == UserProfile.COORDINATOR)
-    print(f"validação: {current_profile_coedinator}, perfil: {current_user.profile}",flush=True)
+
     return render_template("cadastro.html", UserMarital=UserMarital, UserProfile=UserProfile, UserSector=UserSector, UserPosition=UserPosition, current_profile_coedinator=current_profile_coedinator, UserStatus= UserStatus)
 
 
@@ -76,18 +98,36 @@ def edit_volunteer():
     return render_template("Atualizacao_info_Volun.html", user=user, address=address, UserMarital=UserMarital, marital_options=marital_options)
 
 
-@main_bp.route("/editADM")
+@main_bp.route("/editADM", methods=['GET'])
 @perfil_required(UserProfile.COORDINATOR, UserProfile.SCHOLARSHIP)
 def edit_adm():
-    from app.models import UserMarital
+    user_id = request.args.get('user_id', '').strip()
+    
+    user = User.query.filter(User.id == user_id).first()
+    if not user:
+        flash("Usuário não encontrado.", "error")
+        return redirect(url_for("main.login"))
+    
     marital_options = {e.name: "" for e in UserMarital}
+    position_option = {e.name: "" for e in UserPosition}
+    profile_option = {e.name: "" for e in UserProfile}
+    status_option = {e.name: "" for e in UserStatus}
+    sector_option = {e.name: "" for e in UserSector}
     
+    current_profile_coedinator = (current_user.profile == UserProfile.COORDINATOR)
     
-    user = User.query.filter_by(id=current_user.id).first()
     address = Address.query.filter_by(user_id=user.id).first()
     
     marital_options[user.marital.name] = "selected"
-    return render_template("Atualizacao_info_ADM.html", user=user, address=address, UserMarital=UserMarital, marital_options=marital_options)
+    position_option[user.position.name] = "selected"
+    profile_option[user.profile.name] = "selected"
+    status_option[user.status.name] = "selected"
+    sector_option[user.sector.name] = "selected"
+    
+    entry_at = datetime.strftime(user.entry_at, "%Y-%m-%d")
+    departure_at = datetime.strftime(user.departure_at, "%Y-%m-%d") if user.departure_at else ''
+    
+    return render_template("Atualizacao_info_ADM.html", user=user, address=address, UserMarital=UserMarital, UserPosition=UserPosition, UserProfile=UserProfile, UserStatus=UserStatus, UserSector=UserSector, marital_options=marital_options, position_option=position_option, profile_option=profile_option, status_option=status_option, sector_option=sector_option, current_profile_coedinator=current_profile_coedinator,entry_at=entry_at,departure_at=departure_at)
 
 
 @main_bp.route("/emailSent")

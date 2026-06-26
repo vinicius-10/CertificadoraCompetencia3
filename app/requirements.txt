@@ -7,3 +7,4 @@ flask-login~=0.6.3
 Flask-Mailman~=1.1.1
 email-validator~=2.3.0
 unidecode~=1.4.0
+weasyprint~=69.0

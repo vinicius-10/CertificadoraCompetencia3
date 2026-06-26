@@ -1,104 +1,370 @@
-from app.models import db, User, UserProfile, UserStatus, UserMarital, UserSector, UserPosition, Address
 from datetime import datetime, timezone
+
+from app.models import Address, User, UserMarital, UserPosition, UserProfile, UserSector, UserStatus, db
+
+
+DEFAULT_PASSWORD = "senha123"
+
+
+def _create_user(user_data):
+    user = User(
+        code_institutional=user_data["code_institutional"],
+        name=user_data["name"],
+        email=user_data["email"],
+        cpf=user_data["cpf"],
+        rg=user_data["rg"],
+        nationality=user_data.get("nationality", "Brasileira"),
+        marital=user_data.get("marital", UserMarital.SINGLE),
+        profession=user_data["profession"],
+        profile=user_data["profile"],
+        status=user_data["status"],
+        sector=user_data["sector"],
+        position=user_data["position"],
+        entry_at=user_data.get("entry_at", datetime.now(timezone.utc)),
+        departure_at=user_data.get("departure_at"),
+    )
+    user.set_password(user_data.get("password", DEFAULT_PASSWORD))
+
+    address = Address(
+        postal_code=user_data["postal_code"],
+        street=user_data["street"],
+        number=user_data["number"],
+        complement=user_data.get("complement"),
+        neighborhood=user_data["neighborhood"],
+        city=user_data["city"],
+        state=user_data["state"],
+        country=user_data.get("country", "Brasil"),
+        user=user,
+    )
+
+    return user, address
+
 
 def seed_data():
     print("Iniciando inserção de dados de semente (seed)...")
-    if not User.query.first():
-        
-        user1 = User(
-            code_institutional="99001",
-            name="Coordenação Geral",
-            email="meninasdigitaishub@gmail.com",
-            cpf="69545514060",       # CPF Válido para testes
-            rg="432314545",          # RG fictício estruturado
-            nationality="Brasileira",
-            marital=UserMarital.MARRIED,
-            profession="Administrador",
-            profile=UserProfile.COORDINATOR,
-            status=UserStatus.ACTIVE,
-            sector=UserSector.RH,
-            position=UserPosition.STUDANT_COORDINATOR,
-            entry_at=datetime.now(timezone.utc),
-        )
-        user1.set_password("admin123")
 
-        # Criando e vinculando o endereço diretamente
-        addr1 = Address(
-            postal_code="01001000",
-            street="Praça da Sé",
-            number="123",
-            complement="Bloco A",
-            neighborhood="Sé",
-            city="São Paulo",
-            state="SP",
-            country="Brasil",
-            user=user1 # O SQLAlchemy vincula o ID automaticamente aqui
-        )
-        
-        user2 = User(
-            code_institutional="99002",
-            name="Ana Silva (Bolsista)",
-            email="vinicius.2023@alunos.utfpr.edu.br",
-            cpf="88504051030",       # CPF Válido para testes
-            rg="112223334",
-            nationality="Brasileira",
-            marital=UserMarital.SINGLE,
-            profession="Estudante",
-            profile=UserProfile.SCHOLARSHIP,
-            status=UserStatus.ACTIVE,
-            sector=UserSector.CONTENT,
-            position=UserPosition.REPRESENTATIVE,
-            entry_at=datetime.now(timezone.utc),
-        )
-       
-        user2.set_password("bolsista123")
+    now = datetime.now(timezone.utc)
 
-        addr2 = Address(
-            postal_code="20040002",
-            street="Avenida Rio Branco",
-            number="500",
-            complement="Apto 402",
-            neighborhood="Centro",
-            city="Rio de Janeiro",
-            state="RJ",
-            country="Brasil",
-            user=user2
-        )
+    users_seed = [
+        {
+            "code_institutional": "99001",
+            "name": "Coordenação Geral",
+            "email": "meninasdigitaishub@gmail.com",
+            "cpf": "69545514060",
+            "rg": "432314545",
+            "marital": UserMarital.MARRIED,
+            "profession": "Administrador",
+            "profile": UserProfile.COORDINATOR,
+            "status": UserStatus.ACTIVE,
+            "sector": UserSector.RH,
+            "position": UserPosition.STUDANT_COORDINATOR,
+            "password": "admin123",
+            "postal_code": "01001000",
+            "street": "Praça da Sé",
+            "number": "123",
+            "complement": "Bloco A",
+            "neighborhood": "Sé",
+            "city": "São Paulo",
+            "state": "SP",
+        },
+        {
+            "code_institutional": "99002",
+            "name": "Ana Silva (Bolsista)",
+            "email": "vinicius.2023@alunos.utfpr.edu.br",
+            "cpf": "88504051030",
+            "rg": "112223334",
+            "profession": "Estudante",
+            "profile": UserProfile.SCHOLARSHIP,
+            "status": UserStatus.ACTIVE,
+            "sector": UserSector.CONTENT,
+            "position": UserPosition.REPRESENTATIVE,
+            "password": "bolsista123",
+            "postal_code": "20040002",
+            "street": "Avenida Rio Branco",
+            "number": "500",
+            "complement": "Apto 402",
+            "neighborhood": "Centro",
+            "city": "Rio de Janeiro",
+            "state": "RJ",
+        },
+        {
+            "code_institutional": "99003",
+            "name": "Carlos Souza (Voluntário)",
+            "email": "vs211570@gmail.com",
+            "cpf": "17500198094",
+            "rg": "998887776",
+            "marital": UserMarital.STABLE_UNION,
+            "profession": "Desenvolvedor",
+            "profile": UserProfile.VOLUNTEER,
+            "status": UserStatus.ACTIVE,
+            "sector": UserSector.MARKETING,
+            "position": UserPosition.VOLUNTEER,
+            "password": "voluntario123",
+            "postal_code": "30140010",
+            "street": "Rua dos Guajajaras",
+            "number": "1000",
+            "neighborhood": "Lourdes",
+            "city": "Belo Horizonte",
+            "state": "MG",
+        },
+        {
+            "code_institutional": "99004",
+            "name": "Beatriz Almeida",
+            "email": "beatriz.almeida@seed.local",
+            "cpf": "12345000198",
+            "rg": "900000001",
+            "profession": "Designer",
+            "profile": UserProfile.SCHOLARSHIP,
+            "status": UserStatus.ACTIVE,
+            "sector": UserSector.MARKETING,
+            "position": UserPosition.REPRESENTATIVE,
+            "postal_code": "80010000",
+            "street": "Rua XV de Novembro",
+            "number": "84",
+            "neighborhood": "Centro",
+            "city": "Curitiba",
+            "state": "PR",
+        },
+        {
+            "code_institutional": "99005",
+            "name": "Marina Costa",
+            "email": "marina.costa@seed.local",
+            "cpf": "12345000279",
+            "rg": "900000002",
+            "profession": "Social media",
+            "profile": UserProfile.VOLUNTEER,
+            "status": UserStatus.INACTIVE,
+            "sector": UserSector.MARKETING,
+            "position": UserPosition.VOLUNTEER,
+            "departure_at": now,
+            "postal_code": "86010010",
+            "street": "Avenida Higienópolis",
+            "number": "220",
+            "neighborhood": "Centro",
+            "city": "Londrina",
+            "state": "PR",
+        },
+        {
+            "code_institutional": "99006",
+            "name": "Juliana Prado",
+            "email": "juliana.prado@seed.local",
+            "cpf": "12345000350",
+            "rg": "900000003",
+            "profession": "Publicitária",
+            "profile": UserProfile.VOLUNTEER,
+            "status": UserStatus.ACTIVE,
+            "sector": UserSector.MARKETING,
+            "position": UserPosition.VOLUNTEER,
+            "postal_code": "87013000",
+            "street": "Avenida Brasil",
+            "number": "311",
+            "neighborhood": "Zona 01",
+            "city": "Maringá",
+            "state": "PR",
+        },
+        {
+            "code_institutional": "99007",
+            "name": "Fernanda Rocha",
+            "email": "fernanda.rocha@seed.local",
+            "cpf": "12345000430",
+            "rg": "900000004",
+            "profession": "Psicóloga",
+            "profile": UserProfile.SCHOLARSHIP,
+            "status": UserStatus.ACTIVE,
+            "sector": UserSector.RH,
+            "position": UserPosition.REPRESENTATIVE,
+            "postal_code": "84010000",
+            "street": "Rua Balduíno Taques",
+            "number": "410",
+            "neighborhood": "Centro",
+            "city": "Ponta Grossa",
+            "state": "PR",
+        },
+        {
+            "code_institutional": "99008",
+            "name": "Larissa Mendes",
+            "email": "larissa.mendes@seed.local",
+            "cpf": "12345000511",
+            "rg": "900000005",
+            "profession": "Analista de RH",
+            "profile": UserProfile.VOLUNTEER,
+            "status": UserStatus.INACTIVE,
+            "sector": UserSector.RH,
+            "position": UserPosition.VOLUNTEER,
+            "departure_at": now,
+            "postal_code": "85501010",
+            "street": "Rua Itacolomi",
+            "number": "50",
+            "neighborhood": "Centro",
+            "city": "Pato Branco",
+            "state": "PR",
+        },
+        {
+            "code_institutional": "99009",
+            "name": "Rafaela Nunes",
+            "email": "rafaela.nunes@seed.local",
+            "cpf": "12345000600",
+            "rg": "900000006",
+            "profession": "Pedagoga",
+            "profile": UserProfile.VOLUNTEER,
+            "status": UserStatus.ACTIVE,
+            "sector": UserSector.RH,
+            "position": UserPosition.VOLUNTEER,
+            "postal_code": "85851000",
+            "street": "Avenida Brasil",
+            "number": "700",
+            "neighborhood": "Centro",
+            "city": "Foz do Iguaçu",
+            "state": "PR",
+        },
+        {
+            "code_institutional": "99010",
+            "name": "Paula Teixeira",
+            "email": "paula.teixeira@seed.local",
+            "cpf": "12345000783",
+            "rg": "900000007",
+            "profession": "Jornalista",
+            "profile": UserProfile.SCHOLARSHIP,
+            "status": UserStatus.INACTIVE,
+            "sector": UserSector.CONTENT,
+            "position": UserPosition.REPRESENTATIVE,
+            "departure_at": now,
+            "postal_code": "80240030",
+            "street": "Avenida Sete de Setembro",
+            "number": "1200",
+            "neighborhood": "Rebouças",
+            "city": "Curitiba",
+            "state": "PR",
+        },
+        {
+            "code_institutional": "99011",
+            "name": "Camila Martins",
+            "email": "camila.martins@seed.local",
+            "cpf": "12345000864",
+            "rg": "900000008",
+            "profession": "Redatora",
+            "profile": UserProfile.VOLUNTEER,
+            "status": UserStatus.ACTIVE,
+            "sector": UserSector.CONTENT,
+            "position": UserPosition.VOLUNTEER,
+            "postal_code": "89010025",
+            "street": "Rua XV de Novembro",
+            "number": "640",
+            "neighborhood": "Centro",
+            "city": "Blumenau",
+            "state": "SC",
+        },
+        {
+            "code_institutional": "99012",
+            "name": "Isabela Freitas",
+            "email": "isabela.freitas@seed.local",
+            "cpf": "12345000945",
+            "rg": "900000009",
+            "profession": "Fotógrafa",
+            "profile": UserProfile.VOLUNTEER,
+            "status": UserStatus.ACTIVE,
+            "sector": UserSector.CONTENT,
+            "position": UserPosition.VOLUNTEER,
+            "postal_code": "88010000",
+            "street": "Rua Felipe Schmidt",
+            "number": "99",
+            "neighborhood": "Centro",
+            "city": "Florianópolis",
+            "state": "SC",
+        },
+        {
+            "code_institutional": "99013",
+            "name": "Patrícia Lopes",
+            "email": "patricia.lopes@seed.local",
+            "cpf": "12345001089",
+            "rg": "900000010",
+            "profession": "Professora",
+            "profile": UserProfile.SCHOLARSHIP,
+            "status": UserStatus.ACTIVE,
+            "sector": UserSector.INSTRUCTORS,
+            "position": UserPosition.REPRESENTATIVE,
+            "postal_code": "13010000",
+            "street": "Rua Barão de Jaguara",
+            "number": "240",
+            "neighborhood": "Centro",
+            "city": "Campinas",
+            "state": "SP",
+        },
+        {
+            "code_institutional": "99014",
+            "name": "Renata Oliveira",
+            "email": "renata.oliveira@seed.local",
+            "cpf": "12345001160",
+            "rg": "900000011",
+            "profession": "Instrutora de programação",
+            "profile": UserProfile.VOLUNTEER,
+            "status": UserStatus.ACTIVE,
+            "sector": UserSector.INSTRUCTORS,
+            "position": UserPosition.VOLUNTEER,
+            "postal_code": "14801000",
+            "street": "Rua São Bento",
+            "number": "430",
+            "neighborhood": "Centro",
+            "city": "Araraquara",
+            "state": "SP",
+        },
+        {
+            "code_institutional": "99015",
+            "name": "Sofia Carvalho",
+            "email": "sofia.carvalho@seed.local",
+            "cpf": "12345001240",
+            "rg": "900000012",
+            "profession": "Engenheira de software",
+            "profile": UserProfile.VOLUNTEER,
+            "status": UserStatus.INACTIVE,
+            "sector": UserSector.INSTRUCTORS,
+            "position": UserPosition.VOLUNTEER,
+            "departure_at": now,
+            "postal_code": "14010000",
+            "street": "Rua General Osório",
+            "number": "101",
+            "neighborhood": "Centro",
+            "city": "Ribeirão Preto",
+            "state": "SP",
+        },
+        {
+            "code_institutional": "99016",
+            "name": "Helena Dias",
+            "email": "helena.dias@seed.local",
+            "cpf": "12345001321",
+            "rg": "900000013",
+            "profession": "Mentora técnica",
+            "profile": UserProfile.VOLUNTEER,
+            "status": UserStatus.ACTIVE,
+            "sector": UserSector.INSTRUCTORS,
+            "position": UserPosition.VOLUNTEER,
+            "postal_code": "15010000",
+            "street": "Rua Bernardino de Campos",
+            "number": "315",
+            "neighborhood": "Centro",
+            "city": "São José do Rio Preto",
+            "state": "SP",
+        },
+    ]
 
-        # --- USUÁRIO 3: VOLUNTÁRIO ---
-        user3 = User(
-            code_institutional="99003",
-            name="Carlos Souza (Voluntário)",
-            email="vs211570@gmail.com",
-            cpf="17500198094",       # CPF Válido para testes
-            rg="998887776",
-            nationality="Brasileira",
-            marital=UserMarital.STABLE_UNION,
-            profession="Desenvolvedor",
-            profile=UserProfile.VOLUNTEER, # Ajustado para bater com seu Enum (VOLUNTEER ou VOLUNTARY)
-            status=UserStatus.ACTIVE,
-            sector=UserSector.MARKETING,
-            position=UserPosition.VOLUNTEER,
-            entry_at=datetime.now(timezone.utc),
-        )
-        user3.set_password("voluntario123")
+    records_to_add = []
 
-        addr3 = Address(
-            postal_code="30140010",
-            street="Rua dos Guajajaras",
-            number="1000",
-            complement=None,
-            neighborhood="Lourdes",
-            city="Belo Horizonte",
-            state="MG",
-            country="Brasil",
-            user=user3
-        )
+    for user_data in users_seed:
+        existing_user = User.query.filter(
+            (User.email == user_data["email"])
+            | (User.cpf == user_data["cpf"])
+            | (User.code_institutional == user_data["code_institutional"])
+        ).first()
 
-        # Adiciona tudo na sessão e commita de uma vez
-        db.session.add_all([user1, addr1, user2, addr2, user3, addr3])
+        if existing_user:
+            continue
+
+        user, address = _create_user(user_data)
+        records_to_add.extend([user, address])
+
+    if records_to_add:
+        db.session.add_all(records_to_add)
         db.session.commit()
-        
-        print("Dados de semente (seed) inseridos com sucesso!")
+        print(f"{len(records_to_add) // 2} usuários de semente inseridos com sucesso!")
     else:
         print("Dados de semente já existem. Pulando...")

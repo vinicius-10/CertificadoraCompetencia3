@@ -8,6 +8,9 @@
     <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/Atualizacao_info_ADM.css') }}">-->
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/meninas_logo.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ url_for('static', filename='js/update_adm.js') }}"></script>
 </head>
 <body>
     <nav>
@@ -23,41 +26,42 @@
             <form id="cadastro-form">
                 <div class="field">
                     <label class="field-label" for="Nome">Nome</label>
-                    <input type="text" id="Nome" autocomplete="name" name="Nome"/>
+                    <input type="text" id="Nome" autocomplete="name" name="Nome" required value="{{ user.name }}"/>
                 </div>
     
                 <div class="field">
                     <label class="field-label" for="Email">Email</label>
-                    <input type="email" id="Email" autocomplete="email" name="Email"/>
+                    <input type="email" id="Email" autocomplete="email" name="Email" required value="{{ user.email }}"/>
                 </div>
     
                 <div class="field-row">
                     <div class="field">
                         <label class="field-label" for="CPF">CPF</label>
-                        <input type="text" id="CPF" autocomplete="cpf" name="CPF"/>
+                        <input type="text" id="CPF" autocomplete="cpf" name="CPF"  required value="{{ user.cpf }}"/>
                     </div>
 
                     <div class="field">
                         <label class="field-label" for="RG">RG</label>
-                        <input type="text" id="RG" autocomplete="rg" name="RG"/>
+                        <input type="text" id="RG" autocomplete="rg" name="RG"  required value="{{ user.rg }}"/>
                     </div>
                 </div>
 
                 <div class="field-row">
                     <div class="field">
                         <label class="field-label" for="Profissao">Profissão</label>
-                        <input type="text" id="Profissao" autocomplete="job-title" name="Profissao"/>
+                        <input type="text" id="Profissao" autocomplete="job-title" name="Profissao" required value="{{ user.profession }}"/>
                     </div>
 
                     <div class="field">
                         <label class="field-label" for="Estado Civil">Estado Civil</label>
                         <div class="field-input-wrapper custom-select">
-                            <select id="Estado Civil" name="Estado Civil">
-                                <option value="">Selecione...</option>
-                                <option value="Solteiro">Solteiro</option>
-                                <option value="Casado">Casado</option>
-                                <option value="Divorciado">Divorciado</option>
-                                <option value="Viúvo">Viúvo</option>
+                            <select id="Estado Civil" name="Estado_Civil" required>
+                                <option value="" hidden>Selecione...</option>
+                                <option value="{{UserMarital.SINGLE}}" {{marital_options[UserMarital.SINGLE.name]}}>{{UserMarital.SINGLE.value}}</option>
+                                <option value="{{UserMarital.MARRIED}}" {{marital_options[UserMarital.MARRIED.name]}}>{{UserMarital.MARRIED.value}}</option>
+                                <option value="{{UserMarital.DIVORCED}}" {{marital_options[UserMarital.DIVORCED.name]}}>{{UserMarital.DIVORCED.value}}</option>
+                                <option value="{{UserMarital.WIDOWED}}" {{marital_options[UserMarital.WIDOWED.name]}}>{{UserMarital.WIDOWED.value}}</option>
+                                <option value="{{UserMarital.STABLE_UNION}}"{{marital_options[UserMarital.STABLE_UNION.name]}}>{{UserMarital.STABLE_UNION.value}}</option>
                             </select>
                         </div>
                     </div>
@@ -66,69 +70,75 @@
                 <div class="field-row">
                     <div class="field">
                         <label class="field-label" for="Nacionalidade">Nacionalidade</label>
-                        <input type="text" id="Nacionalidade" autocomplete="country" name="Nacionalidade"/>
+                        <input type="text" id="Nacionalidade" autocomplete="country" name="Nacionalidade" required value="{{user.nationality}}"/>
                     </div>
 
                     <div class="field">
                         <label class="field-label" for="Registro Academico">Registro Acadêmico</label>
-                        <input type="text" id="Registro Academico" autocomplete="student-id" name="Registro Academico"/>
+                        <input type="text" id="Registro Academico" autocomplete="student-id" name="Registro_Academico" required value="{{user.code_institutional}}"/>
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="field-label" for="Logradouro">Logradouro</label>
-                    <input type="text" id="Logradouro" autocomplete="street-address" name="Logradouro"/>
+                    <input type="text" id="Logradouro" autocomplete="street-address" name="Logradouro" required value="{{address.street}}"/>
                 </div>
 
                 <div class="field-row">
                     <div class="field">
                         <label class="field-label" for="Bairro">Bairro</label>
-                        <input type="text" id="Bairro" autocomplete="neighborhood" name="Bairro"/>
+                        <input type="text" id="Bairro" autocomplete="neighborhood" name="Bairro" required value="{{address.neighborhood}}"/>
                     </div>
 
                     <div class="field">
                         <label class="field-label" for="CEP">CEP</label>
-                        <input type="text" id="CEP" autocomplete="postal-code" name="CEP"/>
+                        <input type="text" id="CEP" autocomplete="postal-code" name="CEP" required value="{{address.postal_code}}"/>
                     </div>
                 </div>
 
                 <div class="field-row">
                     <div class="field">
                         <label class="field-label" for="Numero">Número</label>
-                        <input type="text" id="Numero" autocomplete="address-line1" name="Numero"/>
+                        <input type="text" id="Numero" autocomplete="address-line1" name="Numero" required value="{{address.number}}"/>
                     </div>
 
                     <div class="field">
                         <label class="field-label" for="Cidade">Cidade</label>
-                        <input type="text" id="Cidade" autocomplete="address-level2" name="Cidade"/>
+                        <input type="text" id="Cidade" autocomplete="address-level2" name="Cidade" required value="{{address.city}}"/>
                     </div>
                 </div>
 
                 <div class="field-row">
                     <div class="field">
                         <label class="field-label" for="Estado">Estado</label>
-                        <input type="text" id="Estado" autocomplete="address-level1" name="Estado"/>
+                        <input type="text" id="Estado" autocomplete="address-level1" name="Estado" required value="{{address.state}}"/>
                     </div>
 
                     <div class="field">
                         <label class="field-label" for="Pais">País</label>
-                        <input type="text" id="Pais" autocomplete="country" name="Pais"/>
+                        <input type="text" id="Pais" autocomplete="country" name="Pais"  required value="{{address.country}}"/>
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="field-label" for="complemento">Complemento</label>
-                    <input type="text" id="complemento" autocomplete="address-line2" name="complemento"/>
+                    <input type="text" id="complemento" autocomplete="address-line2" name="complemento" required value="{{ address.complement if address.complement else '' }}"/>
                 </div>
 
                 <div class="field">
                     <label class="field-label" for="setor">Setor</label>
                     <div class="field-input-wrapper custom-select">
-                        <select id="setor" name="setor">
+                        <select id="setor" name="setor"required>
                             <option value="">Selecione...</option>
-                            <option value="xxx">XXX</option>
-                            <option value="yyy">YYY</option>
-                            <option value="www">WWW</option>
+                            <option value="{{UserSector.MARKETING.name}}" {{sector_option[UserSector.MARKETING.name]}}>{{UserSector.MARKETING.value}}</option>
+
+                            <option value="{{UserSector.RH.name}}" {{sector_option[UserSector.RH.name]}}>{{UserSector.RH.value}}</option>
+
+                            <option value="{{UserSector.CONTENT.name}}" {{sector_option[UserSector.CONTENT.name]}}>{{UserSector.CONTENT.value}}</option>
+
+                            <option value="{{UserSector.INSTRUCTORS.name}}" {{sector_option[UserSector.INSTRUCTORS.name]}}>{{UserSector.INSTRUCTORS.value}}</option>
+
+                            
                         </select>
                     </div>
                 </div>
@@ -136,11 +146,17 @@
                 <div class="field">
                     <label class="field-label" for="cargo">Cargo</label>
                     <div class="field-input-wrapper custom-select">
-                        <select id="cargo" name="cargo">
-                            <option value="">Selecione...</option>
-                            <option value="xxx">XXX</option>
-                            <option value="yyy">YYY</option>
-                            <option value="www">WWW</option>
+                        <select id="cargo" name="cargo" required>
+                            <option value="" hidden>Selecione...</option>
+                            <option value="{{UserPosition.STUDANT_COORDINATOR.name}}" {{position_option[UserPosition.STUDANT_COORDINATOR.name]}}>{{UserPosition.STUDANT_COORDINATOR.value}}</option>
+
+
+                            <option value="{{UserPosition.REPRESENTATIVE.name}}" {{position_option[UserPosition.REPRESENTATIVE.name]}}>{{UserPosition.REPRESENTATIVE.value}}</option>
+
+
+                            <option value="{{UserPosition.VOLUNTEER.name}}" {{position_option[UserPosition.VOLUNTEER.name]}}>{{UserPosition.VOLUNTEER.value}}</option>
+
+                            
                         </select>
                     </div>
                 </div>
@@ -148,38 +164,43 @@
                 <div class="field">
                     <label class="field-label" for="tipoUsuario">Tipo de Usuário</label>
                     <div class="field-input-wrapper custom-select">
-                        <select id="tipoUsuario" name="tipoUsuario">
-                            <option value="">Selecione...</option>
-                            <option value="xxx">XXX</option>
-                            <option value="yyy">YYY</option>
-                            <option value="www">WWW</option>
+                        <select id="tipoUsuario" name="tipoUsuario" required>
+                            <option value="" hidden>Selecione...</option>
+                            
+                            {% if current_profile_coedinator %}<option value="{{UserProfile.COORDINATOR.name}}  {{profile_option[UserProfile.COORDINATOR.name]}}">{{UserProfile.COORDINATOR.value}}</option>{%endif%}
+
+                            <option value="{{UserProfile.SCHOLARSHIP.name}}" {{profile_option[UserProfile.SCHOLARSHIP.name]}}>{{UserProfile.SCHOLARSHIP.value}}</option>
+
+                            <option value="{{UserProfile.VOLUNTEER.name}}" {{profile_option[UserProfile.VOLUNTEER.name]}}>{{UserProfile.VOLUNTEER.value}}</option>
+
                         </select>
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="field-label" for="status">Status</label>
-                    <div class="field-input-wrapper custom-select">
-                        <select id="status" name="status">
-                            <option value="">Selecione...</option>
-                            <option value="xxx">XXX</option>
-                            <option value="yyy">YYY</option>
-                            <option value="www">WWW</option>
-                        </select>
-                    </div>
-                </div>
+                    <div class="field-input-wrapper custom-select" >
+	                        <select id="status" name="status" required>
+	                            <option value="" hidden>Selecione...</option>
+	                            <option value="{{UserStatus.ACTIVE.name}}" {{status_option[UserStatus.ACTIVE.name]}}>{{UserStatus.ACTIVE.value}}</option>
+
+	                            <option value="{{UserStatus.INACTIVE.name}}" {{status_option[UserStatus.INACTIVE.name]}}>{{UserStatus.INACTIVE.value}}</option>
+
+	                        </select>
+	                    </div>
+	                </div>
 
                 <div class="field">
                     <label class="field-label" for="dataEntrada">Data de Entrada</label>
                     <div class="field-input-wrapper custom-date">
-                        <input type="date" id="dataEntrada" name="dataEntrada" />
+                        <input type="date" id="dataEntrada" name="dataEntrada" required value="{{entry_at}}"/>
                     </div>
                 </div>
 
-                <div class="field">
-                    <label class="field-label" for="dataSaida">Data de Saída</label>
-                    <div class="field-input-wrapper custom-date">
-                        <input type="date" id="dataSaida" name="dataSaida" />
+	                <div class="field" id="dataSaida-field" hidden>
+	                    <label class="field-label" for="dataSaida">Data de Saída</label>
+	                    <div class="field-input-wrapper custom-date">
+	                        <input type="date" id="dataSaida" name="dataSaida" value="{{departure_at}}" disabled/>
                     </div>
                 </div>
 
@@ -188,12 +209,12 @@
                 <div class="field-row">
                     <div class="field">
                         <label class="field-label" for="Nova senha">Nova senha</label>
-                        <input type="password" id="Nova senha" autocomplete="new-password" name="Nova senha"/>
+                        <input type="password" id="Nova senha" autocomplete="new-password" name="Nova_senha"/>
                     </div>
 
                     <div class="field">
                         <label class="field-label" for="Confirma Senha">Confirme a nova senha</label>
-                        <input type="password" id="Confirma Senha" autocomplete="new-password" name="Confirma Senha"/>
+                        <input type="password" id="Confirma Senha" autocomplete="new-password" name="Confirma_Senha"/>
                     </div>
                 </div>
 

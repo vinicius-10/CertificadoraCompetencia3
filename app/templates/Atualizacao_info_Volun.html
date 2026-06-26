@@ -56,7 +56,7 @@
                     <div class="field">
                         <label class="field-label" for="Estado Civil">Estado Civil</label>
                         <div class="field-input-wrapper custom-select">
-                            <select id="Estado Civil" required name="Estado Civil">
+                            <select id="Estado Civil" required name="Estado_Civil">
                                 <option value="" hidden>Selecione...</option>
                                 <option value="{{UserMarital.SINGLE}}" {{marital_options[UserMarital.SINGLE.name]}}>{{UserMarital.SINGLE.value}}</option>
                                 <option value="{{UserMarital.MARRIED}}" {{marital_options[UserMarital.MARRIED.name]}}>{{UserMarital.MARRIED.value}}</option>
@@ -72,12 +72,12 @@
                 <div class="field-row">
                     <div class="field">
                         <label class="field-label" for="Nacionalidade">Nacionalidade</label>
-                        <input type="text" id="Nacionalidade" autocomplete="country" name="Nacionalidade" value="{{user.nationality}}"/>
+                        <input type="text" id="Nacionalidade" autocomplete="country" name="Nacionalidade" required value="{{user.nationality}}"/>
                     </div>
 
                     <div class="field">
                         <label class="field-label" for="Registro Academico">Registro Acadêmico</label>
-                        <input type="text" id="Registro Academico" autocomplete="student-id" name="Registro Academico"  value="{{user.code_institutional}}"/>
+                        <input type="text" id="Registro Academico" autocomplete="student-id" name="Registro_Academico" required value="{{user.code_institutional}}"/>
                     </div>
                 </div>
 
@@ -132,12 +132,12 @@
                 <div class="field-row">
                     <div class="field">
                         <label class="field-label" for="Nova senha">Nova senha</label>
-                        <input type="password" id="Nova senha" autocomplete="new-password" name="Nova senha"/>
+                        <input type="password" id="Nova senha" autocomplete="new-password" name="Nova_senha"/>
                     </div>
 
                     <div class="field">
                         <label class="field-label" for="Confirma Senha">Confirme a nova senha</label>
-                        <input type="password" id="Confirma Senha" autocomplete="new-password" name="Confirma Senha"/>
+                        <input type="password" id="Confirma Senha" autocomplete="new-password" name="Confirma_Senha"/>
                     </div>
                 </div>
 

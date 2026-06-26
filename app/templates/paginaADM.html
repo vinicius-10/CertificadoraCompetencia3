@@ -12,8 +12,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ url_for('static', filename='js/admin.js') }}" defer></script>
+
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 </head>
 <body>
+
+    
     <nav>
         <a href="{{ url_for('main.home') }}">
             <img src="../static/img/meninas_logo.png" alt="Meninas Digitais brand logo displayed in the top navigation bar" class="nav-logo"/>
@@ -41,7 +45,7 @@
             </div>
 
             <div class="profile-actions">
-                <a href="{{ url_for('main.edit_adm') }}">
+                <a href="{{ url_for('main.edit_adm',user_id=user_id) }}">
                     <button type="button" class="btn-editar-perfil">Editar</button>
                 </a>
 
@@ -53,8 +57,22 @@
             <div class="report-panel">
                 <span class="report-title">Gerar Relatório</span>
                 <div class="report-buttons">
-                    <button type="button" class="btn-report btn-report--pdf">PDF</button>
-                    <button type="button" class="btn-report btn-report--csv">CSV</button>
+                    <a href="#"
+                        class="btn-report btn-report--pdf"
+                        hx-get="{{ url_for('api.adm_api.report_pdf') }}"
+                        hx-include="#filters-container [name]"
+                        hx-target="this"
+                        hx-swap="none">
+                        PDF
+                    </a>
+                    <a href="#"
+                        class="btn-report btn-report--csv"
+                        hx-get="{{ url_for('api.adm_api.report_csv') }}"
+                        hx-include="#filters-container [name]"
+                        hx-target="this"
+                        hx-swap="none">
+                        CSV
+                    </a>
                 </div>
             </div>
         </aside>
@@ -62,82 +80,104 @@
         <!-- ── TABELA DE VOLUNTÁRIOS ── -->
         <section class="table-card">
             <div class="table-header">
-                <span>Nome</span>
-                <span>Setor</span>
-                <span>Cargo</span>
-                <span>Entrada</span>
-                <span>Saída</span>
-                <span>Tipo</span>
+                <button type="button" class="table-sort-button" data-sort-field="name">Nome</button>
+                <button type="button" class="table-sort-button" data-sort-field="sector">Setor</button>
+                <button type="button" class="table-sort-button" data-sort-field="position">Cargo</button>
+                <button type="button" class="table-sort-button is-active" data-sort-field="entry_at" data-sort-dir="asc">Entrada</button>
+                <button type="button" class="table-sort-button" data-sort-field="departure_at">Saída</button>
+                <button type="button" class="table-sort-button" data-sort-field="profile">Tipo</button>
                 <span></span>
             </div>
 
-            <div class="table-body" id="table-body">
-                {% for v in volunteers|default([]) %}
-                <div class="table-row">
-                    <span class="col-nome">{{ v.name }}</span>
-                    <span>{{ v.sector }}</span>
-                    <span>{{ v.role }}</span>
-                    <span>{{ v.entry }}</span>
-                    <span>{{ v.exit }}</span>
-                    <span>{{ v.type }}</span>
-                    <button type="button" class="btn-editar-linha">Editar</button>
-                </div>
-                {% else %}
-                <!-- Linha de exemplo (placeholder enquanto o backend não envia os dados) -->
-                <div class="table-row">
-                    <span class="col-nome">Arthur Henrique Jardim da Cunha Pinto</span>
-                    <span>Marketing</span>
-                    <span>Assessor</span>
-                    <span>2025.1</span>
-                    <span>2026.2</span>
-                    <span>Voluntário</span>
-                    <button type="button" class="btn-editar-linha">Editar</button>
-                </div>
-                {% endfor %}
+            <div class="table-body" id="table-body" hx-get="{{ url_for('api.adm_api.search_users') }}" hx-trigger="load">
             </div>
 
-            <!-- ── BARRA DE FILTROS ── -->
-            <div class="table-filters">
+            <div
+                id="table-sort-refresh"
+                hx-get="{{ url_for('api.adm_api.search_users') }}"
+                hx-trigger="refreshTable from:body"
+                hx-target="#table-body"
+                hx-include="#filters-container [name]"
+                hx-swap="innerHTML">
+            </div>
+
+            <div class="table-filters" id="filters-container">
+                <input type="hidden" id="sort-by" name="sort_by" value="entry_at">
+                <input type="hidden" id="sort-dir" name="sort_dir" value="asc">
+
                 <div class="search-box">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
-                    <input type="text" id="search" placeholder="" aria-label="Buscar voluntário"/>
+                    <input type="text" 
+                        id="search" 
+                        name="q" 
+                        placeholder="Nome" 
+                        aria-label="Buscar voluntário"
+                        hx-get="{{ url_for('api.adm_api.search_users') }}"
+                        hx-trigger="keyup changed delay:300ms, search"
+                        hx-target="#table-body"
+                        hx-include="#filters-container [name]"/>
                 </div>
 
                 <label class="filter-check">
-                    <input type="checkbox" id="filtro-todos"/>
+                    <input type="checkbox" 
+                        id="filtro-todos" 
+                        name="todos" 
+                        value="true"
+                        hx-get="{{ url_for('api.adm_api.search_users') }}"
+                        hx-trigger="change"
+                        hx-target="#table-body"
+                        hx-include="#filters-container [name]"/>
                     Todos os voluntários
                 </label>
 
                 <div class="filter-select">
                     <svg class="filter-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5z"/></svg>
-                    <select id="filtro-setor" aria-label="Filtrar por setor">
-                        <option value="" selected disabled hidden>Setor</option>
-                        <option value="marketing">Marketing</option>
-                        <option value="tecnologia">Tecnologia</option>
-                        <option value="rh">RH</option>
+                    <select id="filtro-setor" 
+                            name="setor" 
+                            aria-label="Filtrar por setor"
+                            hx-get="{{ url_for('api.adm_api.search_users') }}"
+                            hx-trigger="change"
+                            hx-target="#table-body"
+                            hx-include="#filters-container [name]">
+                        <option value="" selected>Setor (Todos)</option> <option value="{{UserSector.MARKETING.name}}">{{UserSector.MARKETING.value}}</option>
+                        <option value="{{UserSector.RH.name}}">{{UserSector.RH.value}}</option>
+                        <option value="{{UserSector.CONTENT.name}}">{{UserSector.CONTENT.value}}</option>
+                        <option value="{{UserSector.INSTRUCTORS.name}}">{{UserSector.INSTRUCTORS.value}}</option>
                     </select>
                 </div>
 
                 <div class="filter-select">
                     <svg class="filter-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5z"/></svg>
-                    <select id="filtro-cargo" aria-label="Filtrar por cargo">
-                        <option value="" selected disabled hidden>Cargo</option>
-                        <option value="assessor">Assessor</option>
-                        <option value="diretor">Diretor</option>
-                        <option value="coordenador">Coordenador</option>
+                    <select id="filtro-cargo" 
+                            name="cargo" 
+                            aria-label="Filtrar por cargo"
+                            hx-get="{{ url_for('api.adm_api.search_users') }}"
+                            hx-trigger="change"
+                            hx-target="#table-body"
+                            hx-include="#filters-container [name]">
+                        <option value="" selected>Cargo (Todos)</option>
+                        <option value="{{UserPosition.STUDANT_COORDINATOR.name}}">{{UserPosition.STUDANT_COORDINATOR.value}}</option>
+                        <option value="{{UserPosition.REPRESENTATIVE.name}}">{{UserPosition.REPRESENTATIVE.value}}</option>
+                        <option value="{{UserPosition.VOLUNTEER.name}}">{{UserPosition.VOLUNTEER.value}}</option>
                     </select>
                 </div>
 
                 <div class="filter-select">
                     <svg class="filter-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5z"/></svg>
-                    <select id="filtro-tipo" aria-label="Filtrar por tipo de usuário">
-                        <option value="" selected disabled hidden>Tipo de usuário</option>
-                        <option value="voluntario">Voluntário</option>
-                        <option value="admin">Admin</option>
-                        <option value="coordenador">Coordenador(a)</option>
+                    <select id="filtro-tipo" 
+                            name="tipo" 
+                            aria-label="Filtrar por tipo de usuário"
+                            hx-get="{{ url_for('api.adm_api.search_users') }}"
+                            hx-trigger="change"
+                            hx-target="#table-body"
+                            hx-include="#filters-container [name]">
+                        <option value="" selected>Tipo (Todos)</option>
+                        <option value="{{UserProfile.COORDINATOR.name}}">{{UserProfile.COORDINATOR.value}}</option>
+                        <option value="{{UserProfile.SCHOLARSHIP.name}}">{{UserProfile.SCHOLARSHIP.value}}</option>
+                        <option value="{{UserProfile.VOLUNTEER.name}}">{{UserProfile.VOLUNTEER.value}}</option>
                     </select>
                 </div>
             </div>

@@ -1,11 +1,21 @@
 /**
- * Handles the volunteer user update form submission.
+ * Handles the admin user update form submission.
  *
- * This script validates the update form, sends the update request to the
- * backend API, and displays feedback through SweetAlert2.
+ * This script validates the update form, controls the departure date field
+ * based on user status, sends the update request to the backend API, and
+ * displays feedback through SweetAlert2.
  */
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("cadastro-form");
+    const entryDateInput = document.getElementById("dataEntrada");
+    const statusInput = document.getElementById("status");
+
+    if (entryDateInput && !entryDateInput.value) {
+        entryDateInput.value = getTodayDate();
+    }
+
+    toggleDepartureDateField();
+    statusInput?.addEventListener("change", toggleDepartureDateField);
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -15,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 /**
- * Submits the update form data to the volunteer user update API.
+ * Submits the update form data to the admin user update API.
  *
  * @async
  * @param {HTMLFormElement} formUpdate - Update form submitted by the user.
@@ -30,7 +40,9 @@ async function update(formUpdate){
     if (!validateForm(dataUpdate)) {
         return;
     }
+
     */
+
     Swal.fire({
         title: 'Carregando...',
         text: 'Por favor, aguarde',
@@ -41,7 +53,7 @@ async function update(formUpdate){
     });
     
     try{
-        const response = await fetch("/api/user/update_volunter", {
+        const response = await fetch("/api/user/update_adm", {
             method: 'POST',
             headers: {
                     "Content-Type": "application/json",
@@ -82,7 +94,7 @@ async function update(formUpdate){
 
 
 /**
- * Validates volunteer update form data before sending it to the API.
+ * Validates admin update form data before sending it to the API.
  *
  * @param {Record<string, FormDataEntryValue>} data - Update form data.
  * @returns {boolean} `true` when the form data is valid; otherwise, `false`.
@@ -106,6 +118,12 @@ function validateForm(data){
         ["Cidade", "Cidade"],
         ["Estado", "Estado"],
         ["Pais", "País"],
+        ["complemento", "Complemento"],
+        ["setor", "Setor"],
+        ["cargo", "Cargo"],
+        ["tipoUsuario", "Tipo de usuário"],
+        ["status", "Status"],
+        ["dataEntrada", "Data de entrada"],
     ];
 
     const missingField = requiredFields.find(([fieldName]) => !values[fieldName]);
@@ -184,8 +202,18 @@ function validateForm(data){
         return false;
     }
 
-    if (values.complemento && (!isLettersNumbersAndSpaces(values.complemento) || values.complemento.length > 100)) {
+    if (!isLettersNumbersAndSpaces(values.complemento) || values.complemento.length > 100) {
         showValidationError("Complemento inválido", "O complemento deve conter apenas letras e números e ter até 100 caracteres.");
+        return false;
+    }
+
+    if (values.status === "INACTIVE" && !values.dataSaida) {
+        showValidationError("Data de saída obrigatória", "Informe a data de saída para usuários inativos.");
+        return false;
+    }
+
+    if (values.dataSaida && !isValidDateRange(values.dataEntrada, values.dataSaida)) {
+        showValidationError("Datas inválidas", "A data de saída deve ser igual ou posterior à data de entrada.");
         return false;
     }
 
@@ -194,6 +222,35 @@ function validateForm(data){
     }
 
     return true;
+}
+
+
+/**
+ * Shows the departure date field only for inactive users.
+ *
+ * @returns {void}
+ */
+function toggleDepartureDateField() {
+    const statusInput = document.getElementById("status");
+    const departureDateField = document.getElementById("dataSaida-field");
+    const departureDateInput = document.getElementById("dataSaida");
+
+    if (!statusInput || !departureDateField || !departureDateInput) {
+        return;
+    }
+
+    const shouldShowDepartureDate = statusInput.value === "INACTIVE";
+
+    departureDateField.hidden = !shouldShowDepartureDate;
+    departureDateInput.disabled = !shouldShowDepartureDate;
+
+    if (shouldShowDepartureDate && !departureDateInput.value) {
+        departureDateInput.value = getTodayDate();
+    }
+
+    if (!shouldShowDepartureDate) {
+        departureDateInput.value = "";
+    }
 }
 
 
@@ -230,6 +287,18 @@ function isValidPasswordChange(password, passwordCheck) {
     }
 
     return true;
+}
+
+
+/**
+ * Gets today's date formatted for an HTML date input.
+ *
+ * @returns {string} Current local date in YYYY-MM-DD format.
+ */
+function getTodayDate() {
+    const now = new Date();
+    const timezoneOffset = now.getTimezoneOffset() * 60000;
+    return new Date(now.getTime() - timezoneOffset).toISOString().slice(0, 10);
 }
 
 
@@ -280,6 +349,18 @@ function isDigits(value) {
 
 function isValidEmail(value) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+
+function isValidDateRange(entryDate, departureDate) {
+    const entry = new Date(`${entryDate}T00:00:00`);
+    const departure = new Date(`${departureDate}T00:00:00`);
+
+    if (Number.isNaN(entry.getTime()) || Number.isNaN(departure.getTime())) {
+        return false;
+    }
+
+    return departure >= entry;
 }
 
 
