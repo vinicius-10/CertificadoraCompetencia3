@@ -1,0 +1,143 @@
+import csv
+from io import StringIO
+from datetime import datetime, timezone
+
+from flask import render_template
+from sqlalchemy import select
+from weasyprint import HTML
+
+from app.models import User, db, UserStatus, UserSector, UserPosition, UserProfile
+
+
+def _build_users_query(filters):
+    search_query = filters.get('q', '').strip()
+    all_user = filters.get('todos', 'false') == 'true'
+    sector_filter = UserSector.from_string(filters.get('setor', ''))
+    position_filter = UserPosition.from_string(filters.get('cargo', ''))
+    profile_filter = UserProfile.from_string(filters.get('tipo', ''))
+    sort_by = filters.get('sort_by', 'entry_at')
+    sort_dir = filters.get('sort_dir', 'asc')
+
+    stmt = select(User)
+
+    if not all_user:
+        stmt = stmt.where(User.status == UserStatus.ACTIVE)
+
+    if search_query:
+        stmt = stmt.where(User.name.ilike(f"%{search_query}%"))
+
+    if sector_filter:
+        stmt = stmt.where(User.sector == sector_filter)
+
+    if position_filter:
+        stmt = stmt.where(User.position == position_filter)
+
+    if profile_filter:
+        stmt = stmt.where(User.profile == profile_filter)
+
+    sort_columns = {
+        'name': User.name,
+        'sector': User.sector,
+        'position': User.position,
+        'entry_at': User.entry_at,
+        'departure_at': User.departure_at,
+        'profile': User.profile,
+    }
+    sort_column = sort_columns.get(sort_by, User.entry_at)
+
+    if sort_dir == 'desc':
+        stmt = stmt.order_by(sort_column.desc())
+    else:
+        stmt = stmt.order_by(sort_column.asc())
+
+    return stmt, all_user
+
+
+def search_users(filters):
+    """
+    Search users using the filters sent by the admin interface.
+
+    Args:
+        filters (Mapping): Query parameters containing optional search text,
+            sector, position, profile, and the flag that includes inactive
+            users.
+
+    Returns:
+        list[User]: Users matching the requested filters.
+    """
+    stmt, _ = _build_users_query(filters)
+    return db.session.scalars(stmt).all()
+
+
+def generate_users_report_pdf(filters):
+    """
+    Generate the PDF report for users matching the admin filters.
+
+    Args:
+        filters (Mapping): Query parameters containing optional search text,
+            sector, position, profile, and the flag that includes inactive
+            users.
+
+    Returns:
+        bytes: Rendered PDF bytes ready to be returned in an HTTP response.
+    """
+    stmt, all_user = _build_users_query(filters)
+    volunteers = db.session.scalars(stmt).all()
+
+    type_report = "todos voluntários" if all_user else "voluntários ativos"
+    date = datetime.now(timezone.utc).strftime('%d/%m/%Y')
+
+    html_rendered = render_template(
+        'report_pdf.html',
+        volunteers=volunteers,
+        date=date,
+        type_report=type_report,
+    )
+
+    return HTML(string=html_rendered).write_pdf()
+
+
+def generate_users_report_csv(filters):
+    """
+    Generate the CSV report for users matching the admin filters.
+
+    Args:
+        filters (Mapping): Query parameters containing optional search text,
+            sector, position, profile, and the flag that includes inactive
+            users.
+
+    Returns:
+        bytes: UTF-8 CSV bytes ready to be returned in an HTTP response.
+    """
+    stmt, _ = _build_users_query(filters)
+    volunteers = db.session.scalars(stmt).all()
+
+    csv_file = StringIO()
+    writer = csv.writer(csv_file, delimiter=';')
+
+    writer.writerow([
+        "Nome",
+        "Código institucional",
+        "Email",
+        "Setor",
+        "Cargo",
+        "Perfil",
+        "Entrada",
+        "Saída",
+        "Status",
+    ])
+
+    for volunteer in volunteers:
+        writer.writerow([
+            volunteer.name,
+            volunteer.code_institutional or "",
+            volunteer.email,
+            volunteer.sector.value if volunteer.sector else "",
+            volunteer.position.value if volunteer.position else "",
+            volunteer.profile.value if volunteer.profile else "",
+            volunteer.entry_at.strftime('%d/%m/%Y') if volunteer.entry_at else "",
+            volunteer.departure_at.strftime('%d/%m/%Y') if volunteer.departure_at else "",
+            volunteer.status.value if volunteer.status else "",
+        ])
+
+    return csv_file.getvalue().encode('utf-8-sig')

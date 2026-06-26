@@ -57,8 +57,22 @@
             <div class="report-panel">
                 <span class="report-title">Gerar Relatório</span>
                 <div class="report-buttons">
-                    <a href="{{ url_for('api.adm_api.report_pdf') }}" class="btn-report btn-report--pdf">PDF</a>
-                    <button type="button" class="btn-report btn-report--csv">CSV</button>
+                    <a href="#"
+                        class="btn-report btn-report--pdf"
+                        hx-get="{{ url_for('api.adm_api.report_pdf') }}"
+                        hx-include="#filters-container [name]"
+                        hx-target="this"
+                        hx-swap="none">
+                        PDF
+                    </a>
+                    <a href="#"
+                        class="btn-report btn-report--csv"
+                        hx-get="{{ url_for('api.adm_api.report_csv') }}"
+                        hx-include="#filters-container [name]"
+                        hx-target="this"
+                        hx-swap="none">
+                        CSV
+                    </a>
                 </div>
             </div>
         </aside>
@@ -66,19 +80,31 @@
         <!-- ── TABELA DE VOLUNTÁRIOS ── -->
         <section class="table-card">
             <div class="table-header">
-                <span>Nome</span>
-                <span>Setor</span>
-                <span>Cargo</span>
-                <span>Entrada</span>
-                <span>Saída</span>
-                <span>Tipo</span>
+                <button type="button" class="table-sort-button" data-sort-field="name">Nome</button>
+                <button type="button" class="table-sort-button" data-sort-field="sector">Setor</button>
+                <button type="button" class="table-sort-button" data-sort-field="position">Cargo</button>
+                <button type="button" class="table-sort-button is-active" data-sort-field="entry_at" data-sort-dir="asc">Entrada</button>
+                <button type="button" class="table-sort-button" data-sort-field="departure_at">Saída</button>
+                <button type="button" class="table-sort-button" data-sort-field="profile">Tipo</button>
                 <span></span>
             </div>
 
             <div class="table-body" id="table-body" hx-get="{{ url_for('api.adm_api.search_users') }}" hx-trigger="load">
-                </div>
+            </div>
+
+            <div
+                id="table-sort-refresh"
+                hx-get="{{ url_for('api.adm_api.search_users') }}"
+                hx-trigger="refreshTable from:body"
+                hx-target="#table-body"
+                hx-include="#filters-container [name]"
+                hx-swap="innerHTML">
+            </div>
 
             <div class="table-filters" id="filters-container">
+                <input type="hidden" id="sort-by" name="sort_by" value="entry_at">
+                <input type="hidden" id="sort-dir" name="sort_dir" value="asc">
+
                 <div class="search-box">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <circle cx="11" cy="11" r="8"></circle>
