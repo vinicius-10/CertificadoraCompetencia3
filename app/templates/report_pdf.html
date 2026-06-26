@@ -5,8 +5,8 @@
     <title>Relatório de Voluntários</title>
     <style>
         @page {
-            size: A4;
-            margin: 20mm 15mm;
+            size: A4 landscape;
+            margin: 14mm 10mm;
             @bottom-right {
                 content: "Página " counter(page) " de " counter(pages);
                 font-size: 8pt;
@@ -22,7 +22,7 @@
         body {
             font-family: Arial, sans-serif;
             color: #333333;
-            font-size: 10pt;
+            font-size: 8pt;
             line-height: 1.5;
         }
 
@@ -54,15 +54,15 @@
         th {
             background-color: #e11d48;
             color: white;
-            padding: 8px;
-            font-size: 9pt;
+            padding: 6px;
+            font-size: 7.5pt;
             text-align: left;
         }
 
         td {
-            padding: 8px;
+            padding: 6px;
             border-bottom: 1px solid #e2e8f0;
-            font-size: 9pt;
+            font-size: 7.5pt;
         }
 
         tr:nth-child(even) {
@@ -75,8 +75,8 @@
     <div class="header">
         <h1>Meninas Hub</h1>
         <div class="meta-info">
-            Relatório de Voluntários Ativos<br>
-            Gerado em: 26/06/2026
+            Relatório de {{type_report}}<br>
+            Gerado em: {{date}}
         </div>
     </div>
 
@@ -84,20 +84,28 @@
         <thead>
             <tr>
                 <th>Nome</th>
+                <th>Código institucional</th>
+                <th>Email</th>
                 <th>Setor</th>
                 <th>Cargo</th>
-                <th>Entrada</th>
                 <th>Perfil</th>
+                <th>Entrada</th>
+                <th>Saída</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
             {% for v in volunteers %}
             <tr>
                 <td><strong>{{ v.name }}</strong></td>
+                <td>{{ v.code_institutional or '-' }}</td>
+                <td>{{ v.email }}</td>
                 <td>{{ v.sector.value if v.sector else '-' }}</td>
                 <td>{{ v.position.value if v.position else '-' }}</td>
-                <td>{{ v.entry_at.strftime('%d/%m/%Y') if v.entry_at else '-' }}</td>
                 <td>{{ v.profile.value if v.profile else '-' }}</td>
+                <td>{{ v.entry_at.strftime('%d/%m/%Y') if v.entry_at else '-' }}</td>
+                <td>{{ v.departure_at.strftime('%d/%m/%Y') if v.departure_at else '-' }}</td>
+                <td>{{ v.status.value if v.status else '-' }}</td>
             </tr>
             {% endfor %}
         </tbody>
