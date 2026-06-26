@@ -76,7 +76,7 @@ def authenticate_user(username, password, next_page) -> tuple:
     return {"success": False, "message": "Usuário ou senha incorretos."}, 401
 
 
-def recovery_password(email) -> tuple:
+def recovery_password_send(email) -> tuple:
     """
     Handles the password recovery request for a registered user.
 
@@ -122,5 +122,31 @@ def recovery_password(email) -> tuple:
         else:
             return {"success": True, "message": "Caso o e-mail esteja cadastrado, um link de redefinição foi enviado. Lembre-se de verificar a pasta de spam."}, 200
     else:
-        time.sleep(1)
+        time.sleep(2)
         return {"success": True, "message": "Caso o e-mail esteja cadastrado, um link de redefinição foi enviado. Lembre-se de verificar a pasta de spam."}, 200
+
+
+def recovery_password_register(password, password_check, token):
+    token_object = PasswordRecoveryToken.query.filter(PasswordRecoveryToken.token == token).first()
+
+    if not token_object or not token_object.is_valid():
+        return {"success": False, "message": "Token inválido. Solicite um novo link de recuperação de senha.", "redirect": f"{url_for('main.RecuperacaoSenha')}"}, 400
+
+    if password != password_check:
+        return {"success": False, "message": "As senhas devem ser iguais."}, 400
+    
+    if  len(password) < 6:
+        return {"success": False, "message": "A senha devem ter 6 ou mais caracteres."}, 400
+    
+    if len(password) >= 250 :
+        return {"success": False, "message": "A senha devem ter menos de 250 caracteres."}, 400
+    
+    
+    user = User.query.filter(User.id == token_object.user_id).first()
+    
+    user.set_password(password)
+    token_object.is_used = True
+    
+    db.session.commit()
+
+    return {"success": True, "message": "Senha atualizada com sucesso.", "redirect": f"{url_for('main.login')}"}, 200

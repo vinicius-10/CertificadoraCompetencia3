@@ -68,7 +68,7 @@ async function register(){
             
             Swal.fire({
                 icon: "success",
-                title: "Email enviado",
+                title: "Usuario cadastrado",
                 text: data.message || "Cadastro realizado com sucesso.",
                 confirmButtonText: "Fechar",
             });
