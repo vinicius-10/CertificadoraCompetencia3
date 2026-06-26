@@ -51,7 +51,7 @@ async function update(){
         /** @type {Record<string, FormDataEntryValue>} */
         const dataRegister = Object.fromEntries(formData.entries());
 
-        const response = await fetch("/api/user/update_volunter", {
+        const response = await fetch("/api/user/update_adm", {
             method: 'POST',
             headers: {
                     "Content-Type": "application/json",
@@ -68,7 +68,7 @@ async function update(){
             Swal.fire({
                 icon: "success",
                 title: "Atualização concluida",
-                text: data.message || "Usuario atualizado com sucesso.",
+                text: data.message || "Usuario atualizado realizado com sucesso.",
                 confirmButtonText: "Fechar",
             });
         } else {
