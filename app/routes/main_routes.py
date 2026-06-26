@@ -1,6 +1,6 @@
 
 from app.utils import perfil_required
-from flask import render_template, Blueprint, redirect, url_for, request
+from flask import render_template, Blueprint, redirect, url_for, request, flash
 from flask_login import login_required, current_user
 from app.models import UserProfile, db, User, Address, UserProfile, UserMarital, UserSector, UserPosition, UserStatus
 from datetime import datetime, timedelta, timezone
@@ -49,7 +49,8 @@ def user_view():
 @main_bp.route("/adminView")
 @perfil_required(UserProfile.SCHOLARSHIP, UserProfile.COORDINATOR)
 def admin_view():
-    return render_template("paginaADM.html")
+    user_id=current_user.id
+    return render_template("paginaADM.html",user_id=user_id, UserProfile=UserProfile, UserPosition=UserPosition, UserSector=UserSector  )
 
 
 @main_bp.route("/cadastro")
@@ -76,9 +77,16 @@ def edit_volunteer():
     return render_template("Atualizacao_info_Volun.html", user=user, address=address, UserMarital=UserMarital, marital_options=marital_options)
 
 
-@main_bp.route("/editADM")
+@main_bp.route("/editADM", methods=['GET'])
 @perfil_required(UserProfile.COORDINATOR, UserProfile.SCHOLARSHIP)
 def edit_adm():
+    user_id = request.args.get('user_id', '').strip()
+    
+    user = User.query.filter(User.id == user_id).first()
+    if not user:
+        flash("Usuário não encontrado.", "error")
+        return redirect(url_for("main.login"))
+    
     marital_options = {e.name: "" for e in UserMarital}
     position_option = {e.name: "" for e in UserPosition}
     profile_option = {e.name: "" for e in UserProfile}
@@ -86,7 +94,7 @@ def edit_adm():
     sector_option = {e.name: "" for e in UserSector}
     
     current_profile_coedinator = (current_user.profile == UserProfile.COORDINATOR)
-    user = current_user
+    
     address = Address.query.filter_by(user_id=user.id).first()
     
     marital_options[user.marital.name] = "selected"
@@ -106,11 +114,3 @@ def email_sent():
     return render_template("recuperacao_email.html")
 
 
-    """
-    
-    <option value="{{UserMarital.SINGLE}}" {{marital_options[UserMarital.SINGLE.name]}}>{{UserMarital.SINGLE.value}}</option>
-                                <option value="{{UserMarital.MARRIED}}" {{marital_options[UserMarital.MARRIED.name]}}>{{UserMarital.MARRIED.value}}</option>
-                                <option value="{{UserMarital.DIVORCED}}" {{marital_options[UserMarital.DIVORCED.name]}}>{{UserMarital.DIVORCED.value}}</option>
-                                <option value="{{UserMarital.WIDOWED}}" {{marital_options[UserMarital.WIDOWED.name]}}>{{UserMarital.WIDOWED.value}}</option>
-                                <option value="{{UserMarital.STABLE_UNION}}"{{marital_options[UserMarital.STABLE_UNION.name]}}>{{UserMarital.STABLE_UNION.value}}</option>
-    """

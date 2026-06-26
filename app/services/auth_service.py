@@ -3,7 +3,7 @@ from urllib.parse import urlsplit
 from flask import current_app, url_for, render_template
 from flask_login import login_user
 
-from app.models import AccessLog, PasswordRecoveryToken, User, UserBlock, UserProfile, db
+from app.models import AccessLog, PasswordRecoveryToken, User, UserBlock, UserProfile, db, UserStatus
 from app.services.email_service import send_email
 import time
 
@@ -37,7 +37,7 @@ def authenticate_user(username, password, next_page) -> tuple:
 
     if((bool_string and bool_cpf_validate and bool_password_length)):
         #obetm dados do usuário com base no cpf (username) (o retorno padrão é uma lista de objetos, como quero só um, uso o first())
-        user = User.query.filter(User.cpf == username).first()
+        user = User.query.filter(User.cpf == username, User.status == UserStatus.ACTIVE).first()
         
         if user:
             #Chama a lógica que verifica se o usuário está bloqueado
