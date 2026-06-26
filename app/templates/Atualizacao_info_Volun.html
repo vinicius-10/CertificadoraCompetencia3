@@ -127,6 +127,20 @@
                     <input type="text" id="complemento" autocomplete="address-line2" name="complemento" value="{{ address.complement if address.complement else '' }}"/>
                 </div>
 
+                <h3 class="section-subtitle">Deseja alterar sua senha?</h3>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label class="field-label" for="Nova senha">Nova senha</label>
+                        <input type="password" id="Nova senha" autocomplete="new-password" name="Nova senha"/>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="Confirma Senha">Confirme a nova senha</label>
+                        <input type="password" id="Confirma Senha" autocomplete="new-password" name="Confirma Senha"/>
+                    </div>
+                </div>
+
                 <button class="btn-atualizar" type="submit">Atualizar</button>
             </form>
         </div>
