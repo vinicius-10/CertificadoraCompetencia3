@@ -180,18 +180,15 @@
                 <div class="field">
                     <label class="field-label" for="status">Status</label>
                     <div class="field-input-wrapper custom-select" >
-                        <select id="status" name="status" required>
-                            <option value="" hidden>Selecione...</option>
-                            <option value="{{UserStatus.ACTIVE.name}}" {{status_option[UserStatus.ACTIVE.name]}}>{{UserStatus.ACTIVE.value}}</option>
+	                        <select id="status" name="status" required>
+	                            <option value="" hidden>Selecione...</option>
+	                            <option value="{{UserStatus.ACTIVE.name}}" {{status_option[UserStatus.ACTIVE.name]}}>{{UserStatus.ACTIVE.value}}</option>
 
-                            <option value="{{UserStatus.ACTIVE.name}}" {{status_option[UserStatus.ACTIVE.name]}}>{{UserStatus.ACTIVE.value}}</option>
+	                            <option value="{{UserStatus.INACTIVE.name}}" {{status_option[UserStatus.INACTIVE.name]}}>{{UserStatus.INACTIVE.value}}</option>
 
-                            <option value="{{UserStatus.DELETED.name}}" {{status_option[UserStatus.DELETED.name]}}>{{UserStatus.DELETED.value}}</option>
-
-
-                        </select>
-                    </div>
-                </div>
+	                        </select>
+	                    </div>
+	                </div>
 
                 <div class="field">
                     <label class="field-label" for="dataEntrada">Data de Entrada</label>
@@ -200,10 +197,10 @@
                     </div>
                 </div>
 
-                <div class="field" id="departure-field">
-                    <label class="field-label" for="dataSaida">Data de Saída</label>
-                    <div class="field-input-wrapper custom-date">
-                        <input type="date" id="dataSaida" name="dataSaida" value="{{departure_at}}"/>
+	                <div class="field" id="dataSaida-field" hidden>
+	                    <label class="field-label" for="dataSaida">Data de Saída</label>
+	                    <div class="field-input-wrapper custom-date">
+	                        <input type="date" id="dataSaida" name="dataSaida" value="{{departure_at}}" disabled/>
                     </div>
                 </div>
 
