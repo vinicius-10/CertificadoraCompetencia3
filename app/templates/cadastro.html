@@ -166,9 +166,8 @@
                     <label class="field-label" for="status">Status</label>
                     <div class="field-input-wrapper custom-select">
                         <select id="status" name="status">
-                            <option value="{{UserStatus.ACTIVE.name}}" selcted >{{UserStatus.ACTIVE.value}}</option>
-                            <option value="{{UserStatus.INACTIVE.name}}" selcted >{{UserStatus.INACTIVE.value}}</option>
-                            <option value="{{UserStatus.DELETED.name}}" selcted >{{UserStatus.DELETED.value}}</option>
+                            <option value="{{UserStatus.ACTIVE.name}}" selected >{{UserStatus.ACTIVE.value}}</option>
+                            <option value="{{UserStatus.INACTIVE.name}}" id='status-inactive'>{{UserStatus.INACTIVE.value}}</option>
                         </select>
                     </div>
                 </div>
@@ -180,10 +179,10 @@
                     </div>
                 </div>
 
-                <div class="field">
+                <div class="field" id="dataSaida-field" hidden>
                     <label class="field-label" for="dataSaida">Data de Saída</label>
                     <div class="field-input-wrapper custom-date">
-                        <input type="date" id="dataSaida" name="dataSaida" />
+                        <input type="date" id="dataSaida" name="dataSaida" disabled />
                     </div>
                 </div>
 
