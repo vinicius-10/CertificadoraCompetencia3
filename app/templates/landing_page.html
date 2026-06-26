@@ -11,7 +11,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/landing_page.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/meninas_logo.png') }}">
-    <script src="{{ url_for('static', filename='js/landing_page.js') }}" defer></script>
+
     
 </head>
 <body>
@@ -40,27 +40,27 @@
             <p>O Meninas Digitais conecta, apoia e acompanha meninas dedicadas a transformar a realidade <br> por meio da tecnologia e do conhecimento.</p>
         </section>
 
-        <section id="stats">
-            <div id="top-stats">
-                <div class="inner-stat">
-                    <strong id="volunteers">100+</strong>
-                    <p>Voluntárias ativas</p>
-                </div>
-                <div class="inner-stat">
-                    <strong id="years">{{ years }} anos</strong>
-                    <p>De projeto</p>
-                </div>
-                <div class="inner-stat">
-                    <strong id="girls">500+</strong>
-                    <p>Meninas impactadas</p>
-                </div>
-            </div>
+	        <section id="stats">
+	            <div id="top-stats">
+	                <div class="inner-stat">
+	                    <strong id="volunteers">{{ active_volunteers }}</strong>
+	                    <p>Voluntárias ativas</p>
+	                </div>
+	                <div class="inner-stat">
+	                    <strong id="years">{{ years }} {{ "ano" if years == 1 else "anos" }}</strong>
+	                    <p>De projeto</p>
+	                </div>
+	                <div class="inner-stat">
+	                    <strong id="girls">500+</strong>
+	                    <p>Meninas impactadas</p>
+	                </div>
+	            </div>
 
-            <div class="inner-stat">
-                <strong id="scholars">2</strong>
-                <p>Bolsistas envolvidas</p>
-            </div>
-        </section>
+	            <div class="inner-stat">
+	                <strong id="scholars">{{ active_scholars }}</strong>
+	                <p>Bolsistas ativas</p>
+	            </div>
+	        </section>
 
         <section id="sobre">
             <h2>Sobre o projeto</h2>

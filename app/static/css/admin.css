@@ -239,6 +239,7 @@ main {
   font-size: 1.25rem;
   cursor: pointer;
   transition: opacity 0.2s, transform 0.15s;
+  text-decoration: none;
 }
 
 .btn-report:hover  { opacity: 0.88; }
@@ -276,6 +277,43 @@ main {
   color: var(--text-light);
   font-size: 1.5rem;
   font-weight: 600;
+}
+
+.table-sort-button {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.table-sort-button:not(:first-child) {
+  justify-content: center;
+  text-align: center;
+}
+
+.table-sort-button::after {
+  content: "";
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
+.table-sort-button.is-active[data-sort-dir="asc"]::after {
+  content: "▲";
+}
+
+.table-sort-button.is-active[data-sort-dir="desc"]::after {
+  content: "▼";
+}
+
+.table-sort-button:hover {
+  opacity: 0.86;
 }
 
 .table-body {

@@ -2,16 +2,37 @@
 from app.utils import perfil_required
 from flask import render_template, Blueprint, redirect, url_for, request, flash
 from flask_login import login_required, current_user
-from app.models import UserProfile, db, User, Address, UserProfile, UserMarital, UserSector, UserPosition, UserStatus
-from datetime import datetime, timedelta, timezone
+from app.models import db, User, Address, UserProfile, UserMarital, UserSector, UserPosition, UserStatus
+from datetime import datetime, timezone
+from sqlalchemy import func, select
 
 
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route("/")
 def home():
-    years = (datetime.now(timezone.utc) - timedelta(days=2023*365)).year
-    return render_template("landing_page.html", years=years)
+    project_start_year = 2023
+    years = datetime.now(timezone.utc).year - project_start_year
+    
+    active_scholars = db.session.scalar(
+        select(func.count())
+        .select_from(User)
+        .where(User.profile == UserProfile.SCHOLARSHIP, User.status == UserStatus.ACTIVE)
+    )
+    
+    active_volunteers = db.session.scalar(
+        select(func.count())
+        .select_from(User)
+        .where(User.profile == UserProfile.VOLUNTEER, User.status == UserStatus.ACTIVE)
+    ) + active_scholars
+    
+
+    return render_template(
+        "landing_page.html",
+        years=years,
+        active_volunteers=active_volunteers,
+        active_scholars=active_scholars,
+    )
 
 @main_bp.route("/ping")
 def ping():
@@ -112,5 +133,3 @@ def edit_adm():
 @main_bp.route("/emailSent")
 def email_sent():
     return render_template("recuperacao_email.html")
-
-
