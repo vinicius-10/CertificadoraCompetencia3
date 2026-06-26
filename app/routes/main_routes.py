@@ -57,7 +57,7 @@ def admin_view():
 def cadastro():
     
     current_profile_coedinator = (current_user.profile == UserProfile.COORDINATOR)
-    print(f"validação: {current_profile_coedinator}, perfil: {current_user.profile}",flush=True)
+
     return render_template("cadastro.html", UserMarital=UserMarital, UserProfile=UserProfile, UserSector=UserSector, UserPosition=UserPosition, current_profile_coedinator=current_profile_coedinator, UserStatus= UserStatus)
 
 
@@ -79,17 +79,38 @@ def edit_volunteer():
 @main_bp.route("/editADM")
 @perfil_required(UserProfile.COORDINATOR, UserProfile.SCHOLARSHIP)
 def edit_adm():
-    from app.models import UserMarital
     marital_options = {e.name: "" for e in UserMarital}
+    position_option = {e.name: "" for e in UserPosition}
+    profile_option = {e.name: "" for e in UserProfile}
+    status_option = {e.name: "" for e in UserStatus}
+    sector_option = {e.name: "" for e in UserSector}
     
-    
-    user = User.query.filter_by(id=current_user.id).first()
+    current_profile_coedinator = (current_user.profile == UserProfile.COORDINATOR)
+    user = current_user
     address = Address.query.filter_by(user_id=user.id).first()
     
     marital_options[user.marital.name] = "selected"
-    return render_template("Atualizacao_info_ADM.html", user=user, address=address, UserMarital=UserMarital, marital_options=marital_options)
+    position_option[user.position.name] = "selected"
+    profile_option[user.profile.name] = "selected"
+    status_option[user.status.name] = "selected"
+    sector_option[user.sector.name] = "selected"
+    
+    entry_at = datetime.strftime(user.entry_at, "%Y-%m-%d")
+    departure_at = datetime.strftime(user.departure_at, "%Y-%m-%d") if user.departure_at else ''
+    
+    return render_template("Atualizacao_info_ADM.html", user=user, address=address, UserMarital=UserMarital, UserPosition=UserPosition, UserProfile=UserProfile, UserStatus=UserStatus, UserSector=UserSector, marital_options=marital_options, position_option=position_option, profile_option=profile_option, status_option=status_option, sector_option=sector_option, current_profile_coedinator=current_profile_coedinator,entry_at=entry_at,departure_at=departure_at)
 
 
 @main_bp.route("/emailSent")
 def email_sent():
     return render_template("recuperacao_email.html")
+
+
+    """
+    
+    <option value="{{UserMarital.SINGLE}}" {{marital_options[UserMarital.SINGLE.name]}}>{{UserMarital.SINGLE.value}}</option>
+                                <option value="{{UserMarital.MARRIED}}" {{marital_options[UserMarital.MARRIED.name]}}>{{UserMarital.MARRIED.value}}</option>
+                                <option value="{{UserMarital.DIVORCED}}" {{marital_options[UserMarital.DIVORCED.name]}}>{{UserMarital.DIVORCED.value}}</option>
+                                <option value="{{UserMarital.WIDOWED}}" {{marital_options[UserMarital.WIDOWED.name]}}>{{UserMarital.WIDOWED.value}}</option>
+                                <option value="{{UserMarital.STABLE_UNION}}"{{marital_options[UserMarital.STABLE_UNION.name]}}>{{UserMarital.STABLE_UNION.value}}</option>
+    """

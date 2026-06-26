@@ -119,17 +119,23 @@
 
                 <div class="field">
                     <label class="field-label" for="complemento">Complemento</label>
-                    <input type="text" id="complemento" autocomplete="address-line2" name="complemento" value="{{ address.complement if address.complement else '' }}"/>
+                    <input type="text" id="complemento" autocomplete="address-line2" name="complemento" required value="{{ address.complement if address.complement else '' }}"/>
                 </div>
 
                 <div class="field">
                     <label class="field-label" for="setor">Setor</label>
                     <div class="field-input-wrapper custom-select">
-                        <select id="setor" name="setor">
+                        <select id="setor" name="setor"required>
                             <option value="">Selecione...</option>
-                            <option value="xxx">XXX</option>
-                            <option value="yyy">YYY</option>
-                            <option value="www">WWW</option>
+                            <option value="{{UserSector.MARKETING.name}}" {{sector_option[UserSector.MARKETING.name]}}>{{UserSector.MARKETING.value}}</option>
+
+                            <option value="{{UserSector.RH.name}}" {{sector_option[UserSector.RH.name]}}>{{UserSector.RH.value}}</option>
+
+                            <option value="{{UserSector.CONTENT.name}}" {{sector_option[UserSector.CONTENT.name]}}>{{UserSector.CONTENT.value}}</option>
+
+                            <option value="{{UserSector.INSTRUCTORS.name}}" {{sector_option[UserSector.INSTRUCTORS.name]}}>{{UserSector.INSTRUCTORS.value}}</option>
+
+                            
                         </select>
                     </div>
                 </div>
@@ -137,11 +143,17 @@
                 <div class="field">
                     <label class="field-label" for="cargo">Cargo</label>
                     <div class="field-input-wrapper custom-select">
-                        <select id="cargo" name="cargo">
-                            <option value="">Selecione...</option>
-                            <option value="xxx">XXX</option>
-                            <option value="yyy">YYY</option>
-                            <option value="www">WWW</option>
+                        <select id="cargo" name="cargo" required>
+                            <option value="" hidden>Selecione...</option>
+                            <option value="{{UserPosition.STUDANT_COORDINATOR.name}}" {{position_option[UserPosition.STUDANT_COORDINATOR.name]}}>{{UserPosition.STUDANT_COORDINATOR.value}}</option>
+
+
+                            <option value="{{UserPosition.REPRESENTATIVE.name}}" {{position_option[UserPosition.REPRESENTATIVE.name]}}>{{UserPosition.REPRESENTATIVE.value}}</option>
+
+
+                            <option value="{{UserPosition.VOLUNTEER.name}}" {{position_option[UserPosition.VOLUNTEER.name]}}>{{UserPosition.VOLUNTEER.value}}</option>
+
+                            
                         </select>
                     </div>
                 </div>
@@ -149,23 +161,31 @@
                 <div class="field">
                     <label class="field-label" for="tipoUsuario">Tipo de Usuário</label>
                     <div class="field-input-wrapper custom-select">
-                        <select id="tipoUsuario" name="tipoUsuario">
-                            <option value="">Selecione...</option>
-                            <option value="xxx">XXX</option>
-                            <option value="yyy">YYY</option>
-                            <option value="www">WWW</option>
+                        <select id="tipoUsuario" name="tipoUsuario" required>
+                            <option value="" hidden>Selecione...</option>
+                            
+                            {% if current_profile_coedinator %}<option value="{{UserProfile.COORDINATOR.name}}  {{profile_option[UserProfile.COORDINATOR.name]}}">{{UserProfile.COORDINATOR.value}}</option>{%endif%}
+
+                            <option value="{{UserProfile.SCHOLARSHIP.name}}" {{profile_option[UserProfile.SCHOLARSHIP.name]}}>{{UserProfile.SCHOLARSHIP.value}}</option>
+
+                            <option value="{{UserProfile.VOLUNTEER.name}}" {{profile_option[UserProfile.VOLUNTEER.name]}}>{{UserProfile.VOLUNTEER.value}}</option>
+
                         </select>
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="field-label" for="status">Status</label>
-                    <div class="field-input-wrapper custom-select">
-                        <select id="status" name="status">
-                            <option value="">Selecione...</option>
-                            <option value="xxx">XXX</option>
-                            <option value="yyy">YYY</option>
-                            <option value="www">WWW</option>
+                    <div class="field-input-wrapper custom-select" >
+                        <select id="status" name="status" required>
+                            <option value="" hidden>Selecione...</option>
+                            <option value="{{UserStatus.ACTIVE.name}}" {{status_option[UserStatus.ACTIVE.name]}}>{{UserStatus.ACTIVE.value}}</option>
+
+                            <option value="{{UserStatus.ACTIVE.name}}" {{status_option[UserStatus.ACTIVE.name]}}>{{UserStatus.ACTIVE.value}}</option>
+
+                            <option value="{{UserStatus.DELETED.name}}" {{status_option[UserStatus.DELETED.name]}}>{{UserStatus.DELETED.value}}</option>
+
+
                         </select>
                     </div>
                 </div>
@@ -173,14 +193,14 @@
                 <div class="field">
                     <label class="field-label" for="dataEntrada">Data de Entrada</label>
                     <div class="field-input-wrapper custom-date">
-                        <input type="date" id="dataEntrada" name="dataEntrada" />
+                        <input type="date" id="dataEntrada" name="dataEntrada" required value="{{entry_at}}"/>
                     </div>
                 </div>
 
-                <div class="field">
+                <div class="field" id="departure-field">
                     <label class="field-label" for="dataSaida">Data de Saída</label>
                     <div class="field-input-wrapper custom-date">
-                        <input type="date" id="dataSaida" name="dataSaida" />
+                        <input type="date" id="dataSaida" name="dataSaida" value="{{departure_at}}"/>
                     </div>
                 </div>
 
