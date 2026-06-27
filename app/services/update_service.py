@@ -9,7 +9,7 @@ def update_user_from_user(data):
         return {"success": False, "message": "O nome de usuário deve conter apenas letras."}, 400
     
     # validar email
-    if not (data.get("Email")or"").email_validate():
+    if not User.email_validate((data.get("Email")or"")):
         return {"success": False, "message": "Email inválido."}, 400
     
     # validar profissão
@@ -83,3 +83,7 @@ def update_user_from_user(data):
     except:
         db.session.rollback()
         return {"success": False, "message": "Erro ao atualizar dados."}, 500
+    
+def update_user_from_admin(data):
+    
+    return {"success": False, "message": "Erro ao atualizar dados."}, 500
