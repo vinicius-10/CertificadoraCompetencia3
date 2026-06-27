@@ -53,7 +53,7 @@ def register():
 
 @user_api_bp.route("/updateUser", methods=['POST'])
 @perfil_required(UserProfile.VOLUNTEER)
-def update_user_from_user():
+def update_user():
     
     
     data = request.get_json(silent=True)
@@ -70,7 +70,7 @@ def update_user_from_user():
     
 @user_api_bp.route("/updateAdmin", methods=['POST'])
 @perfil_required(UserProfile.SCHOLARSHIP, UserProfile.COORDINATOR)
-def update_user_from_admin():
+def update_admin():
     
     data = request.get_json(silent=True)
     print("\nDados: ",data,flush=True)
