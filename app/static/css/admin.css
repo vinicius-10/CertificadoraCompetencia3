@@ -239,6 +239,7 @@ main {
   font-size: 1.25rem;
   cursor: pointer;
   transition: opacity 0.2s, transform 0.15s;
+  text-decoration: none;
 }
 
 .btn-report:hover  { opacity: 0.88; }
@@ -255,7 +256,7 @@ main {
   min-height: 48rem;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: y;
   box-shadow:
     0 1.5rem 3.75rem rgba(0, 0, 0, 0.45),
     0 0 0 0.0625rem rgba(255, 255, 255, 0.06);
@@ -276,6 +277,43 @@ main {
   color: var(--text-light);
   font-size: 1.5rem;
   font-weight: 600;
+}
+
+.table-sort-button {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.table-sort-button:not(:first-child) {
+  justify-content: center;
+  text-align: center;
+}
+
+.table-sort-button::after {
+  content: "";
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
+.table-sort-button.is-active[data-sort-dir="asc"]::after {
+  content: "▲";
+}
+
+.table-sort-button.is-active[data-sort-dir="desc"]::after {
+  content: "▼";
+}
+
+.table-sort-button:hover {
+  opacity: 0.86;
 }
 
 .table-body {
@@ -408,6 +446,12 @@ main {
   height: 1.5rem;
   flex-shrink: 0;
   fill: var(--text-light);
+}
+
+.user-list-notFound{
+  justify-content: center;
+  padding: 20px;
+  color: #888;
 }
 
 /* ── RESPONSIVIDADE ── */

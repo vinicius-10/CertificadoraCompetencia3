@@ -1,9 +1,9 @@
 /**
- * Handles the user registration form submission.
+ * Handles the admin user update form submission.
  *
- * This script prevents the default form submission, validates the form data,
- * sends the registration request to the backend API, and displays feedback to
- * the user through SweetAlert2.
+ * This script validates the update form, controls the departure date field
+ * based on user status, sends the update request to the backend API, and
+ * displays feedback through SweetAlert2.
  */
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("cadastro-form");
@@ -19,26 +19,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
-        register(e.target);
+        update(e.target);
     });
 });
 
 
 /**
- * Submits the registration form data to the user registration API.
+ * Submits the update form data to the admin user update API.
  *
  * @async
- * @param {HTMLFormElement} formRegister - Registration form submitted by the user.
- * @returns {Promise<void>} Resolves when the request has been processed.
+ * @param {HTMLFormElement} formUpdate - Update form submitted by the user.
+ * @returns {Promise<void>} Resolves when the update request has been processed.
  */
-async function register(formRegister){
-    const formData = new FormData(formRegister);
+async function update(formUpdate){
+    const formData = new FormData(formUpdate);
     /** @type {Record<string, FormDataEntryValue>} */
-    const dataRegister = Object.fromEntries(formData.entries());
+    const dataUpdate = Object.fromEntries(formData.entries());
 
-    if (!validateForm(dataRegister)) {
+    /**
+    if (!validateForm(dataUpdate)) {
         return;
     }
+
+    */
 
     Swal.fire({
         title: 'Carregando...',
@@ -50,13 +53,13 @@ async function register(formRegister){
     });
     
     try{
-        const response = await fetch("/api/user/register", {
+        const response = await fetch("/api/user/update_adm", {
             method: 'POST',
             headers: {
                     "Content-Type": "application/json",
                     "X-Requested-With": "XMLHttpRequest" 
                 },
-            body: JSON.stringify(dataRegister)
+            body: JSON.stringify(dataUpdate)
         });
 
         const data = await response.json();
@@ -65,14 +68,14 @@ async function register(formRegister){
         if (response.ok && data.success) {
             Swal.fire({
                 icon: "success",
-                title: "Usuário cadastrado",
-                text: data.message || "Cadastro realizado com sucesso.",
+                title: "Atualização concluída",
+                text: data.message || "Usuário atualizado com sucesso.",
                 confirmButtonText: "Fechar",
             });
         } else {
             Swal.fire({
                 icon: "error",
-                title: "Falha no cadastro",
+                title: "Falha na atualização",
                 text: data.message || "Verifique os dados.",
                 confirmButtonText: "Tentar novamente",
             });
@@ -85,19 +88,15 @@ async function register(formRegister){
             text: "Não foi possível conectar ao servidor.",
             confirmButtonText: "Tentar novamente",
         });
-        console.error("Erro na requisição de cadastro:", err);
+        console.error("Erro na requisição de atualização:", err);
     }
 }
 
 
 /**
- * Validates registration form data before sending it to the API.
+ * Validates admin update form data before sending it to the API.
  *
- * The function mirrors the main client-side checks used by the backend:
- * required fields, CPF, email, RG, numeric fields, text fields, select values,
- * and date consistency.
- *
- * @param {Record<string, FormDataEntryValue>} data - Registration form data.
+ * @param {Record<string, FormDataEntryValue>} data - Update form data.
  * @returns {boolean} `true` when the form data is valid; otherwise, `false`.
  */
 function validateForm(data){
@@ -218,6 +217,10 @@ function validateForm(data){
         return false;
     }
 
+    if (!isValidPasswordChange(values.Nova_senha, values.Confirma_Senha)) {
+        return false;
+    }
+
     return true;
 }
 
@@ -248,6 +251,42 @@ function toggleDepartureDateField() {
     if (!shouldShowDepartureDate) {
         departureDateInput.value = "";
     }
+}
+
+
+/**
+ * Validates optional password change fields.
+ *
+ * @param {string} password - New password.
+ * @param {string} passwordCheck - New password confirmation.
+ * @returns {boolean} `true` when passwords are valid or both empty.
+ */
+function isValidPasswordChange(password, passwordCheck) {
+    if (!password && !passwordCheck) {
+        return true;
+    }
+
+    if (!password || !passwordCheck) {
+        showValidationError("Senha incompleta", "Preencha a nova senha e a confirmação.");
+        return false;
+    }
+
+    if (password !== passwordCheck) {
+        showValidationError("Senhas diferentes", "As senhas devem ser iguais.");
+        return false;
+    }
+
+    if (password.length < 6) {
+        showValidationError("Senha muito pequena", "A senha deve ter 6 ou mais caracteres.");
+        return false;
+    }
+
+    if (password.length >= 250) {
+        showValidationError("Senha muito grande", "A senha deve ter menos de 250 caracteres.");
+        return false;
+    }
+
+    return true;
 }
 
 

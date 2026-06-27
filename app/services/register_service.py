@@ -100,8 +100,10 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
     
     #validar data de saída
     data_departure = parse_from_date(departure_at)
-    # mudar a lógica para permitir que a data de sáida seja none
-    if data_departure and (not data_departure or data_departure < data_entry):
+    if status == UserStatus.INACTIVE.name and not data_departure:
+        return {"success": False, "message": "Data de saída é obrigatória para usuários inativos."}, 400
+
+    if data_departure and data_departure < data_entry:
         return {"success": False, "message": "Data de saída inválida."}, 400
     
     #inserção no BD
@@ -121,6 +123,7 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
             sector= UserSector[sector],
             position= UserPosition[position],
             entry_at= data_entry,
+            departure_at= data_departure,
         )
 
         # Criando e vinculando o endereço diretamente

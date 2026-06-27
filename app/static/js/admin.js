@@ -1,65 +1,51 @@
-// login.js — Autenticação via Fetch + SweetAlert2
-
+/**
+ * Handles sorting interactions on the admin user table.
+ *
+ * Sorting state is stored in hidden inputs so HTMX requests for filters,
+ * reports, and table refreshes all use the same parameters.
+ */
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("login-form").addEventListener("submit", (e) => {
-    console.log("Formulário de login submetido");
-    e.preventDefault();
-    login();
-  });
-});
+    const sortButtons = document.querySelectorAll(".table-sort-button");
+    const sortByInput = document.getElementById("sort-by");
+    const sortDirInput = document.getElementById("sort-dir");
 
-async function login() {
-    const usuario = document.getElementById("usuario").value.trim();
-    const senha = document.getElementById("senha").value.trim();
-
-    if (!usuario || !senha) {
-        Swal.fire({
-        icon: "warning",
-        title: "Campos obrigatórios",
-        text: "Preencha o usuário e a senha antes de continuar.",
-        confirmButtonText: "Ok",
-        });
+    if (!sortButtons.length || !sortByInput || !sortDirInput) {
         return;
     }
 
-    Swal.fire({
-        title: "Entrando...",
-        text: "Aguarde um momento.",
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        didOpen: () => Swal.showLoading(),
+    sortButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const sortField = button.dataset.sortField;
+            const isCurrentField = sortByInput.value === sortField;
+            const nextDirection = isCurrentField && sortDirInput.value === "asc" ? "desc" : "asc";
+
+            sortByInput.value = sortField;
+            sortDirInput.value = nextDirection;
+
+            updateSortHeader(sortButtons, button, nextDirection);
+
+            if (window.htmx) {
+                htmx.trigger(document.body, "refreshTable");
+            }
+        });
+    });
+});
+
+
+/**
+ * Updates the active visual state for the selected sortable table header.
+ *
+ * @param {NodeListOf<HTMLButtonElement>} sortButtons - Sort header buttons.
+ * @param {HTMLButtonElement} activeButton - Header selected by the user.
+ * @param {string} sortDirection - Current sort direction, either `asc` or `desc`.
+ * @returns {void}
+ */
+function updateSortHeader(sortButtons, activeButton, sortDirection) {
+    sortButtons.forEach((button) => {
+        button.classList.remove("is-active");
+        button.removeAttribute("data-sort-dir");
     });
 
-    try {
-        const response = await fetch("/api/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ usuario, senha }),
-        });
-        const data = await response.json();
-        Swal.close();
-        
-        if (response.ok && data.success) {
-            window.location.href = data.redirect || "/";
-
-        } else {
-            Swal.fire({
-                icon: "error",
-                title: "Falha no login",
-                text: data.message || "Usuário ou senha incorretos.",
-                confirmButtonText: "Tentar novamente",
-            });
-        }
-
-    } catch (err) {
-        Swal.fire({
-        icon: "error",
-        title: "Erro de conexão",
-        text: "Não foi possível conectar ao servidor. Tente novamente.",
-        confirmButtonText: "Ok",
-        });
-        console.error("Erro na requisição de login:", err);
-    }
+    activeButton.classList.add("is-active");
+    activeButton.dataset.sortDir = sortDirection;
 }

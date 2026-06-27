@@ -1,45 +1,36 @@
 /**
- * Handles the user registration form submission.
+ * Handles the volunteer user update form submission.
  *
- * This script prevents the default form submission, validates the form data,
- * sends the registration request to the backend API, and displays feedback to
- * the user through SweetAlert2.
+ * This script validates the update form, sends the update request to the
+ * backend API, and displays feedback through SweetAlert2.
  */
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("cadastro-form");
-    const entryDateInput = document.getElementById("dataEntrada");
-    const statusInput = document.getElementById("status");
-
-    if (entryDateInput && !entryDateInput.value) {
-        entryDateInput.value = getTodayDate();
-    }
-
-    toggleDepartureDateField();
-    statusInput?.addEventListener("change", toggleDepartureDateField);
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
-        register(e.target);
+        update(e.target);
     });
 });
 
 
 /**
- * Submits the registration form data to the user registration API.
+ * Submits the update form data to the volunteer user update API.
  *
  * @async
- * @param {HTMLFormElement} formRegister - Registration form submitted by the user.
- * @returns {Promise<void>} Resolves when the request has been processed.
+ * @param {HTMLFormElement} formUpdate - Update form submitted by the user.
+ * @returns {Promise<void>} Resolves when the update request has been processed.
  */
-async function register(formRegister){
-    const formData = new FormData(formRegister);
+async function update(formUpdate){
+    const formData = new FormData(formUpdate);
     /** @type {Record<string, FormDataEntryValue>} */
-    const dataRegister = Object.fromEntries(formData.entries());
+    const dataUpdate = Object.fromEntries(formData.entries());
 
-    if (!validateForm(dataRegister)) {
+    /**
+    if (!validateForm(dataUpdate)) {
         return;
     }
-
+    */
     Swal.fire({
         title: 'Carregando...',
         text: 'Por favor, aguarde',
@@ -50,13 +41,13 @@ async function register(formRegister){
     });
     
     try{
-        const response = await fetch("/api/user/register", {
+        const response = await fetch("/api/user/update_volunter", {
             method: 'POST',
             headers: {
                     "Content-Type": "application/json",
                     "X-Requested-With": "XMLHttpRequest" 
                 },
-            body: JSON.stringify(dataRegister)
+            body: JSON.stringify(dataUpdate)
         });
 
         const data = await response.json();
@@ -65,14 +56,14 @@ async function register(formRegister){
         if (response.ok && data.success) {
             Swal.fire({
                 icon: "success",
-                title: "Usuário cadastrado",
-                text: data.message || "Cadastro realizado com sucesso.",
+                title: "Atualização concluída",
+                text: data.message || "Usuário atualizado com sucesso.",
                 confirmButtonText: "Fechar",
             });
         } else {
             Swal.fire({
                 icon: "error",
-                title: "Falha no cadastro",
+                title: "Falha na atualização",
                 text: data.message || "Verifique os dados.",
                 confirmButtonText: "Tentar novamente",
             });
@@ -85,19 +76,15 @@ async function register(formRegister){
             text: "Não foi possível conectar ao servidor.",
             confirmButtonText: "Tentar novamente",
         });
-        console.error("Erro na requisição de cadastro:", err);
+        console.error("Erro na requisição de atualização:", err);
     }
 }
 
 
 /**
- * Validates registration form data before sending it to the API.
+ * Validates volunteer update form data before sending it to the API.
  *
- * The function mirrors the main client-side checks used by the backend:
- * required fields, CPF, email, RG, numeric fields, text fields, select values,
- * and date consistency.
- *
- * @param {Record<string, FormDataEntryValue>} data - Registration form data.
+ * @param {Record<string, FormDataEntryValue>} data - Update form data.
  * @returns {boolean} `true` when the form data is valid; otherwise, `false`.
  */
 function validateForm(data){
@@ -119,12 +106,6 @@ function validateForm(data){
         ["Cidade", "Cidade"],
         ["Estado", "Estado"],
         ["Pais", "País"],
-        ["complemento", "Complemento"],
-        ["setor", "Setor"],
-        ["cargo", "Cargo"],
-        ["tipoUsuario", "Tipo de usuário"],
-        ["status", "Status"],
-        ["dataEntrada", "Data de entrada"],
     ];
 
     const missingField = requiredFields.find(([fieldName]) => !values[fieldName]);
@@ -203,18 +184,12 @@ function validateForm(data){
         return false;
     }
 
-    if (!isLettersNumbersAndSpaces(values.complemento) || values.complemento.length > 100) {
+    if (values.complemento && (!isLettersNumbersAndSpaces(values.complemento) || values.complemento.length > 100)) {
         showValidationError("Complemento inválido", "O complemento deve conter apenas letras e números e ter até 100 caracteres.");
         return false;
     }
 
-    if (values.status === "INACTIVE" && !values.dataSaida) {
-        showValidationError("Data de saída obrigatória", "Informe a data de saída para usuários inativos.");
-        return false;
-    }
-
-    if (values.dataSaida && !isValidDateRange(values.dataEntrada, values.dataSaida)) {
-        showValidationError("Datas inválidas", "A data de saída deve ser igual ou posterior à data de entrada.");
+    if (!isValidPasswordChange(values.Nova_senha, values.Confirma_Senha)) {
         return false;
     }
 
@@ -223,43 +198,38 @@ function validateForm(data){
 
 
 /**
- * Shows the departure date field only for inactive users.
+ * Validates optional password change fields.
  *
- * @returns {void}
+ * @param {string} password - New password.
+ * @param {string} passwordCheck - New password confirmation.
+ * @returns {boolean} `true` when passwords are valid or both empty.
  */
-function toggleDepartureDateField() {
-    const statusInput = document.getElementById("status");
-    const departureDateField = document.getElementById("dataSaida-field");
-    const departureDateInput = document.getElementById("dataSaida");
-
-    if (!statusInput || !departureDateField || !departureDateInput) {
-        return;
+function isValidPasswordChange(password, passwordCheck) {
+    if (!password && !passwordCheck) {
+        return true;
     }
 
-    const shouldShowDepartureDate = statusInput.value === "INACTIVE";
-
-    departureDateField.hidden = !shouldShowDepartureDate;
-    departureDateInput.disabled = !shouldShowDepartureDate;
-
-    if (shouldShowDepartureDate && !departureDateInput.value) {
-        departureDateInput.value = getTodayDate();
+    if (!password || !passwordCheck) {
+        showValidationError("Senha incompleta", "Preencha a nova senha e a confirmação.");
+        return false;
     }
 
-    if (!shouldShowDepartureDate) {
-        departureDateInput.value = "";
+    if (password !== passwordCheck) {
+        showValidationError("Senhas diferentes", "As senhas devem ser iguais.");
+        return false;
     }
-}
 
+    if (password.length < 6) {
+        showValidationError("Senha muito pequena", "A senha deve ter 6 ou mais caracteres.");
+        return false;
+    }
 
-/**
- * Gets today's date formatted for an HTML date input.
- *
- * @returns {string} Current local date in YYYY-MM-DD format.
- */
-function getTodayDate() {
-    const now = new Date();
-    const timezoneOffset = now.getTimezoneOffset() * 60000;
-    return new Date(now.getTime() - timezoneOffset).toISOString().slice(0, 10);
+    if (password.length >= 250) {
+        showValidationError("Senha muito grande", "A senha deve ter menos de 250 caracteres.");
+        return false;
+    }
+
+    return true;
 }
 
 
@@ -310,18 +280,6 @@ function isDigits(value) {
 
 function isValidEmail(value) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
-
-
-function isValidDateRange(entryDate, departureDate) {
-    const entry = new Date(`${entryDate}T00:00:00`);
-    const departure = new Date(`${departureDate}T00:00:00`);
-
-    if (Number.isNaN(entry.getTime()) || Number.isNaN(departure.getTime())) {
-        return false;
-    }
-
-    return departure >= entry;
 }
 
 

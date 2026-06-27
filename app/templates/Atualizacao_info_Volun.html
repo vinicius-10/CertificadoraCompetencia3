@@ -8,6 +8,9 @@
     <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/Atualizacao_info_Volun.css') }}">-->
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/meninas_logo.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ url_for('static', filename='js/update_volunter.js') }}"></script>
 </head>
 <body>
     <nav>
@@ -53,7 +56,7 @@
                     <div class="field">
                         <label class="field-label" for="Estado Civil">Estado Civil</label>
                         <div class="field-input-wrapper custom-select">
-                            <select id="Estado Civil" required>
+                            <select id="Estado Civil" required name="Estado_Civil">
                                 <option value="" hidden>Selecione...</option>
                                 <option value="{{UserMarital.SINGLE}}" {{marital_options[UserMarital.SINGLE.name]}}>{{UserMarital.SINGLE.value}}</option>
                                 <option value="{{UserMarital.MARRIED}}" {{marital_options[UserMarital.MARRIED.name]}}>{{UserMarital.MARRIED.value}}</option>
@@ -69,12 +72,12 @@
                 <div class="field-row">
                     <div class="field">
                         <label class="field-label" for="Nacionalidade">Nacionalidade</label>
-                        <input type="text" id="Nacionalidade" autocomplete="country" name="Nacionalidade"/>
+                        <input type="text" id="Nacionalidade" autocomplete="country" name="Nacionalidade" required value="{{user.nationality}}"/>
                     </div>
 
                     <div class="field">
                         <label class="field-label" for="Registro Academico">Registro Acadêmico</label>
-                        <input type="text" id="Registro Academico" autocomplete="student-id" name="Registro Academico"/>
+                        <input type="text" id="Registro Academico" autocomplete="student-id" name="Registro_Academico" required value="{{user.code_institutional}}"/>
                     </div>
                 </div>
 
@@ -91,7 +94,7 @@
 
                     <div class="field">
                         <label class="field-label" for="CEP">CEP</label>
-                        <input type="text" id="CEP" autocomplete="postal-code" name="CEP" required value="{{address.zip_code}}"/>
+                        <input type="text" id="CEP" autocomplete="postal-code" name="CEP" required value="{{address.postal_code}}"/>
                     </div>
                 </div>
 
@@ -115,13 +118,27 @@
 
                     <div class="field">
                         <label class="field-label" for="Pais">País</label>
-                        <input type="text" id="Pais" autocomplete="country" name="Pais" required value="{{user.country}}"/>
+                        <input type="text" id="Pais" autocomplete="country" name="Pais" required value="{{address.country}}"/>
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="field-label" for="complemento">Complemento</label>
-                    <input type="text" id="complemento" autocomplete="address-line2" name="complemento" required value="{{address.complement}}"/>
+                    <input type="text" id="complemento" autocomplete="address-line2" name="complemento" value="{{ address.complement if address.complement else '' }}"/>
+                </div>
+
+                <h3 class="section-subtitle">Deseja alterar sua senha?</h3>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label class="field-label" for="Nova senha">Nova senha</label>
+                        <input type="password" id="Nova senha" autocomplete="new-password" name="Nova_senha"/>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="Confirma Senha">Confirme a nova senha</label>
+                        <input type="password" id="Confirma Senha" autocomplete="new-password" name="Confirma_Senha"/>
+                    </div>
                 </div>
 
                 <button class="btn-atualizar" type="submit">Atualizar</button>

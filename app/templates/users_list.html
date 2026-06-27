@@ -1,0 +1,21 @@
+{% for v in volunteers %}
+<div class="table-row">
+    <span class="col-nome">{{ v.name }}</span>
+    
+    <span>{{ v.sector.value  }}</span>
+    
+    <span>{{ v.position.value }}</span>
+    
+    <span>{{ v.entry_at.strftime('%d/%m/%Y')}}</span>
+    
+    <span>{{ v.departure_at.strftime('%d/%m/%Y') if v.departure_at else '-' }}</span>
+    
+    <span>{{ v.profile.value }}</span>
+    
+    <a href="{{url_for('main.edit_adm',user_id=v.id)}}"><button type="button" class="btn-editar-linha">Editar</button></a>
+</div>
+{% else %}
+<div class="table-row user-list-notFound">
+    Nenhum voluntário encontrado com os filtros selecionados.
+</div>
+{% endfor %}
