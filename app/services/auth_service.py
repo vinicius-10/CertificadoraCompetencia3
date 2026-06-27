@@ -1,3 +1,5 @@
+"""Service functions for authentication and password recovery flows."""
+
 from urllib.parse import urlsplit
 
 from flask import current_app, url_for, render_template
@@ -11,11 +13,11 @@ def authenticate_user(username, password, next_page) -> tuple:
     """
     Authenticates a user and determines the appropriate redirect destination.
 
-    This function validates the provided credentials, verifies whether the
-    user account is temporarily blocked, records each login attempt, and
-    authenticates the user when the password is correct. When authentication
-    succeeds, the function redirects the user to a safe next page or to the
-    default page associated with the user's profile.
+    This function normalizes the CPF, validates the provided credentials,
+    searches only active users, verifies whether the account is temporarily
+    blocked, records each login attempt, and authenticates the user when the
+    password is correct. When authentication succeeds, the function returns a
+    safe next page or the default page associated with the user's profile.
 
     Args:
         username (str): CPF submitted as the login identifier.
@@ -83,8 +85,8 @@ def recovery_password_send(email) -> tuple:
     This function validates the provided email address, searches for an
     associated user account, creates a password recovery token when the user
     exists, and sends a password reset link by email. To avoid disclosing
-    whether an email address is registered, the function returns a generic
-    success response when the email is valid.
+    whether an email address is registered, the function returns the same
+    generic success response when the email is valid but no user is found.
 
     Args:
         email (str): Email address submitted for password recovery.
@@ -127,6 +129,23 @@ def recovery_password_send(email) -> tuple:
 
 
 def recovery_password_register(password, password_check, token):
+    """
+    Register a new password using a valid password recovery token.
+
+    This function looks up the recovery token, checks whether it exists and is
+    still valid, validates the password confirmation and accepted password
+    length, updates the associated user's password, and marks the token as
+    used so it cannot be reused.
+
+    Args:
+        password (str): New password submitted by the user.
+        password_check (str): Confirmation of the new password.
+        token (str): Password recovery token sent by email.
+
+    Returns:
+        tuple: A response dictionary and HTTP status code indicating whether
+            the password reset succeeded or why it was rejected.
+    """
     token_object = PasswordRecoveryToken.query.filter(PasswordRecoveryToken.token == token).first()
 
     if not token_object or not token_object.is_valid():

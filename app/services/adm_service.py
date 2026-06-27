@@ -1,3 +1,5 @@
+"""Service functions for admin searches and user report generation."""
+
 import csv
 from io import StringIO
 from datetime import datetime, timezone
@@ -10,6 +12,21 @@ from app.models import User, db, UserStatus, UserSector, UserPosition, UserProfi
 
 
 def _build_users_query(filters):
+    """
+    Build the base user query used by admin listings and reports.
+
+    The accepted filters mirror the query parameters sent by the admin page:
+    free-text search by name, active/all users, sector, position, profile, and
+    sorting. Sorting is restricted to a fixed map of known columns to avoid
+    using arbitrary user-provided field names in the query.
+
+    Args:
+        filters (Mapping): Query parameters from the admin interface.
+
+    Returns:
+        tuple: A SQLAlchemy ``Select`` statement and a boolean indicating
+            whether inactive users are included in the result set.
+    """
     search_query = filters.get('q', '').strip()
     all_user = filters.get('todos', 'false') == 'true'
     sector_filter = UserSector.from_string(filters.get('setor', ''))
@@ -57,10 +74,13 @@ def search_users(filters):
     """
     Search users using the filters sent by the admin interface.
 
+    This function is used by the HTMX-powered admin table. It returns model
+    objects so the API route can render the table partial.
+
     Args:
         filters (Mapping): Query parameters containing optional search text,
-            sector, position, profile, and the flag that includes inactive
-            users.
+            sector, position, profile, active/all visibility, and sorting
+            options.
 
     Returns:
         list[User]: Users matching the requested filters.
@@ -73,10 +93,14 @@ def generate_users_report_pdf(filters):
     """
     Generate the PDF report for users matching the admin filters.
 
+    The report contains the same filtered and sorted users shown in the admin
+    table, rendered through the ``report_pdf.html`` template and converted to
+    PDF using WeasyPrint.
+
     Args:
         filters (Mapping): Query parameters containing optional search text,
-            sector, position, profile, and the flag that includes inactive
-            users.
+            sector, position, profile, active/all visibility, and sorting
+            options.
 
     Returns:
         bytes: Rendered PDF bytes ready to be returned in an HTTP response.
@@ -101,10 +125,14 @@ def generate_users_report_csv(filters):
     """
     Generate the CSV report for users matching the admin filters.
 
+    The CSV uses semicolon delimiters and UTF-8 with BOM so spreadsheet tools
+    commonly used in Portuguese locales open the file with accented characters
+    and columns correctly.
+
     Args:
         filters (Mapping): Query parameters containing optional search text,
-            sector, position, profile, and the flag that includes inactive
-            users.
+            sector, position, profile, active/all visibility, and sorting
+            options.
 
     Returns:
         bytes: UTF-8 CSV bytes ready to be returned in an HTTP response.
