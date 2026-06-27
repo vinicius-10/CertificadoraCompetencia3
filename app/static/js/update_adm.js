@@ -53,7 +53,7 @@ async function update(formUpdate){
     });
     
     try{
-        const response = await fetch("/api/user/update_adm", {
+        const response = await fetch("/api/user/updateAdmin", {
             method: 'POST',
             headers: {
                     "Content-Type": "application/json",
@@ -217,8 +217,10 @@ function validateForm(data){
         return false;
     }
 
-    if (!isValidPasswordChange(values.Nova_senha, values.Confirma_Senha)) {
-        return false;
+    if ("Nova_senha" in values || "Confirma_Senha" in values) {
+        if (!isValidPasswordChange(values.Nova_senha, values.Confirma_Senha)) {
+            return false;
+        }
     }
 
     return true;
