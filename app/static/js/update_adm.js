@@ -105,8 +105,6 @@ function validateForm(data){
     const requiredFields = [
         ["Nome", "Nome"],
         ["Email", "Email"],
-        ["CPF", "CPF"],
-        ["RG", "RG"],
         ["Profissao", "Profissão"],
         ["Estado_Civil", "Estado civil"],
         ["Nacionalidade", "Nacionalidade"],
@@ -139,16 +137,6 @@ function validateForm(data){
 
     if (!isValidEmail(values.Email)) {
         showValidationError("Email inválido", "Informe um email válido.");
-        return false;
-    }
-
-    if (!isValidCpf(values.CPF)) {
-        showValidationError("CPF inválido", "Informe um CPF válido com 11 números.");
-        return false;
-    }
-
-    if (!isDigits(values.RG) || values.RG.length !== 9) {
-        showValidationError("RG inválido", "O RG deve conter 9 números.");
         return false;
     }
 
@@ -366,27 +354,3 @@ function isValidDateRange(entryDate, departureDate) {
 }
 
 
-function isValidCpf(cpf) {
-    if (!isDigits(cpf) || cpf.length !== 11 || cpf === cpf[0].repeat(11)) {
-        return false;
-    }
-
-    for (let i = 9; i <= 10; i += 1) {
-        let total = 0;
-
-        for (let j = 0; j < i; j += 1) {
-            total += Number(cpf[j]) * ((i + 1) - j);
-        }
-
-        let digit = (total * 10) % 11;
-        if (digit === 10) {
-            digit = 0;
-        }
-
-        if (digit !== Number(cpf[i])) {
-            return false;
-        }
-    }
-
-    return true;
-}
