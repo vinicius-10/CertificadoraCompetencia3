@@ -41,7 +41,7 @@ def register():
     departure_at = data.get("dataSaida","").strip()
     
     #validação primária (da requisição em si)
-    if not username or not email or not cpf or not rg or not profession or not marital or not nationality or not code_institutional or not street or not neighborhood or not postal_code or not number or not city or not state or not country or not complement or not sector or not position or not profile or not status or not entry_at:
+    if not username or not email or not cpf or not rg or not profession or not marital or not nationality or not code_institutional or not street or not neighborhood or not postal_code or not number or not city or not state or not country or not sector or not position or not profile or not status or not entry_at:
         return jsonify({"success": False, "message": "Todos os campos obrigatórios devem ser preenchidos."}), 400
     
     #lógica da resolução de registro na camada de serviço
