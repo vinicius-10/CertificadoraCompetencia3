@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, redirect, url_for
-from flask_login import logout_user, login_required
+from flask_login import logout_user, login_required, current_user
 from app.services import register_user
 from app.utils import perfil_required
 from app.models import User, UserBlock, UserProfile, UserStatus, UserMarital, UserSector, UserPosition, Address, db
@@ -46,6 +46,41 @@ def register():
     
     #lógica da resolução de registro na camada de serviço
     result, status_code = register_user(username, email, cpf, rg, profession, marital, nationality, code_institutional, street, neighborhood, postal_code, number, city, state, country, complement, sector, position, profile, status, entry_at, departure_at)
+    
+    #retorno da resposta para o frontend
+    return jsonify(result), status_code
+
+
+@user_api_bp.route("/updateUser", methods=['POST'])
+@perfil_required(UserProfile.VOLUNTEER)
+def update_user_from_user():
+    
+    
+    data = request.get_json(silent=True)
+    print("\nDados: ",data,flush=True)
+    if not data:
+        return jsonify({"success": False, "message": "Requisão Inválida."}), 400
+    
+    #lógica da resolução de atualização na camada de serviço
+    result, status_code = update_user_from_user(data)
+    
+    #retorno da resposta para o frontend
+    return jsonify(result), status_code
+    
+    
+@user_api_bp.route("/updateAdmin", methods=['POST'])
+@perfil_required(UserProfile.SCHOLARSHIP, UserProfile.COORDINATOR)
+def update_user_from_admin():
+    
+    data = request.get_json(silent=True)
+    print("\nDados: ",data,flush=True)
+    if not data:
+        return jsonify({"success": False, "message": "Requisão Inválida."}), 400
+    
+    
+    
+    #lógica da resolução de atualização na camada de serviço
+    result, status_code = update_user_from_admin(data)
     
     #retorno da resposta para o frontend
     return jsonify(result), status_code
