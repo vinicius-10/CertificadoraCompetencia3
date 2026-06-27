@@ -41,7 +41,7 @@ async function update(formUpdate){
     });
     
     try{
-        const response = await fetch("/api/user/update_volunter", {
+        const response = await fetch("/api/user/updateUser", {
             method: 'POST',
             headers: {
                     "Content-Type": "application/json",

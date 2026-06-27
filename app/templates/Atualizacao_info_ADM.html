@@ -204,22 +204,24 @@
                     </div>
                 </div>
 
-                <h3 class="section-subtitle">Deseja alterar sua senha?</h3>
+                {% if self_update %}
+                    <h3 class="section-subtitle">Deseja alterar sua senha?</h3>
 
-                <div class="field-row">
-                    <div class="field">
-                        <label class="field-label" for="Nova senha">Nova senha</label>
-                        <input type="password" id="Nova senha" autocomplete="new-password" name="Nova_senha"/>
+                    <div class="field-row">
+                        <div class="field">
+                            <label class="field-label" for="Nova senha">Nova senha</label>
+                            <input type="password" id="Nova senha" autocomplete="new-password" name="Nova_senha"/>
+                        </div>
+
+                        <div class="field">
+                            <label class="field-label" for="Confirma Senha">Confirme a nova senha</label>
+                            <input type="password" id="Confirma Senha" autocomplete="new-password" name="Confirma_Senha"/>
+                        </div>
                     </div>
 
-                    <div class="field">
-                        <label class="field-label" for="Confirma Senha">Confirme a nova senha</label>
-                        <input type="password" id="Confirma Senha" autocomplete="new-password" name="Confirma_Senha"/>
-                    </div>
-                </div>
-
+                    {%endif%}
                 <div class="form-actions">
-                    <button class="btn-excluir" type="submit">Excluir</button>
+                    {%if not self_update%} <button class="btn-excluir" type="submit" >Excluir</button> {%endif%}
                     <button class="btn-atualizar" type="submit">Atualizar</button>
                 </div>
             </form>

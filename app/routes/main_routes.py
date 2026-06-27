@@ -103,6 +103,9 @@ def edit_volunteer():
 def edit_adm():
     user_id = request.args.get('user_id', '').strip()
     
+    
+    
+    
     user = User.query.filter(User.id == user_id).first()
     if not user:
         flash("Usuário não encontrado.", "error")
@@ -126,8 +129,10 @@ def edit_adm():
     
     entry_at = datetime.strftime(user.entry_at, "%Y-%m-%d")
     departure_at = datetime.strftime(user.departure_at, "%Y-%m-%d") if user.departure_at else ''
+    self_update =  user.id == current_user.id 
     
-    return render_template("Atualizacao_info_ADM.html", user=user, address=address, UserMarital=UserMarital, UserPosition=UserPosition, UserProfile=UserProfile, UserStatus=UserStatus, UserSector=UserSector, marital_options=marital_options, position_option=position_option, profile_option=profile_option, status_option=status_option, sector_option=sector_option, current_profile_coedinator=current_profile_coedinator,entry_at=entry_at,departure_at=departure_at)
+    
+    return render_template("Atualizacao_info_ADM.html", user=user, address=address, UserMarital=UserMarital, UserPosition=UserPosition, UserProfile=UserProfile, UserStatus=UserStatus, UserSector=UserSector, marital_options=marital_options, position_option=position_option, profile_option=profile_option, status_option=status_option, sector_option=sector_option, current_profile_coedinator=current_profile_coedinator,entry_at=entry_at,departure_at=departure_at, self_update=self_update)
 
 
 @main_bp.route("/emailSent")
