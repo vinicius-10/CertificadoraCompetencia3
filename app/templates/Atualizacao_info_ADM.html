@@ -156,7 +156,7 @@
                         <select id="tipoUsuario" name="tipoUsuario" required>
                             <option value="" hidden>Selecione...</option>
                             
-                            {% if current_profile_coedinator %}<option value="{{UserProfile.COORDINATOR.name}}  {{profile_option[UserProfile.COORDINATOR.name]}}">{{UserProfile.COORDINATOR.value}}</option>{%endif%}
+                            {% if current_profile_coedinator %}<option value="{{UserProfile.COORDINATOR.name}}"  {{profile_option[UserProfile.COORDINATOR.name]}}>{{UserProfile.COORDINATOR.value}}</option>{%endif%}
 
                             <option value="{{UserProfile.SCHOLARSHIP.name}}" {{profile_option[UserProfile.SCHOLARSHIP.name]}}>{{UserProfile.SCHOLARSHIP.value}}</option>
 
@@ -210,7 +210,7 @@
 
                     {%endif%}
                 <div class="form-actions">
-                    {%if not self_update%} <button class="btn-excluir" type="submit" >Excluir</button> {%endif%}
+                    {%if not self_update%} <button class="btn-excluir" type="button" >Excluir</button> {%endif%}
                     <button class="btn-atualizar" type="submit">Atualizar</button>
                 </div>
             </form>
