@@ -77,8 +77,6 @@ def update_admin():
     if not data:
         return jsonify({"success": False, "message": "Requisão Inválida."}), 400
     
-    
-    
     #lógica da resolução de atualização na camada de serviço
     result, status_code = update_user_from_admin(data)
     
