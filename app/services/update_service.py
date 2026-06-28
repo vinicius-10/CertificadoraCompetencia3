@@ -62,7 +62,7 @@ def update_user_from_user(data):
         return {"success": False, "message": "O complemento deve conter apenas letras e números e ser menor que 100 caracteres."}, 400
     
     #validar senha
-    if not (data.get("Nova_senha")or"").strip():
+    if  (data.get("Nova_senha")or"").strip():
         if (data.get("Nova_senha")or"").strip() != (data.get("Confirma_Senha")or"").strip():
             return {"success": False, "message": "As senhas devem ser iguais."}, 400
 
@@ -194,7 +194,7 @@ def update_user_from_admin(data):
         return {"success": False, "message": "Data de saída é obrigatória para usuários inativos."}, 400
     
     #validar senha
-    if not (data.get("Nova_senha")or"").strip():
+    if (data.get("Nova_senha")or"").strip():
         if (data.get("Nova_senha")or"").strip() != (data.get("Confirma_Senha")or"").strip():
             return {"success": False, "message": "As senhas devem ser iguais."}, 400
 
