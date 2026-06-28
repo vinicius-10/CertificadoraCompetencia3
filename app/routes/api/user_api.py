@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, redirect, url_for
 from flask_login import logout_user, login_required, current_user
-from app.services import register_user
+from app.services import register_user, update_user_from_user, update_user_from_admin
 from app.utils import perfil_required
 from app.models import User, UserBlock, UserProfile, UserStatus, UserMarital, UserSector, UserPosition, Address, db
 
