@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("cadastro-form");
     const entryDateInput = document.getElementById("dataEntrada");
     const statusInput = document.getElementById("status");
+    const btn_delete = document.getElementById("btn-delete") or "";
 
     if (entryDateInput && !entryDateInput.value) {
         entryDateInput.value = getTodayDate();
@@ -21,7 +22,66 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         update(e.target);
     });
+
+    if (btn_delete != "" ){
+        btn_delete.addEventListener("click", (e) => {
+            e.preventDefault();
+            delete_user();
+        })
+    }
 });
+
+
+function delete_user(){
+
+    Swal.fire({
+        title: 'Carregando...',
+        text: 'Por favor, aguarde',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    try{
+        const response = await fetch("/api/user/deletUser", {
+            method: 'POST',
+            headers: {
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest" 
+                },
+            body: JSON.stringify({"id":dataUpdate.id})
+        });
+
+        const data = await response.json();
+        Swal.close();
+            
+        if (response.ok && data.success) {
+            Swal.fire({
+                icon: "success",
+                title: "Atualização concluída",
+                text: data.message || "Usuário excluido com sucesso.",
+                confirmButtonText: "Fechar",
+            });
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Falha ao deletar user",
+                text: data.message || "Falha ao deletar.",
+                confirmButtonText: "Tentar novamente",
+            });
+        }
+    } catch(err) {
+        Swal.close();
+        Swal.fire({
+            icon: "error",
+            title: "Erro de conexão",
+            text: "Não foi possível conectar ao servidor.",
+            confirmButtonText: "Tentar novamente",
+        });
+        console.error("Erro na requisição de atualização:", err);
+    }
+}
 
 
 /**

@@ -82,3 +82,15 @@ def update_admin():
     
     #retorno da resposta para o frontend
     return jsonify(result), status_code
+
+@user_api_bp.route('/deletUser', methods=['POST'])
+def delete_user():
+    
+    data = request.get_json(silent=True)
+    print("\nDados: ",data,flush=True)
+    if not data:
+        return jsonify({"success": False, "message": "Requisão Inválida."}), 400
+    
+    print("id: ", data.id, flush=True)
+    
+    return jsonify({"success":False,"menssage":"A que ponto chegamos"})
