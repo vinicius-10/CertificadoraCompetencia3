@@ -172,7 +172,7 @@ function validateForm(data){
         return false;
     }
 
-    if (values.complemento && (!isLettersNumbersAndSpaces(values.complemento) || values.complemento.length > 100)) {
+    if (values.Complemento && (!isLettersNumbersAndSpaces(values.Complemento) || values.Complemento.length > 100)) {
         showValidationError("Complemento inválido", "O complemento deve conter apenas letras e números e ter até 100 caracteres.");
         return false;
     }
