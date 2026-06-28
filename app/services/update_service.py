@@ -183,29 +183,37 @@ def update_user_from_admin(data):
     
     #validar data de saída
     data_departure = parse_from_date((data.get("dataSaida")or"").strip())
-    if data_departure and data_departure > data_entry:
+    if data_departure and data_departure < data_entry:
         return {"success": False, "message": "Data de saída inválida."}, 400
     
     #validar status
     if not (data.get("status")or"") in [UserStatus.ACTIVE.name, UserStatus.INACTIVE.name, UserStatus.DELETED.name]:
         return {"success": False, "message": "Status inválido."}, 400
     
+    #se o status do coordenador atual for colocado em desligado mas ter somente ele de coordenador, não permitir a alteração
+    if old_user.profile == UserProfile.COORDINATOR and (data.get("status")or"") == UserStatus.INACTIVE.name and (User.query.filter_by(profile=UserProfile.COORDINATOR, status=UserStatus.ACTIVE).count() == 1):
+        return {"success": False, "message": "Não é possível inativar o único coordenador ativo."}, 400
+    
+    
     if (data.get("status")or"") == UserStatus.INACTIVE.name and not data_departure:
         return {"success": False, "message": "Data de saída é obrigatória para usuários inativos."}, 400
     
     #validar senha
-    if (data.get("Nova_senha")or"").strip():
-        if (data.get("Nova_senha")or"").strip() != (data.get("Confirma_Senha")or"").strip():
-            return {"success": False, "message": "As senhas devem ser iguais."}, 400
-
-        if  len((data.get("Nova_senha")or"").strip()) < 6:
-            return {"success": False, "message": "A senha devem ter 6 ou mais caracteres."}, 400
-
-        if len((data.get("Nova_senha")or"").strip()) >= 250 :
-            return {"success": False, "message": "A senha devem ter menos de 250 caracteres."}, 400
     
-    old_user = current_user
-    
+    if (current_user.id == old_user.id):
+        
+        if (data.get("Nova_senha")or"").strip():
+            if (data.get("Nova_senha")or"").strip() != (data.get("Confirma_Senha")or"").strip():
+                return {"success": False, "message": "As senhas devem ser iguais."}, 400
+
+            if  len((data.get("Nova_senha")or"").strip()) < 6:
+                return {"success": False, "message": "A senha devem ter 6 ou mais caracteres."}, 400
+
+            if len((data.get("Nova_senha")or"").strip()) >= 250 :
+                return {"success": False, "message": "A senha devem ter menos de 250 caracteres."}, 400
+    else:
+        return {"success": False, "message": "Você não tem permissão para alterar a senha de outro usuário."}, 403
+        
     old_address = Address.query.filter_by(user_id=old_user.id).first()
     
     try:
