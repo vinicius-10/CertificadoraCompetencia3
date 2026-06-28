@@ -102,7 +102,10 @@ def update_user_from_user(data):
     
 def update_user_from_admin(data):
     
-    #
+    #validação do usuário
+    old_user = User.query.filter_by(id=((data.get("id")or"")).strip()).first()
+    if not old_user:
+        return {"success": False, "message": "Usuário não encontrado."}, 404
     
     # validar nome
     if not data.get(("Nome")or"").strip().replace(" ","").isalpha():
@@ -160,6 +163,36 @@ def update_user_from_admin(data):
     if (data.get("Complemento")or"") and (not (data.get("Complemento")or"").replace(" ","").isalnum() or len((data.get("Complemento")or"")) > 100):
         return {"success": False, "message": "O complemento deve conter apenas letras e números e ser menor que 100 caracteres."}, 400
     
+    #validar setor
+    if not (data.get("setor")or"") in [UserSector.MARKETING.name, UserSector.RH.name, UserSector.CONTENT.name, UserSector.INSTRUCTORS.name]:
+        return {"success": False, "message": "Setor inválido."}, 400
+    
+    #vaidar posição
+    if not (data.get("cargo")or"") in [UserPosition.STUDANT_COORDINATOR.name, UserPosition.REPRESENTATIVE.name, UserPosition.VOLUNTEER.name]:
+        return {"success": False, "message": "Posição inválida."}, 400
+    
+    #validar tipo de usuário
+    if not ((data.get("tipoUsuario")or"") in [UserProfile.COORDINATOR.name, UserProfile.SCHOLARSHIP.name, UserProfile.VOLUNTEER.name]):
+        return {"success": False, "message": "Tipo de usuário inválido."}, 400
+    
+    #validar data de entrada
+    data_entry = parse_from_date((data.get("dataEntrada")or"").strip())
+    
+    if not data_entry:
+        return {"success": False, "message": "Data de entrada inválida."}, 400
+    
+    #validar data de saída
+    data_departure = parse_from_date((data.get("dataSaida")or"").strip())
+    if data_departure and data_departure > data_entry:
+        return {"success": False, "message": "Data de saída inválida."}, 400
+    
+    #validar status
+    if not (data.get("status")or"") in [UserStatus.ACTIVE.name, UserStatus.INACTIVE.name, UserStatus.DELETED.name]:
+        return {"success": False, "message": "Status inválido."}, 400
+    
+    if (data.get("status")or"") == UserStatus.INACTIVE.name and not data_departure:
+        return {"success": False, "message": "Data de saída é obrigatória para usuários inativos."}, 400
+    
     #validar senha
     if not (data.get("Nova_senha")or"").strip():
         if (data.get("Nova_senha")or"").strip() != (data.get("Confirma_Senha")or"").strip():
@@ -190,6 +223,12 @@ def update_user_from_admin(data):
         old_address.state = (data.get("Estado")or"").strip()
         old_address.country = (data.get("Pais")or"").strip()
         old_address.complement = (data.get("Complemento")or"").strip()
+        old_user.sector = UserSector[(data.get("setor")or"").strip()]
+        old_user.position = UserPosition[(data.get("cargo")or"").strip()]
+        old_user.profile = UserProfile[(data.get("tipoUsuario")or"").strip()]
+        old_user.status = UserStatus[(data.get("status")or"").strip()]
+        old_user.entry_at = data_entry
+        old_user.departure_at = data_departure
         old_user.set_password((data.get("Nova_senha")or"").strip())
     
         db.session.commit()
