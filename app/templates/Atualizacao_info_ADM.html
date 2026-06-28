@@ -24,6 +24,7 @@
         <div class="card">
             <p class="card-title">Atualização de Informações</p>
             <form id="cadastro-form">
+                <input type="text" id="id" hidden disable name="id" required value="{{ user.id }}"/>
                 <div class="field">
                     <label class="field-label" for="Nome">Nome</label>
                     <input type="text" id="Nome" autocomplete="name" name="Nome" required value="{{ user.name }}"/>
