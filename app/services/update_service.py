@@ -1,6 +1,7 @@
 from app.models import User, UserBlock, UserProfile, UserStatus, UserMarital, UserSector, UserPosition, Address, db
 from flask_login import current_user
 from app.utils import parse_from_date
+import traceback
 
 def update_user_from_user(data):
     
@@ -60,27 +61,42 @@ def update_user_from_user(data):
     if (data.get("Complemento")or"") and (not (data.get("Complemento")or"").replace(" ","").isalnum() or len((data.get("Complemento")or"")) > 100):
         return {"success": False, "message": "O complemento deve conter apenas letras e números e ser menor que 100 caracteres."}, 400
     
+    #validar senha
+    if not (data.get("Nova_senha")or"").strip():
+        if (data.get("Nova_senha")or"").strip() != (data.get("Confirma_Senha")or"").strip():
+            return {"success": False, "message": "As senhas devem ser iguais."}, 400
+
+        if  len((data.get("Nova_senha")or"").strip()) < 6:
+            return {"success": False, "message": "A senha devem ter 6 ou mais caracteres."}, 400
+
+        if len((data.get("Nova_senha")or"").strip()) >= 250 :
+            return {"success": False, "message": "A senha devem ter menos de 250 caracteres."}, 400
+    
     old_user = current_user
+    
+    old_address = Address.query.filter_by(user_id=old_user.id).first()
     
     try:
         old_user.name = (data.get('Nome')or"").strip()
         old_user.email = (data.get("Email")or"").strip()
         old_user.profession = (data.get("Profissao")or"").strip()
-        old_user.marital = (data.get("Estado_Civil")or"").strip()
+        old_user.marital = UserMarital[(data.get("Estado_Civil")or"").strip()]
         old_user.code_institutional = (data.get("Registro_Academico")or"").strip()
         old_user.nationality = (data.get("Nacionalidade")or"").strip()
-        old_user.street = (data.get("Logradouro")or"").strip()
-        old_user.neighborhood = (data.get("Bairro")or"").strip()
-        old_user.postal_code = (data.get("CEP")or"").strip()
-        old_user.number = (data.get("Numero")or"").strip()
-        old_user.city = (data.get("Cidade")or"").strip()
-        old_user.state = (data.get("Estado")or"").strip()
-        old_user.country = (data.get("Pais")or"").strip()
-        old_user.complement = (data.get("Complemento")or"").strip()
+        old_address.street = (data.get("Logradouro")or"").strip()
+        old_address.neighborhood = (data.get("Bairro")or"").strip()
+        old_address.postal_code = (data.get("CEP")or"").strip()
+        old_address.number = (data.get("Numero")or"").strip()
+        old_address.city = (data.get("Cidade")or"").strip()
+        old_address.state = (data.get("Estado")or"").strip()
+        old_address.country = (data.get("Pais")or"").strip()
+        old_address.complement = (data.get("Complemento")or"").strip()
+        old_user.set_password((data.get("Nova_senha")or"").strip())
     
         db.session.commit()
         return {"success": True, "message": "Dados atualizados com Sucesso."}, 201
-    except:
+    except Exception:
+        traceback.print_exc()
         db.session.rollback()
         return {"success": False, "message": "Erro ao atualizar dados."}, 500
     
