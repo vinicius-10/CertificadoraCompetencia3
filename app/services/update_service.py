@@ -103,8 +103,12 @@ def update_user_from_user(data):
     
 def update_user_from_admin(data):
     
+    user_id = (data.get("id") or "").strip()
+    if not user_id:
+        return {"success": False, "message": "Usuario não encontrado."}, 500
+    
     #validação do usuário
-    old_user = User.query.filter(User.id==((data.get("id")or"")).strip(), User.status != UserStatus.DELETED).first()
+    old_user = User.query.filter(User.id==user_id, User.status != UserStatus.DELETED).first()
     if not old_user:
         return {"success": False, "message": "Usuário não encontrado."}, 404
     
@@ -251,6 +255,8 @@ def update_user_from_admin(data):
     
 def delete_user_amd(data):
     user_id = (data.get("id") or "").strip()
+    if not user_id:
+        return {"success": False, "message": "Usuario não encontrado."}, 500
     
     try:
         user = User.query.filter(User.id == user_id, User.status != UserStatus.DELETED).first()
