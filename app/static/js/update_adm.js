@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("cadastro-form");
     const entryDateInput = document.getElementById("dataEntrada");
     const statusInput = document.getElementById("status");
-    const btn_delete = document.getElementById("btn-delete") or "";
+    const btn_delete = document.getElementById("btn-delete") || "";
 
     if (entryDateInput && !entryDateInput.value) {
         entryDateInput.value = getTodayDate();
@@ -32,7 +32,23 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-function delete_user(){
+async function delete_user(){
+    const id = document.getElementById("id").value
+
+    const confirm = await Swal.fire({
+        icon: "warning",
+        title: "Excluir usuário?",
+        text: "Essa ação não poderá ser desfeita.",
+        showCancelButton: true,
+        confirmButtonText: "Sim, excluir",
+        cancelButtonText: "Cancelar",
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#6c757d",
+    });
+
+    if( !confirm.isConfirmed){
+        return;
+    }
 
     Swal.fire({
         title: 'Carregando...',
@@ -50,19 +66,21 @@ function delete_user(){
                     "Content-Type": "application/json",
                     "X-Requested-With": "XMLHttpRequest" 
                 },
-            body: JSON.stringify({"id":dataUpdate.id})
+            body: JSON.stringify({"id":id})
         });
 
         const data = await response.json();
         Swal.close();
             
         if (response.ok && data.success) {
-            Swal.fire({
+            
+            await Swal.fire({
                 icon: "success",
                 title: "Atualização concluída",
                 text: data.message || "Usuário excluido com sucesso.",
                 confirmButtonText: "Fechar",
-            });
+            }); 
+            window.location.href = data.redirect;
         } else {
             Swal.fire({
                 icon: "error",

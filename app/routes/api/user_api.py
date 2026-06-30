@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, redirect, url_for
 from flask_login import logout_user, login_required, current_user
-from app.services import register_user, update_user_from_user, update_user_from_admin
+from app.services import register_user, update_user_from_user, update_user_from_admin, delete_user_amd
 from app.utils import perfil_required
 from app.models import User, UserBlock, UserProfile, UserStatus, UserMarital, UserSector, UserPosition, Address, db
 
@@ -84,13 +84,16 @@ def update_admin():
     return jsonify(result), status_code
 
 @user_api_bp.route('/deletUser', methods=['POST'])
+@perfil_required(UserProfile.SCHOLARSHIP, UserProfile.COORDINATOR)
 def delete_user():
     
     data = request.get_json(silent=True)
-    print("\nDados: ",data,flush=True)
     if not data:
         return jsonify({"success": False, "message": "Requisão Inválida."}), 400
     
-    print("id: ", data.id, flush=True)
+    result, status_code = delete_user_amd(data)
+    
+    #retorno da resposta para o frontend
+    return jsonify(result), status_code
     
     return jsonify({"success":False,"menssage":"A que ponto chegamos"})

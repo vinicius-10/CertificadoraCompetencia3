@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flask_migrate import Migrate
 from flask_login import LoginManager
-from app.models import db, User
+from app.models import db, User, UserStatus
 from app.seed import seed_data
 from app.config import Config
 from flask_mailman  import Mail
@@ -36,7 +36,10 @@ def _configure_login_manager(app):
 
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.get(user_id)
+        return User.query.filter(
+            User.id == user_id,
+            User.status != UserStatus.DELETED
+        ).first()
 
 def _register_blueprints(app):
     

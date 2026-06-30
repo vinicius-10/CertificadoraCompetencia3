@@ -39,6 +39,8 @@ def _build_users_query(filters):
 
     if not all_user:
         stmt = stmt.where(User.status == UserStatus.ACTIVE)
+    else:
+         stmt = stmt.where(User.status != UserStatus.DELETED)
 
     if search_query:
         stmt = stmt.where(User.name.ilike(f"%{search_query}%"))

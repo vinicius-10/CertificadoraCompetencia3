@@ -1,5 +1,6 @@
 from app.models import User, UserBlock, UserProfile, UserStatus, UserMarital, UserSector, UserPosition, Address, db
 from flask_login import current_user
+from flask import url_for
 from app.utils import parse_from_date
 import traceback
 
@@ -103,7 +104,7 @@ def update_user_from_user(data):
 def update_user_from_admin(data):
     
     #validação do usuário
-    old_user = User.query.filter_by(id=((data.get("id")or"")).strip()).first()
+    old_user = User.query.filter(User.id==((data.get("id")or"")).strip(), User.status != UserStatus.DELETED).first()
     if not old_user:
         return {"success": False, "message": "Usuário não encontrado."}, 404
     
@@ -241,6 +242,31 @@ def update_user_from_admin(data):
     
         db.session.commit()
         return {"success": True, "message": "Dados atualizados com Sucesso."}, 201
+    except Exception:
+        traceback.print_exc()
+        db.session.rollback()
+        return {"success": False, "message": "Erro ao atualizar dados."}, 500
+    
+    
+    
+def delete_user_amd(data):
+    user_id = (data.get("id") or "").strip()
+    
+    try:
+        user = User.query.filter(User.id == user_id, User.status != UserStatus.DELETED).first()
+        
+        if not user:
+            return {"success": False, "message": "Usuario não encontrado."}, 500
+        
+        if current_user.profile == UserProfile.SCHOLARSHIP and user.profile == UserProfile.COORDINATOR:
+            return {"success": False, "message": "Somente um coordenador pode excluir outro coordenador."}, 500
+            
+        user.status = UserStatus.DELETED
+        
+        db.session.commit()
+        
+        return {"success": True, "message": "Usuario Excluido.", "redirect": url_for("main.admin_view")}, 200
+    
     except Exception:
         traceback.print_exc()
         db.session.rollback()

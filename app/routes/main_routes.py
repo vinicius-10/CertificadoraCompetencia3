@@ -91,7 +91,10 @@ def edit_volunteer():
     marital_options = {e.name: "" for e in UserMarital}
     
     
-    user = User.query.filter_by(id=current_user.id).first()
+    user = User.query.filter(
+        User.id == current_user.id,
+        User.status != UserStatus.DELETED
+    ).first()
     address = Address.query.filter_by(user_id=user.id).first()
     
     marital_options[user.marital.name] = "selected"
@@ -106,7 +109,7 @@ def edit_adm():
     
     
     
-    user = User.query.filter(User.id == user_id).first()
+    user = User.query.filter(User.id == user_id, User.status != UserStatus.DELETED).first()
     if not user:
         flash("Usuário não encontrado.", "error")
         return redirect(url_for("main.login"))

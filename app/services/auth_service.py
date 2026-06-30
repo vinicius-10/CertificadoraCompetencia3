@@ -99,7 +99,7 @@ def recovery_password_send(email) -> tuple:
     if not valited_email:
         return {"success": False, "message": "Informe um email valido"}, 401
     
-    user = User.query.filter(User.email == valited_email).first()
+    user = User.query.filter(User.email == valited_email, User.status != UserStatus.DELETED).first()
     
     if user:
         password_recovery = PasswordRecoveryToken(
@@ -161,7 +161,9 @@ def recovery_password_register(password, password_check, token):
         return {"success": False, "message": "A senha devem ter menos de 250 caracteres."}, 400
     
     
-    user = User.query.filter(User.id == token_object.user_id).first()
+    user = User.query.filter(User.id == token_object.user_id, User.status != UserStatus.DELETED).first()
+    if not user:
+        return  {"success": False, "message": "Usuario não encontrado."}, 400
     
     user.set_password(password)
     token_object.is_used = True

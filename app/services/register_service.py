@@ -11,7 +11,7 @@ def register_user(username, email, cpf, rg, profession, marital, nationality, co
     
     
     # verifique se o usuário já existe com base no CPF
-    existing_user = User.query.filter_by(cpf=cpf).first()
+    existing_user = User.query.filter(User.cpf==cpf, User.status != UserStatus.DELETED).first()
     if existing_user:
         return {"success": False, "message": "Usuário já registrado."}, 400
     
