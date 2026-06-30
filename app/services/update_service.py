@@ -205,9 +205,8 @@ def update_user_from_admin(data):
     
     #validar senha
     
-    if (current_user.id == old_user.id):
-        
-        if (data.get("Nova_senha")or"").strip():
+    if (data.get("Nova_senha")or"").strip():
+        if (current_user.id == old_user.id):
             if (data.get("Nova_senha")or"").strip() != (data.get("Confirma_Senha")or"").strip():
                 return {"success": False, "message": "As senhas devem ser iguais."}, 400
 
@@ -216,8 +215,8 @@ def update_user_from_admin(data):
 
             if len((data.get("Nova_senha")or"").strip()) >= 250 :
                 return {"success": False, "message": "A senha devem ter menos de 250 caracteres."}, 400
-    else:
-        return {"success": False, "message": "Você não tem permissão para alterar a senha de outro usuário."}, 403
+        else:
+            return {"success": False, "message": "Você não tem permissão para alterar a senha de outro usuário."}, 403
         
     old_address = Address.query.filter_by(user_id=old_user.id).first()
     
