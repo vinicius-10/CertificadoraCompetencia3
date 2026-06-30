@@ -5,7 +5,7 @@ from io import StringIO
 from datetime import datetime, timezone
 
 from flask import render_template
-from sqlalchemy import select
+from sqlalchemy import select, or_
 from weasyprint import HTML
 
 from app.models import User, db, UserStatus, UserSector, UserPosition, UserProfile
@@ -43,7 +43,12 @@ def _build_users_query(filters):
          stmt = stmt.where(User.status != UserStatus.DELETED)
 
     if search_query:
-        stmt = stmt.where(User.name.ilike(f"%{search_query}%"))
+        stmt = stmt.where(
+            or_(
+                User.name.ilike(f"%{search_query}%"),
+                User.code_institutional.ilike(f"%{search_query}%")
+            )
+        )
 
     if sector_filter:
         stmt = stmt.where(User.sector == sector_filter)
